@@ -1,0 +1,120 @@
+
+-- Synthea tables names can be misleading, use concept.concept_code 
+-- to determine the true domain of each table's data.
+
+
+1. Allergies map as observations:
+
+select domain_id, count(*) 
+  from concept where concept_code in (select code from allergies) 
+ group by domain_id;
+ 
+"Observation"	"15"
+
+
+
+2. Careplans map as observations and procedures:
+
+select domain_id, concept_name 
+  from concept where concept_code in (select code from careplans) 
+ order by 1;
+ 
+"Observation"	"Musculoskeletal care pathway"
+"Observation"	"Cancer care plan"
+"Observation"	"Allergic disorder monitoring"
+"Observation"	"Self care"
+"Observation"	"Wound care"
+"Observation"	"Chronic obstructive pulmonary disease clinical management plan"
+"Observation"	"Urinary tract infection care pathway"
+"Observation"	"Asthma self management"
+"Observation"	"Routine antenatal care"
+"Observation"	"Fracture care"
+"Observation"	"Terminal care"
+"Observation"	"Burn care"
+"Observation"	"Diabetes self management plan"
+"Observation"	"Skin condition care"
+"Observation"	"Physical therapy procedure"
+"Procedure"	    "Head injury rehabilitation"
+"Procedure"	    "Drug addiction therapy"
+"Procedure"	    "Respiratory therapy"
+"Procedure"	    "Dementia management"
+"Procedure"	    "Surgery care management"
+"Procedure"	    "Overactivity/inattention behavior management"
+"Procedure"	    "Major surgery care management"
+
+
+
+3. Conditions map mostly as conditions:
+
+select domain_id, count(*) 
+  from concept where concept_code in (select code from conditions) 
+ group by domain_id;
+ 
+"Condition"	    "103"
+"Drug"	        "1"
+"Observation"	"6"
+
+
+
+4. Encounters map mostly as observations:
+
+select domain_id, count(*) 
+  from concept where concept_code in (select code from encounters) 
+ group by domain_id;
+ 
+"Observation"	"23"
+"Procedure"	    "3"
+
+
+
+5. Immunizations map as drugs:
+
+select domain_id, count(*)
+  from concept where vocabulary_id = 'CVX' 
+   and concept_code in (select code from immunizations) 
+ group by domain_id
+ order by 2;
+ 
+"Drug"	"16"
+
+
+
+6. Medications map as drugs:
+
+select domain_id,  count(*) 
+  from concept where concept_code in (select code from medications) 
+ group by domain_id
+ order by 2;
+ 
+"Drug"	"108"
+
+
+7. Observations map mostly as measurements:
+
+ select domain_id,  count(*) 
+  from concept 
+ where concept_code in (select code from observations) 
+   and vocabulary_id = 'LOINC'       
+ group by domain_id
+ order by 2;
+
+"Observation"	"4"
+"Measurement"	"48"
+
+ 
+ 
+8. Patients are made up and can map to PERSON
+
+
+9. Procedures map mostly as procedures:
+
+select domain_id,  count(*) 
+  from concept where concept_code in (select code from procedures) 
+ group by domain_id
+ order by 2;
+ 
+"Condition"	     "1"
+"Observation"	 "8"
+"Measurement"	 "21"
+"Procedure"	     "68"
+

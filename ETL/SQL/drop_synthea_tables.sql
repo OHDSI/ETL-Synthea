@@ -1,0 +1,9 @@
+drop table allergies;
+drop table careplans;
+drop table conditions;
+drop table encounters;
+drop table immunizations;
+drop table medications;
+drop table observations;
+drop table patients;
+drop table procedures;

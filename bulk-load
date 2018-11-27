@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# ./bulk-load cdm user password /path/to/data
+
+DATABASE=$1
+USERNAME=$2
+PASSWORD=$3
+DATA_DIRECTORY=$4
+
+# ./bulk-load cdm2 ohdsi ohdsi /synthea/output/csv
+echo "creating synthea tables"
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/synthea_ddl.sql"
+
+echo "loading data from synthea csv files to relational database"
+for TABLE in allergies careplans conditions encounters immunizations medications observations patients procedures
+do
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -c "\copy $TABLE from '$DATA_DIRECTORY/$TABLE.csv' CSV HEADER"
+done
+
+echo "creating vocab map..."
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/create_vocab_map.sql"
+
+echo "loading data"
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_location.sql"
+
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_person.sql"
+
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_death.sql"
+
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_observation_period.sql"
+
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_visit_occurrence.sql"
+
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_observation.sql"
+
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_condition_occurrence.sql"
+
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_procedure_occurrence.sql"
+
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_measurement.sql"
+
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_drug_exposure.sql"
+
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_condition_era.sql"
+
+psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_drug_era.sql"
+
+# TODO - Either create a staging schema for native Synthea tables or drop the Synthea tables after ETL complete
