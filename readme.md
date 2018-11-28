@@ -13,7 +13,7 @@ The following guide is helpful: http://www.postgresqltutorial.com/import-csv-fil
 ### Simulating Data with Synthea
 
 For more information on Synthea visit:
-https://github.com/synthetichealth/synthea
+https://synthetichealth.github.io/synthea/
 
 Get Synthea from GitHub:
 https://github.com/synthetichealth/synthea
