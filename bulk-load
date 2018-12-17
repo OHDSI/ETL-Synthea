@@ -9,40 +9,40 @@ DATA_DIRECTORY=$4
 
 # ./bulk-load cdm2 ohdsi ohdsi /synthea/output/csv
 echo "creating synthea tables"
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/synthea_ddl.sql"
+psql -f "ETL/SQL/synthea_ddl.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
 echo "loading data from synthea csv files to relational database"
 for TABLE in allergies careplans conditions encounters immunizations medications observations patients procedures
 do
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -c "\copy $TABLE from '$DATA_DIRECTORY/$TABLE.csv' CSV HEADER"
+psql -c "\copy $TABLE from '$DATA_DIRECTORY/$TABLE.csv' CSV HEADER" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 done
 
 echo "creating vocab map..."
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/create_vocab_map.sql"
+psql -f "ETL/SQL/create_vocab_map.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE"
 
 echo "loading data"
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_location.sql"
+psql -f "ETL/SQL/insert_location.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_person.sql"
+psql -f "ETL/SQL/insert_person.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_death.sql"
+psql -f "ETL/SQL/insert_death.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_observation_period.sql"
+psql -f "ETL/SQL/insert_observation_period.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_visit_occurrence.sql"
+psql -f "ETL/SQL/insert_visit_occurrence.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_observation.sql"
+psql -f "ETL/SQL/insert_observation.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_condition_occurrence.sql"
+psql -f "ETL/SQL/insert_condition_occurrence.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_procedure_occurrence.sql"
+psql -f "ETL/SQL/insert_procedure_occurrence.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_measurement.sql"
+psql -f "ETL/SQL/insert_measurement.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_drug_exposure.sql"
+psql -f "ETL/SQL/insert_drug_exposure.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_condition_era.sql"
+psql -f "ETL/SQL/insert_condition_era.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
-psql "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" -f "ETL/SQL/insert_drug_era.sql"
+psql -f "ETL/SQL/insert_drug_era.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DATABASE" 
 
 # TODO - Either create a staging schema for native Synthea tables or drop the Synthea tables after ETL complete
