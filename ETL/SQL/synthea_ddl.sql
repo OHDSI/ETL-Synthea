@@ -56,6 +56,20 @@ description   varchar(100),
 cost					numeric
 );
 
+drop table if exists imaging_studies;
+create table imaging_studies (
+id			  varchar(1000),
+"date"        date,
+patient					varchar(1000),
+encounter				varchar(1000),
+bodysitecode			varchar(100),
+bodysitedescription		varchar(100),
+modalitycode			varchar(100),
+modalitydescription		varchar(100),
+SOPcode					varchar(100),
+SOPdescription			varchar(100)
+);
+
 drop table if exists medications;
 create table medications (
 start         date,
@@ -81,6 +95,18 @@ description   varchar(100),
 value     		varchar(1000),
 units         varchar(100),
 type					varchar(100)
+);
+
+drop table if exists organizations;
+create table organizations (
+id			  varchar(1000),
+"name"	      varchar(1000),
+address       varchar(1000),
+city		  varchar(100),
+state     	  varchar(100),
+zip           varchar(100),
+phone		  varchar(100),
+utilization	  varchar(100)
 );
 
 drop table if exists patients;
