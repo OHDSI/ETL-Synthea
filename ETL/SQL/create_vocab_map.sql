@@ -2,9 +2,9 @@
 -- Create mapping table as per logic in 3.1.2 Source to Standard Terminology
 -- found in Truven_CCAE_and_MDCR_ETL_CDM_V5.2.0.doc
 --
-drop table if exists vocab_map;
+drop table if exists source_to_standard_vocab_map;
 
-create table vocab_map as
+create table source_to_standard_vocab_map as
 WITH CTE_VOCAB_MAP AS (
        SELECT c.concept_code AS SOURCE_CODE, c.concept_id AS SOURCE_CONCEPT_ID, c.concept_name AS SOURCE_CODE_DESCRIPTION, c.vocabulary_id AS SOURCE_VOCABULARY_ID,
                            c.domain_id AS SOURCE_DOMAIN_ID, c.CONCEPT_CLASS_ID AS SOURCE_CONCEPT_CLASS_ID,
@@ -15,7 +15,7 @@ WITH CTE_VOCAB_MAP AS (
              JOIN CONCEPT_RELATIONSHIP CR
                         ON C.CONCEPT_ID = CR.CONCEPT_ID_1
                         AND CR.invalid_reason IS NULL
-                        AND cr.relationship_id = 'Maps to'
+                        AND lower(cr.relationship_id) = 'maps to'
               JOIN CONCEPT C1
                         ON CR.CONCEPT_ID_2 = C1.CONCEPT_ID
                         AND C1.INVALID_REASON IS NULL
