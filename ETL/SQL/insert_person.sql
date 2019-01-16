@@ -1,5 +1,5 @@
-drop sequence if exists person_persion_id_seq;
-create sequence person_persion_id_seq start with 1;
+drop sequence if exists person_person_id_seq;
+create sequence person_person_id_seq start with 1;
 
 
 insert into person (

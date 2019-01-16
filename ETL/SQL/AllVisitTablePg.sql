@@ -1,14 +1,15 @@
-/* Build temp table that populates visit_occurrence, using logic from:
- *
- * https://github.com/OHDSI/ETL-HealthVerityBuilder/blob/master/inst/sql/sql_server/AllVisitTable.sql
- *
- */
 
+-- AllVisitTable.sql - PostgreSQL specific for initial testing
 
+DROP TABLE IF EXISTS IP_VISITS;
+DROP TABLE IF EXISTS ER_VISITS;
+DROP TABLE IF EXISTS OP_VISITS;
+DROP TABLE IF EXISTS ALL_VISITS;
 
-IF OBJECT_ID('tempdb..#IP_VISITS', 'U') IS NOT NULL DROP TABLE #IP_VISITS;
+/* Inpatient visits */
 
-CREATE TABLE #IP_VISITS WITH (LOCATION = USER_DB, DISTRIBUTION = HASH(HVID)) AS
+CREATE TABLE IP_VISITS 
+AS
 WITH CTE_END_DATES AS (
 	SELECT patient, encounterclass, EVENT_DATE-1 AS END_DATE
 	FROM (
@@ -55,10 +56,10 @@ FROM (
 ) T2;
 
 
+/* Emergency visits */
 
-IF OBJECT_ID('tempdb..#ER_VISITS', 'U') IS NOT NULL DROP TABLE #ER_VISITS;
-
-CREATE TABLE #ER_VISITS WITH (LOCATION = USER_DB, DISTRIBUTION = HASH(HVID)) AS
+CREATE TABLE ER_VISITS 
+AS
 SELECT T2.patient,
 	T2.encounterclass,
 	T2.VISIT_START_DATE,
@@ -84,10 +85,10 @@ FROM (
 ) T2;
 
 
+/* Outpatient visits */
 
-IF OBJECT_ID('tempdb..#OP_VISITS', 'U') IS NOT NULL DROP TABLE #OP_VISITS;
-
-CREATE TABLE #OP_VISITS WITH (LOCATION = USER_DB, DISTRIBUTION = HASH(HVID)) AS
+CREATE TABLE OP_VISITS 
+AS
 WITH CTE_VISITS_DISTINCT AS (
 	SELECT DISTINCT patient,
 					encounterclass,
@@ -104,18 +105,19 @@ FROM CTE_VISITS_DISTINCT
 GROUP BY patient, encounterclass, VISIT_START_DATE;
 
 
+/* All visits */
 
-IF OBJECT_ID('tempdb..@result_temp_all_visits', 'U') IS NOT NULL DROP TABLE @result_temp_all_visits;
-
-CREATE TABLE @result_temp_all_visits WITH (LOCATION = USER_DB, DISTRIBUTION = HASH(HVID)) AS
+CREATE TABLE all_visits 
+AS
   SELECT *
   FROM
   (
-  	SELECT * FROM #IP_VISITS
+  	SELECT * FROM IP_VISITS
   	UNION ALL
-  	SELECT * FROM #ER_VISITS
+  	SELECT * FROM ER_VISITS
   	UNION ALL
-  	SELECT * FROM #OP_VISITS
+  	SELECT * FROM OP_VISITS
   ) T1;
+
 
 
