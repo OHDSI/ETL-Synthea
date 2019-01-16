@@ -20,28 +20,35 @@ condition_source_concept_id,
 condition_status_source_value,
 condition_status_concept_id
 )
-select nextval('condition_occurrence_id_seq'),  -- condition_occurrence_id,
-pe.person_id,                                   -- person_id
-vm.target_concept_id,                           -- condition_concept_id,
-c1.start,                                       -- condition_start_date,
-cast(null as timestamp),                        -- condition_start_datetime,
-c1.stop,                                        -- condition_end_date,
-cast(null as timestamp),                        -- condition_end_datetime,
-38000183,                           -- condition_type_concept_id,
-cast(null as varchar),              -- stop_reason,
-cast(null as integer),                          -- provider_id,
-vo.visit_occurrence_id,                         -- visit_occurrence_id,
-cast(null as integer),                          -- vd.visit_detail_id,
-vm.source_code,                                 -- condition_source_value,
-vm.source_concept_id,                           -- condition_source_concept_id,
-substring(c1.description,1,50),                 -- condition_status_source_value,
-0                                               -- condition_status_concept_id
-from conditions c1
-join vocab_map vm
-  on vm.source_code      = c1.code
- and vm.source_domain_id = 'Condition'
-join person pe
-  on c1.patient = pe.person_source_value
+select nextval('condition_occurrence_id_seq'),  
+p.person_id,                                   
+srctostdvm.target_concept_id,                      
+c.start,                                   
+c.start,
+c.stop,
+c.stop,
+32020,
+cast(null as varchar),
+cast(null as integer),
+vo.visit_occurrence_id,
+0,
+c.code,
+(select srctosrcvm.source_concept_id
+   from source_to_source_vocab_map srctosrcvm
+  where srctosrcvm.source_code = c.code
+    and srctosrcvm.source_vocabulary_id  = 'SNOMED'
+),
+NULL,
+0        
+from conditions c
+join source_to_standard_vocab_map srctostdvm
+  on srctostdvm.source_code             = c.code
+ and srctostdvm.target_domain_id        = 'Condition'
+ and srctostdvm.target_vocabulary_id    = 'SNOMED'
+ and srctostdvm.target_standard_concept = 'S'
+ and srctostdvm.target_invalid_reason IS NULL
+join person p
+  on c.patient = p.person_source_value
 join visit_occurrence vo
-  on c1.encounter  = vo.admitting_source_value
- and pe.person_id  = vo.person_id;
+  on c.encounter  = vo.visit_source_value
+ and p.person_id  = vo.person_id;
