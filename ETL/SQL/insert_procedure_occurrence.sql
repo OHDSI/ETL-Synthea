@@ -18,83 +18,35 @@ procedure_source_concept_id,
 modifier_source_value
 )
 select
-nextval('procedure_occurrence_id_seq'),     -- procedure_occurrence_id,
-pe.person_id,                               -- person_id,
-vm.target_concept_id,                       -- procedure_concept_id,
-cp.start,                                   -- procedure_date,
-cast(null as timestamp),                    -- procedure_datetime,
-38000248,                  ,    -- procedure_type_concept_id,
-cast(null as integer),                      -- modifier_concept_id,
-cast(null as integer),                      -- quantity,
-cast(null as integer),                      -- provider_id,
-vo.visit_occurrence_id,                     -- visit_occurrence_id,
-cast(null as integer),                      -- visit_detail_id,
-cp.code,                                    -- procedure_source_value,
-vm.source_concept_id,                       -- procedure_source_concept_id,
-cast(null as varchar)                       -- modifier_source_value
-   from vocab_map vm
-   join careplans cp
-     on vm.source_code           = cp.code
-	and vm.source_domain_id      = 'Procedure'
-    and vm.source_vocabulary_id  = 'SNOMED'
-  join person pe
-     on pe.person_source_value    = cp.patient
-  join visit_occurrence vo
-     on vo.person_id              = pe.person_id
-	and vo.admitting_source_value = cp.encounter
+nextval('procedure_occurrence_id_seq'),
+p.person_id,                               
+srctostdvm.target_concept_id,             
+pr.date,                                   
+pr.date,
+38000275,
+0,
+cast(null as integer),                    
+cast(null as integer),                    
+vo.visit_occurrence_id,
+0,
+pr.code,
+(
+select srctosrcvm.source_concept_id
+   from source_to_source_vocab_map srctosrcvm
+  where srctosrcvm.source_code = pr.code
+    and srctosrcvm.source_vocabulary_id  = 'SNOMED'
+),
+NULL
 
-union all
-
-select
-nextval('procedure_occurrence_id_seq'),     -- procedure_occurrence_id,
-pe.person_id,                               -- person_id,
-vm.target_concept_id,                       -- procedure_concept_id,
-e.start,                                    -- procedure_date,
-cast(null as timestamp),                    -- procedure_datetime,
-38000248,                  ,    -- procedure_type_concept_id,
-cast(null as integer),                      -- modifier_concept_id,
-cast(null as integer),                      -- quantity,
-cast(null as integer),                      -- provider_id,
-vo.visit_occurrence_id,                     -- visit_occurrence_id,
-cast(null as integer),                      -- visit_detail_id,
-vm.source_code,                             -- procedure_source_value,
-vm.source_concept_id,                       -- procedure_source_concept_id,
-cast(null as varchar)                       -- modifier_source_value
-   from vocab_map vm
-   join encounters e
-     on vm.source_code           = e.code
-	and vm.source_domain_id      = 'Procedure'
-	and vm.source_vocabulary_id  = 'SNOMED'
-  join person pe
-     on pe.person_source_value    = e.patient
-  join visit_occurrence vo
-     on vo.person_id              = pe.person_id
-	and vo.admitting_source_value = e.id
-
-union all
-
-select
-nextval('procedure_occurrence_id_seq'),     -- procedure_occurrence_id,
-pe.person_id,                               -- person_id,
-vm.target_concept_id,                       -- procedure_concept_id,
-pr.date,                                   -- procedure_date,
-cast(null as timestamp),                    -- procedure_datetime,
-38000248,                  ,    -- procedure_type_concept_id,
-cast(null as integer),                      -- modifier_concept_id,
-cast(null as integer),                      -- quantity,
-cast(null as integer),                      -- provider_id,
-vo.visit_occurrence_id,                     -- visit_occurrence_id,
-cast(null as integer),                      -- visit_detail_id,
-vm.source_code,                             -- procedure_source_value,
-vm.source_concept_id,                       -- procedure_source_concept_id,
-cast(null as varchar)                       -- modifier_source_value
-  from vocab_map vm
-   join procedures pr
-     on vm.source_code           = pr.code
-	and vm.source_domain_id      = 'Procedure'
-	and vm.source_vocabulary_id  = 'SNOMED'
-  join person pe
-     on pe.person_source_value    = pr.patient
-  join visit_occurrence vo
-     on vo.person_id              = pe.person_id
-	and vo.admitting_source_value = pr.encounter;
+from procedures pr
+join source_to_standard_vocab_map srctostdvm
+  on srctostdvm.source_code             = pr.code
+ and srctostdvm.target_domain_id        = 'Procedure'
+ and srctostdvm.target_vocabulary_id    = 'SNOMED'
+ and srctostdvm.target_standard_concept = 'S'
+ and srctostdvm.target_invalid_reason IS NULL
+join person p
+  on p.person_source_value    = pr.patient
+join visit_occurrence vo
+  on vo.person_id             = p.person_id
+ and vo.visit_source_value    = pr.encounter;

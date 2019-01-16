@@ -33,7 +33,8 @@ cast(null as integer),
 vo.visit_occurrence_id,
 0,
 c.code,
-(select srctosrcvm.source_concept_id
+(
+select srctosrcvm.source_concept_id
    from source_to_source_vocab_map srctosrcvm
   where srctosrcvm.source_code = c.code
     and srctosrcvm.source_vocabulary_id  = 'SNOMED'

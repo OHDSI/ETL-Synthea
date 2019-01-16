@@ -24,68 +24,83 @@ unit_source_value,
 value_source_value
 )
 select
-nextval('measurement_id_seq'),                -- measurement_id,
-pe.person_id,                                 -- person_id,
-vm.target_concept_id,                         -- measurement_concept_id,
-pr.date,                                     -- measurement_date,
-cast(null as timestamp),                      -- measurement_datetime,
-cast(null as timestamp),                      -- measurement_time,
-38000215,                         -- measurement_type_concept_id,
-cast(null as integer),                        -- operator_concept_id,
-cast(null as float),                          -- value_as_number,
-cast(null as integer),                        -- value_as_concept_id,
-cast(null as integer),                        -- unit_concept_id,
-cast(null as float),                          -- range_low,
-cast(null as float),                          -- range_high,
-cast(null as integer),                        -- provider_id,
-vo.visit_occurrence_id,                       -- visit_occurrence_id,
-cast(null as integer),                        -- visit_detail_id,
-vm.source_code,                               -- measurement_source_value,
-vm.source_concept_id,                         -- measurement_source_concept_id,
-cast(null as varchar),                        -- unit_source_value,
-cast(null as varchar)                         -- value_source_value
-  from procedures pr
-  join vocab_map vm
-    on vm.source_code           = pr.code
-   and vm.source_domain_id      = 'Measurement'
-   and vm.source_vocabulary_id  = 'SNOMED'
-  join person pe
-    on pr.patient = pe.person_source_value
-  join visit_occurrence vo
-    on vo.person_id = pe.person_id
-   and vo.admitting_source_value = pr.encounter
+nextval('measurement_id_seq'),
+p.person_id,                                 
+srctostdvm.target_concept_id,             
+pr.date,                                  
+pr.date,
+pr.date,
+5001,           
+0,
+cast(null as float),
+0,
+0,
+cast(null as float),
+cast(null as float),
+0,
+vo.visit_occurrence_id,
+0,
+pr.code,
+(
+select srctosrcvm.source_concept_id
+   from source_to_source_vocab_map srctosrcvm
+  where srctosrcvm.source_code = pr.code
+    and srctosrcvm.source_vocabulary_id  = 'SNOMED'
+),
+cast(null as varchar),
+cast(null as varchar)
 
+from procedures pr
+join source_to_standard_vocab_map srctostdvm
+  on srctostdvm.source_code             = pr.code
+ and srctostdvm.target_domain_id        = 'Measurement'
+ and srctostdvm.target_vocabulary_id    = 'SNOMED'
+ and srctostdvm.target_standard_concept = 'S'
+ and srctostdvm.target_invalid_reason IS NULL
+join person p
+  on p.person_source_value    = pr.patient
+join visit_occurrence vo
+  on vo.person_id             = p.person_id
+ and vo.visit_source_value    = pr.encounter
 
 union all
 
 select
-nextval('measurement_id_seq'),                -- measurement_id,
-pe.person_id,                                 -- person_id,
-vm.target_concept_id,                         -- measurement_concept_id,
-o.date,                                      -- measurement_date,
-cast(null as timestamp),                      -- measurement_datetime,
-cast(null as timestamp),                      -- measurement_time,
-38000215,                         -- measurement_type_concept_id,
-cast(null as integer),                        -- operator_concept_id,
-cast(null as float),                          -- value_as_number,
-cast(null as integer),                        -- value_as_concept_id,
-cast(null as integer),                        -- unit_concept_id,
-cast(null as float),                          -- range_low,
-cast(null as float),                          -- range_high,
-cast(null as integer),                        -- provider_id,
-vo.visit_occurrence_id,                       -- visit_occurrence_id,
-cast(null as integer),                        -- visit_detail_id,
-vm.source_code,                               -- measurement_source_value,
-vm.source_concept_id,                         -- measurement_source_concept_id,
-cast(null as varchar),                        -- unit_source_value,
-cast(null as varchar)                         -- value_source_value
-  from observations o
-  join vocab_map vm
-    on vm.source_code           = o.code
-   and vm.source_domain_id      = 'Measurement'
-   and vm.source_vocabulary_id  = 'LOINC'
-  join person pe
-    on o.patient = pe.person_source_value
-  join visit_occurrence vo
-    on vo.person_id = pe.person_id
-   and vo.admitting_source_value = o.encounter ;
+nextval('measurement_id_seq'),
+p.person_id,                                 
+srctostdvm.target_concept_id,             
+o.date,                                  
+o.date,
+o.date,
+5001,           
+0,
+cast(null as float),
+0,
+0,
+cast(null as float),
+cast(null as float),
+0,
+vo.visit_occurrence_id,
+0,
+o.code,
+(
+select srctosrcvm.source_concept_id
+   from source_to_source_vocab_map srctosrcvm
+  where srctosrcvm.source_code = o.code
+    and srctosrcvm.source_vocabulary_id  = 'LOINC'
+),
+cast(null as varchar),
+cast(null as varchar)
+
+from observations o
+join source_to_standard_vocab_map srctostdvm
+  on srctostdvm.source_code             = o.code
+ and srctostdvm.target_domain_id        = 'Measurement'
+ and srctostdvm.target_vocabulary_id    = 'LOINC'
+ and srctostdvm.target_standard_concept = 'S'
+ and srctostdvm.target_invalid_reason IS NULL
+join person p
+  on p.person_source_value    = o.patient
+join visit_occurrence vo
+  on vo.person_id             = p.person_id
+ and vo.visit_source_value    = o.encounter;
