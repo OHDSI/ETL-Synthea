@@ -27,110 +27,135 @@ route_source_value,
 dose_unit_source_value
 )
 select
-nextval('drug_exposure_id_seq'),            -- drug_exposure_id,
-pe.person_id,                               -- person_id,
-vm.target_concept_id,                       -- drug_concept_id,
-c1.start,                                   -- drug_exposure_start_date,
-cast(null as timestamp),                    -- drug_exposure_start_datetime,
-coalesce(c1.stop,c1.start),                 -- drug_exposure_end_date,
-cast(null as timestamp),                    -- drug_exposure_end_datetime,
-c1.stop,                                    -- verbatim_end_date,
-38000175,                                   -- drug_type_concept_id,
-cast(null as varchar),                      -- stop_reason,
-cast(null as integer),                      -- refills,
-cast(null as float),                        -- quantity,
-cast(null as integer),                      -- days_supply,
-cast(null as varchar),                      -- sig,
-cast(null as integer),                      -- route_concept_id,
-cast(null as varchar),                      -- lot_number,
-cast(null as integer),                      -- provider_id,
-vo.visit_occurrence_id,                     -- visit_occurrence_id,
-cast(null as integer),                      -- visit_detail_id,
-vm.source_code,                             -- drug_source_value,
-vm.source_concept_id,                       -- drug_source_concept_id,
-cast(null as varchar),                      -- route_source_value
-cast(null as varchar)                       -- dose_unit_source_value
-  from conditions c1
-  join vocab_map vm
-    on vm.source_code          = c1.code
-   and vm.source_domain_id     = 'Drug'
-  join person pe
-    on c1.patient = pe.person_source_value
-  join visit_occurrence vo
-    on vo.person_id              = pe.person_id
-   and vo.admitting_source_value = c1.encounter
+nextval('drug_exposure_id_seq'),
+p.person_id,
+srctostdvm.target_concept_id,
+c.start,
+c.start,
+coalesce(c.stop,c.start),
+coalesce(c.stop,c.start),
+c.stop,
+581452,
+cast(null as varchar),                      
+0,
+0,
+coalesce(c.stop-c.start,0),
+cast(null as varchar),
+0,
+0,
+0,
+vo.visit_occurrence_id,
+0,
+c.code,
+(
+select srctosrcvm.source_concept_id
+   from source_to_source_vocab_map srctosrcvm
+  where srctosrcvm.source_code = c.code
+    and srctosrcvm.source_vocabulary_id  = 'SNOMED'
+),
+cast(null as varchar),
+cast(null as varchar)
+
+from conditions c
+join source_to_standard_vocab_map srctostdvm
+  on srctostdvm.source_code             = c.code
+ and srctostdvm.target_domain_id        = 'Drug'
+ and srctostdvm.target_vocabulary_id    = 'RxNorm'
+ and srctostdvm.target_standard_concept = 'S'
+ and srctostdvm.target_invalid_reason IS NULL
+join person p
+  on p.person_source_value    = c.patient
+join visit_occurrence vo
+  on vo.person_id             = p.person_id
+ and vo.visit_source_value    = c.encounter
 
 union all
 
 select
-nextval('drug_exposure_id_seq'),            -- drug_exposure_id,
-pe.person_id,                               -- person_id,
-vm.target_concept_id,                       -- drug_concept_id,
-i.date,                                    -- drug_exposure_start_date,
-cast(null as timestamp),                    -- drug_exposure_start_datetime,
-null,                                    -- drug_exposure_end_date,
-cast(null as timestamp),                    -- drug_exposure_end_datetime,
-cast(null as date),                         -- verbatim_end_date,
-38000175,                                   -- drug_type_concept_id,
-cast(null as varchar),                      -- stop_reason,
-cast(null as integer),                      -- refills,
-cast(null as float),                        -- quantity,
-cast(null as integer),                      -- days_supply,
-cast(null as varchar),                      -- sig,
-cast(null as integer),                      -- route_concept_id,
-cast(null as varchar),                      -- lot_number,
-cast(null as integer),                      -- provider_id,
-vo.visit_occurrence_id,                     -- visit_occurrence_id,
-cast(null as integer),                      -- visit_detail_id,
-vm.source_code,                             -- drug_source_value,
-vm.source_concept_id,                       -- drug_source_concept_id,
-cast(null as varchar),                      -- route_source_value
-cast(null as varchar)                       -- dose_unit_source_value
-  from immunizations i
-  join vocab_map vm
-    on vm.source_code          = i.code
-   and vm.source_domain_id     = 'Drug'
-   and vm.source_vocabulary_id = 'CVX'
-  join person pe
-    on i.patient = pe.person_source_value
-  join visit_occurrence vo
-    on vo.person_id              = pe.person_id
-   and vo.admitting_source_value = i.encounter
+nextval('drug_exposure_id_seq'),
+p.person_id,
+srctostdvm.target_concept_id,
+m.start,
+m.start,
+coalesce(m.stop,m.start),
+coalesce(m.stop,m.start),
+m.stop,
+38000177,
+cast(null as varchar),                      
+0,
+0,
+coalesce(m.stop-m.start,0),
+cast(null as varchar),
+0,
+0,
+0,
+vo.visit_occurrence_id,
+0,
+m.code,
+(
+select srctosrcvm.source_concept_id
+   from source_to_source_vocab_map srctosrcvm
+  where srctosrcvm.source_code = m.code
+    and srctosrcvm.source_vocabulary_id  = 'RxNorm'
+),
+cast(null as varchar),
+cast(null as varchar)
+
+from medications m
+join source_to_standard_vocab_map srctostdvm
+  on srctostdvm.source_code             = m.code
+ and srctostdvm.target_domain_id        = 'Drug'
+ and srctostdvm.target_vocabulary_id    = 'RxNorm'
+ and srctostdvm.target_standard_concept = 'S'
+ and srctostdvm.target_invalid_reason IS NULL
+join person p
+  on p.person_source_value    = m.patient
+join visit_occurrence vo
+  on vo.person_id             = p.person_id
+ and vo.visit_source_value    = m.encounter
 
 union all
 
 
 select
-nextval('drug_exposure_id_seq'),            -- drug_exposure_id,
-pe.person_id,                               -- person_id,
-vm.target_concept_id,                       -- drug_concept_id,
-m.start,                                    -- drug_exposure_start_date,
-cast(null as timestamp),                    -- drug_exposure_start_datetime,
-coalesce(m.stop,m.start),                   -- drug_exposure_end_date,
-cast(null as timestamp),                    -- drug_exposure_end_datetime,
-m.stop,                                     -- verbatim_end_date,
-38000175,                                   -- drug_type_concept_id,
-cast(null as varchar),                      -- stop_reason,
-cast(null as integer),                      -- refills,
-cast(null as float),                        -- quantity,
-cast(null as integer),                      -- days_supply,
-cast(null as varchar),                      -- sig,
-cast(null as integer),                      -- route_concept_id,
-cast(null as varchar),                      -- lot_number,
-cast(null as integer),                      -- provider_id,
-vo.visit_occurrence_id,                     -- visit_occurrence_id,
-cast(null as integer),                      -- visit_detail_id,
-vm.source_code,                             -- drug_source_value,
-vm.source_concept_id,                       -- drug_source_concept_id,
-cast(null as varchar),                      -- route_source_value
-cast(null as varchar)                       -- dose_unit_source_value
-  from medications m
-  join vocab_map vm
-    on vm.source_code          = m.code
-   and vm.source_domain_id     = 'Drug'
-   and vm.source_vocabulary_id = 'RxNorm'
-  join person pe
-    on m.patient = pe.person_source_value
-  join visit_occurrence vo
-    on vo.person_id              = pe.person_id
-   and vo.admitting_source_value = m.encounter ;
+nextval('drug_exposure_id_seq'),
+p.person_id,
+srctostdvm.target_concept_id,
+i.date,
+i.date,
+i.date,
+i.date,
+i.date,
+581452,
+cast(null as varchar),                      
+0,
+0,
+0,
+cast(null as varchar),
+0,
+0,
+0,
+vo.visit_occurrence_id,
+0,
+i.code,
+(
+select srctosrcvm.source_concept_id
+   from source_to_source_vocab_map srctosrcvm
+  where srctosrcvm.source_code = i.code
+    and srctosrcvm.source_vocabulary_id  = 'CVX'
+),
+cast(null as varchar),
+cast(null as varchar)
+
+from immunizations i
+join source_to_standard_vocab_map srctostdvm
+  on srctostdvm.source_code             = i.code
+ and srctostdvm.target_domain_id        = 'Drug'
+ and srctostdvm.target_vocabulary_id    = 'CVX'
+ and srctostdvm.target_standard_concept = 'S'
+ and srctostdvm.target_invalid_reason IS NULL
+join person p
+  on p.person_source_value    = i.patient
+join visit_occurrence vo
+  on vo.person_id             = p.person_id
+ and vo.visit_source_value    = i.encounter;
