@@ -27,5 +27,5 @@ WITH CTE_VOCAB_MAP AS (
 )
 SELECT * FROM CTE_VOCAB_MAP;
 
-create index idx_source_vocab_map_source_code on vocab_map (source_code);
-create index idx_source_vocab_map_source_vocab_id on vocab_map (source_vocabulary_id);
+create index idx_source_vocab_map_source_code on source_to_source_vocab_map (source_code);
+create index idx_source_vocab_map_source_vocab_id on source_to_source_vocab_map (source_vocabulary_id);
