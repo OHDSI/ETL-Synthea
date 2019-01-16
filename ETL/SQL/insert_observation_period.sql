@@ -12,7 +12,7 @@ select nextval('observation_period_id_seq') observation_period_id,
        person_id,
 	   start_date,
 	   end_date,
-	   44814722 period_type_concept_id 
+	   44814724 period_type_concept_id 
   from (
 select p.person_id,
        min(e.start) start_date,
