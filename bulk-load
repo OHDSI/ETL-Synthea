@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # ./bulk-load database native cdm user password /path/to/data /path/to/vocab
+# ./bulk-load synthea10 native cdm_synthea10 postgres lollipop S://Git/Github/synthea/output/csv S://Vocabulary_20181119
 
 DB=$1
 NATIVE=$2
