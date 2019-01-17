@@ -17,11 +17,11 @@ WITH CTE_END_DATES AS (
 		FROM (
 			SELECT patient, encounterclass, start AS EVENT_DATE, -1 AS EVENT_TYPE, 
 			       ROW_NUMBER () OVER (PARTITION BY patient, encounterclass ORDER BY start, stop) AS START_ORDINAL
-			FROM native.encounters
+			FROM encounters
 			WHERE encounterclass = 'inpatient'
 			UNION ALL
 			SELECT patient, encounterclass, stop+1, 1 AS EVENT_TYPE, NULL
-			FROM native.encounters
+			FROM encounters
 			WHERE encounterclass = 'inpatient'
 		) RAWDATA
 	) E
@@ -33,7 +33,7 @@ CTE_VISIT_ENDS AS (
 		V.encounterclass,
 		V.start VISIT_START_DATE,
 		MIN(E.END_DATE) AS VISIT_END_DATE
-	FROM native.encounters V
+	FROM encounters V
 		JOIN CTE_END_DATES E
 			ON V.patient = E.patient
 			AND V.encounterclass = E.encounterclass
@@ -79,8 +79,8 @@ FROM (
 			CL1.encounterclass,
 			CL1.start VISIT_START_DATE,
 			CL2.stop VISIT_END_DATE
-		FROM native.encounters CL1
-		JOIN native.encounters CL2
+		FROM encounters CL1
+		JOIN encounters CL2
 			ON CL1.patient = CL2.patient
 			AND CL1.start = CL2.start
 			AND CL1.encounterclass = CL2.encounterclass
@@ -100,7 +100,7 @@ WITH CTE_VISITS_DISTINCT AS (
 				   encounterclass,
 					start VISIT_START_DATE,
 					stop VISIT_END_DATE
-	FROM native.encounters
+	FROM encounters
 	WHERE encounterclass in ('ambulatory', 'wellness', 'outpatient')
 	GROUP BY patient,encounterclass,start,stop
 )
