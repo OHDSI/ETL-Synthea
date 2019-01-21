@@ -23,33 +23,34 @@ ethnicity_source_value,
 ethnicity_source_concept_id
 )
 select
-nextval('person_person_id_seq'),   
-case upper(p.gender)
-when 'M' then 8507
-when 'F' then 8532
-end,                               
-extract(year  from p.birthdate),  
-extract(month from p.birthdate),  
-extract(day   from p.birthdate),  
-p.birthdate,                   
-case upper(p.race)             
-when 'WHITE' then 8527
-when 'BLACK' then 8516
-when 'ASIAN' then 8515
-else 0
-end,
-case 
-when upper(p.race) = 'HISPANIC'  
-then 38003563 else 0 end,      
-NULL,							
-NULL,                         
-NULL,                          
-id,                            
-p.gender,                      
-0,                              
-p.race,                       
-0,                        
-p.ethnicity,                 
-0                             
-from patients p
-where p.gender is not null;
+	nextval('person_person_id_seq'),   
+	case upper(p.gender)
+		when 'M' then 8507
+		when 'F' then 8532
+	end,                               
+	extract(year  from p.birthdate),  
+	extract(month from p.birthdate),  
+	extract(day   from p.birthdate),  
+	p.birthdate,                   
+	case upper(p.race)             
+		when 'WHITE' then 8527
+		when 'BLACK' then 8516
+		when 'ASIAN' then 8515
+	else 0
+	end,
+	case 
+		when upper(p.race) = 'HISPANIC'  
+		then 38003563 else 0 
+	end,      
+	NULL,							
+	NULL,                         
+	NULL,                          
+	id,                            
+	p.gender,                      
+	0,                              
+	p.race,                       
+	0,                        
+	p.ethnicity,                 
+	0                             
+	from patients p
+	where p.gender is not null;
