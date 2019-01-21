@@ -19,10 +19,7 @@ visit_detail_id,
 observation_source_value,
 observation_source_concept_id,
 unit_source_value,
-qualifier_source_value,
-observation_event_id,
-obs_event_field_concept_id,
-value_as_datetime
+qualifier_source_value
 )
 select
 nextval('observation_id_seq'),        
@@ -47,10 +44,7 @@ select srctosrcvm.source_concept_id
     and srctosrcvm.source_vocabulary_id  = 'SNOMED'
 ),
 cast(null as varchar),
-cast(null as varchar),
-0,
-0,
-cast(null as date) 
+cast(null as varchar)
 
 from allergies a
 join source_to_standard_vocab_map srctostdvm
@@ -90,10 +84,7 @@ select srctosrcvm.source_concept_id
     and srctosrcvm.source_vocabulary_id  = 'SNOMED'
 ),
 cast(null as varchar),
-cast(null as varchar), 
-0,
-0,
-cast(null as date) 
+cast(null as varchar)
 
 from conditions c
 join source_to_standard_vocab_map srctostdvm

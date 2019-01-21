@@ -1,5 +1,7 @@
 /*Assign VISIT_OCCURRENCE_ID to all encounters*/
 
+DROP TABLE IF EXISTS ASSIGN_ALL_VISIT_IDS;
+
 CREATE TABLE ASSIGN_ALL_VISIT_IDS AS
 SELECT  E.id AS encounter_id,
 		E.patient as person_source_value,
