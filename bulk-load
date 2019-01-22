@@ -45,31 +45,43 @@ PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/AAViTable.sql" "postgresql://$US
 
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/final_visit_ids.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB"
 
-echo "loading data"
+echo "Performing ETL"
 
+echo "Loading location"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_location.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading person"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_person.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading death"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_death.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading observation_period"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_observation_period.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading visit_occurrence"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_visit_occurrence.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading observation"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_observation.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading condition_occurrence"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_condition_occurrence.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading procedure_occurrence"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_procedure_occurrence.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading measurement"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_measurement.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading location"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_drug_exposure.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
-# PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_condition_era.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
+echo "Loading condition_era"
+PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_condition_era.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
-# PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_drug_era.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
+echo "Loading drug_era"
+PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_drug_era.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
 # PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/cdm_v5.3.constraints_ddl.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 

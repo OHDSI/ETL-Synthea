@@ -30,7 +30,8 @@ c.stop,
 32020,
 cast(null as varchar),
 cast(null as integer),
-vo.visit_occurrence_id,
+(select fv.visit_occurrence_id_new from final_visit_ids fv
+  where fv.encounter_id = c.encounter) visit_occurrence_id,
 0,
 c.code,
 (
@@ -49,7 +50,4 @@ join source_to_standard_vocab_map srctostdvm
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason IS NULL
 join person p
-  on c.patient = p.person_source_value
-join visit_occurrence vo
-  on c.encounter  = vo.visit_source_value
- and p.person_id  = vo.person_id;
+  on c.patient = p.person_source_value;

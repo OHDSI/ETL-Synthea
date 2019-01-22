@@ -44,7 +44,8 @@ cast(null as varchar),
 0,
 0,
 0,
-vo.visit_occurrence_id,
+(select fv.visit_occurrence_id_new from final_visit_ids fv
+  where fv.encounter_id = c.encounter) visit_occurrence_id,
 0,
 c.code,
 (
@@ -65,9 +66,6 @@ join source_to_standard_vocab_map srctostdvm
  and srctostdvm.target_invalid_reason IS NULL
 join person p
   on p.person_source_value    = c.patient
-join visit_occurrence vo
-  on vo.person_id             = p.person_id
- and vo.visit_source_value    = c.encounter
 
 union all
 
@@ -89,7 +87,8 @@ cast(null as varchar),
 0,
 0,
 0,
-vo.visit_occurrence_id,
+(select fv.visit_occurrence_id_new from final_visit_ids fv
+  where fv.encounter_id = m.encounter) visit_occurrence_id,
 0,
 m.code,
 (
@@ -110,12 +109,8 @@ join source_to_standard_vocab_map srctostdvm
  and srctostdvm.target_invalid_reason IS NULL
 join person p
   on p.person_source_value    = m.patient
-join visit_occurrence vo
-  on vo.person_id             = p.person_id
- and vo.visit_source_value    = m.encounter
 
 union all
-
 
 select
 nextval('drug_exposure_id_seq'),
@@ -135,7 +130,8 @@ cast(null as varchar),
 0,
 0,
 0,
-vo.visit_occurrence_id,
+(select fv.visit_occurrence_id_new from final_visit_ids fv
+  where fv.encounter_id = i.encounter) visit_occurrence_id,
 0,
 i.code,
 (
@@ -155,7 +151,4 @@ join source_to_standard_vocab_map srctostdvm
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason IS NULL
 join person p
-  on p.person_source_value    = i.patient
-join visit_occurrence vo
-  on vo.person_id             = p.person_id
- and vo.visit_source_value    = i.encounter;
+  on p.person_source_value    = i.patient;
