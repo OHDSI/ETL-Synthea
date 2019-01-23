@@ -19,10 +19,7 @@ visit_detail_id,
 observation_source_value,
 observation_source_concept_id,
 unit_source_value,
-qualifier_source_value,
-observation_event_id,
-obs_event_field_concept_id,
-value_as_datetime
+qualifier_source_value
 )
 select
 nextval('observation_id_seq'),        
@@ -37,7 +34,8 @@ cast(null as varchar),
 0,
 0,
 0,
-vo.visit_occurrence_id,
+(select fv.visit_occurrence_id_new from final_visit_ids fv
+  where fv.encounter_id = a.encounter) visit_occurrence_id,
 0,
 a.code,
 (
@@ -47,10 +45,7 @@ select srctosrcvm.source_concept_id
     and srctosrcvm.source_vocabulary_id  = 'SNOMED'
 ),
 cast(null as varchar),
-cast(null as varchar),
-0,
-0,
-cast(null as date) 
+cast(null as varchar)
 
 from allergies a
 join source_to_standard_vocab_map srctostdvm
@@ -61,9 +56,6 @@ join source_to_standard_vocab_map srctostdvm
  and srctostdvm.target_invalid_reason IS NULL
 join person p
   on p.person_source_value    = a.patient
-join visit_occurrence vo
-  on vo.person_id             = p.person_id
- and vo.visit_source_value    = a.encounter
 
 union all
 
@@ -80,7 +72,8 @@ cast(null as varchar),
 0,
 0,
 0,
-vo.visit_occurrence_id,
+(select fv.visit_occurrence_id_new from final_visit_ids fv
+  where fv.encounter_id = c.encounter) visit_occurrence_id,
 0,
 c.code,
 (
@@ -90,10 +83,7 @@ select srctosrcvm.source_concept_id
     and srctosrcvm.source_vocabulary_id  = 'SNOMED'
 ),
 cast(null as varchar),
-cast(null as varchar), 
-0,
-0,
-cast(null as date) 
+cast(null as varchar)
 
 from conditions c
 join source_to_standard_vocab_map srctostdvm
@@ -103,7 +93,4 @@ join source_to_standard_vocab_map srctostdvm
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason IS NULL
 join person p
-  on p.person_source_value    = c.patient
-join visit_occurrence vo
-  on vo.person_id             = p.person_id
- and vo.visit_source_value    = c.encounter;
+  on p.person_source_value    = c.patient;

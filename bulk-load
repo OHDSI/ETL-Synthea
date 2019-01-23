@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ./bulk-load database native cdm user password /path/to/data /path/to/vocab
+# ./bulk-load database synthea_schema cdm_schema user password /path/to/synthea/data /path/to/vocab/data
 # ./bulk-load synthea10 native cdm_synthea10 postgres lollipop S://Git/Github/synthea/output/csv S://Vocabulary_20181119
 
 DB=$1
@@ -12,12 +12,12 @@ DATA_DIRECTORY=$6
 VOCAB_DIRECTORY=$7 
 
 
-# ./bulk-load cdm2 ohdsi ohdsi /synthea/output/csv
 echo "creating synthea tables"
 PGOPTIONS="--search_path=$NATIVE" psql -f "ETL/SQL/synthea_ddl.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
-echo "creating vocab tables"
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/vocabulary_ddl.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
+echo "creating cdm tables"
+PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/drop_cdm_tables.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
+PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/cdm_v5.3_ddl.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
 echo "loading data from synthea csv files to relational database"
 for TABLE in allergies careplans conditions encounters immunizations medications observations patients procedures
@@ -31,33 +31,61 @@ do
 PGOPTIONS="--search_path=$CDM" psql -c "\copy $TABLE from '$VOCAB_DIRECTORY/$TABLE.csv' CSV DELIMITER E'\t' QUOTE E'\b' HEADER" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 done
 
-echo "creating vocab map..."
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/create_vocab_map.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB"
+echo "creating vocab maps..."
 
-echo "loading data"
+PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/create_source_to_source_vocab_map.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB"
 
+PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/create_source_to_standard_vocab_map.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB"
+
+echo "creating visit logic tables..."
+
+PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/AllVisitTable.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB"
+
+PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/AAViTable.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB"
+
+PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/final_visit_ids.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB"
+
+echo "Performing ETL"
+
+echo "Loading location"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_location.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading person"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_person.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading death"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_death.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading observation_period"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_observation_period.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading visit_occurrence"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_visit_occurrence.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading observation"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_observation.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading condition_occurrence"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_condition_occurrence.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading procedure_occurrence"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_procedure_occurrence.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading measurement"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_measurement.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading drug exposure"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_drug_exposure.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading condition_era"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_condition_era.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
+echo "Loading drug_era"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_drug_era.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
+
+# PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/cdm_v5.3.constraints_ddl.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
+
+# PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/cdm_v5.3_indexes_ddl.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
+
 
 # TODO - Either create a staging schema for native Synthea tables or drop the Synthea tables after ETL complete
