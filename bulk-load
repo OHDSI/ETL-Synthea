@@ -74,7 +74,7 @@ PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_procedure_occurrence.sql"
 echo "Loading measurement"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_measurement.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
-echo "Loading location"
+echo "Loading drug exposure"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_drug_exposure.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
 echo "Loading condition_era"
