@@ -27,7 +27,8 @@ pr.date,
 0,
 cast(null as integer),                    
 cast(null as integer),                    
-vo.visit_occurrence_id,
+(select fv.visit_occurrence_id_new from final_visit_ids fv
+  where fv.encounter_id = c.encounter) visit_occurrence_id,
 0,
 pr.code,
 (
@@ -46,7 +47,4 @@ join source_to_standard_vocab_map srctostdvm
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason IS NULL
 join person p
-  on p.person_source_value    = pr.patient
-join visit_occurrence vo
-  on vo.person_id             = p.person_id
- and vo.visit_source_value    = pr.encounter;
+  on p.person_source_value    = pr.patient;

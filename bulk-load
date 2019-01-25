@@ -47,14 +47,14 @@ PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/final_visit_ids.sql" "postgresql
 
 echo "Performing ETL"
 
-echo "Loading location"
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_location.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
+# echo "Loading location"
+# PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_location.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
 echo "Loading person"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_person.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
-echo "Loading death"
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_death.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
+# echo "Loading death"
+# PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_death.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
 
 echo "Loading observation_period"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_observation_period.sql" "postgresql://$USERNAME:$PASSWORD@localhost/$DB" 
