@@ -28,7 +28,7 @@ pr.date,
 cast(null as integer),                    
 cast(null as integer),                    
 (select fv.visit_occurrence_id_new from final_visit_ids fv
-  where fv.encounter_id = c.encounter) visit_occurrence_id,
+  where fv.encounter_id = pr.encounter) visit_occurrence_id,
 0,
 pr.code,
 (
