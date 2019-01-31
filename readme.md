@@ -4,11 +4,21 @@
 ### Scripted Execution
 Use the bulk-load script.
 
-### Step by Step
-1. Create the empty CDM tables: located in: ETL/SQL/omop_cdm_pg_ddl.sql
-2. Create the empty synthea tables: ETL/SQL/synthea_ddl.sql
-3. To populate the tables created in step 2 use the import tool in pgadmin (simply right-click on a table and a dropdown of options will appear - choose "Import/Export").
-The following guide is helpful: http://www.postgresqltutorial.com/import-csv-file-into-posgresql-table/
+### Step by Step Example
+  1. Obtain CDM V5.3 Vocabulary CSV files.
+
+  2. Generate Synthea CSV files via the Synthea command line utility ./run_synthea. 
+  
+     (Details found here: https://github.com/synthetichealth/synthea/wiki/Basic-Setup-and-Running)
+
+  3. Load and convert Synthea CSV data to an OMOP CDM using ./bulk-load:
+
+   ./bulk-load synthea10 native cdm_synthea10 postgres lollipop /tmp/synthea/output/csv /tmp/Vocabulary_20181119
+
+ The example above loads into a PostgreSQL database called synthea10.  The schema to load the Synthea tables is native.
+ The schema to load the Vocabulary tables is cdm_synthea10.  The username and pw are postgres and lollipop.
+ The Synthea and Vocabulary CSV files are located in /tmp/synthea/output/csv and /tmp/Vocabulary_20181119, respectively.
+
 
 ### Simulating Data with Synthea
 
