@@ -41,7 +41,7 @@ Authors:  Patrick Ryan, Christian Reich, Clair Blacketer
 Standardized vocabulary
 
 ************************/
-{@vocabTableCreate}?{
+{@vocab_create}?{
 
  DROP TABLE IF EXISTS @cdm_schema.concept;
  CREATE TABLE @cdm_schema.concept (
