@@ -64,7 +64,8 @@ ETLSyntheaBuilder::LoadCDMTables(cd,"cdm_synthea10","native")
 ```
    C:> Rscript WindowsLoader.r postgresql localhost synthea10 native cdm_synthe10 postgres lollipop D:\Apps\Git\synthea\output\csv D:\synthea\V2\csv\vocabulary 5432
 ```
- The example above loads into a local PostgreSQL database called synthea10.  The schema to load the Synthea tables is native.
+ The example above loads into a local PostgreSQL database called synthea10 listening on port 5432 (the port is the last parameter).  
+ The schema to load the Synthea tables is native.
  The schema to load the Vocabulary tables is cdm_synthea10.  The username and pw are postgres and lollipop.
  The Synthea and Vocabulary CSV files are located in D:\Apps\Git\synthea\output\csv and D:\synthea\V2\csv\vocabulary, respectively.
 
