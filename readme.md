@@ -60,9 +60,9 @@ ETLSyntheaBuilder::LoadCDMTables(cd,"cdm_synthea10","native")
      
   3. Install R and include Rscript.exe in your PATH.
 
-  3. Load and convert Synthea CSV data to an OMOP CDM using Rscript.exe and WindowsBulkLoader.r:
+  3. Load and convert Synthea CSV data to an OMOP CDM using Rscript.exe and WindowsLoader.r:
 ```
-   C:> Rscript WindowsBulkLoader.r postgresql localhost synthea10 native cdm_synthe10 postgres lollipop D:\Apps\Git\synthea\output\csv D:\synthea\V2\csv\vocabulary 5432
+   C:> Rscript WindowsLoader.r postgresql localhost synthea10 native cdm_synthe10 postgres lollipop D:\Apps\Git\synthea\output\csv D:\synthea\V2\csv\vocabulary 5432
 ```
  The example above loads into a local PostgreSQL database called synthea10.  The schema to load the Synthea tables is native.
  The schema to load the Vocabulary tables is cdm_synthea10.  The username and pw are postgres and lollipop.
