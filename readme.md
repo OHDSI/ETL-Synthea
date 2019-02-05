@@ -2,9 +2,9 @@
 ## Currently supports CDM V5.3
 
 ### Scripted Execution
-Use the bulk-load script.
+Use the bulk-load script or R package.
 
-### Step by Step Example
+### Step by Step Example (shell script)
   1. Obtain CDM V5.3 Vocabulary CSV files.
 
   2. Generate Synthea CSV files via the Synthea command line utility ./run_synthea. 
@@ -19,7 +19,38 @@ Use the bulk-load script.
  The schema to load the Vocabulary tables is cdm_synthea10.  The username and pw are postgres and lollipop.
  The Synthea and Vocabulary CSV files are located in /tmp/synthea/output/csv and /tmp/Vocabulary_20181119, respectively.
 
+### Step by Step Example (R package)
 
+```
+ devtools::install_github("OHDSI/ETL-Synthea")
+
+ library(ETLSyntheaBuilder)
+
+ # Similar to the bulk-load example above, we are loading into a local PostgreSQL database called synthea10.  
+ # The schema to load the Synthea tables is native.
+ # The schema to load the Vocabulary tables is cdm_synthea10.  
+ # The username and pw are postgres and lollipop.
+ # The Synthea and Vocabulary CSV files are located in /tmp/synthea/output/csv and /tmp/Vocabulary_20181119, respectively.
+ 
+ cd <- DatabaseConnector::createConnectionDetails(
+  dbms     = "postgresql", 
+  server   = "localhost/synthea10", 
+  user     = "postgres", 
+  password = "lollipop", 
+  port     = 5432
+)
+
+ETLSyntheaBuilder::DropCDMTables(cd,"cdm_synthea10")
+ETLSyntheaBuilder::DropSyntheaTables(cd,"native")
+ETLSyntheaBuilder::CreateCDMTables(cd,"cdm_synthea10",TRUE)
+ETLSyntheaBuilder::CreateSyntheaTables(cd,"native")
+ETLSyntheaBuilder::LoadSyntheaTables(cd,"native","/tmp/synthea/output/csv")
+ETLSyntheaBuilder::LoadVocabTables(cd,"cdm_synthea10","/tmp/Vocabulary_20181119")
+ETLSyntheaBuilder::CreateVocabMapTables(cd,"cdm_synthea10")
+ETLSyntheaBuilder::CreateVisitRollupTables(cd,"cdm_synthea10","native")
+ETLSyntheaBuilder::LoadCDMTables(cd,"cdm_synthea10","native")
+```
+ 
 ### Simulating Data with Synthea
 
 For more information on Synthea visit:
