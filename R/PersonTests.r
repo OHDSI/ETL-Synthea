@@ -1,7 +1,7 @@
 createPersonTests <- function () {
 
 	patient <- createPatient()
-	declareTest(id = patient$personId, description = "Drop patients with no gender")
+	declareTest(id = patient$id, description = "Drop patients with no gender")
 	add_patients.csv(id = patient$personId, gender = NULL)
 
 
