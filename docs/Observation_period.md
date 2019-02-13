@@ -3,7 +3,7 @@ layout: default
 title: Observation_period
 nav_order: 3
 description: "Observation_period mapping from encounters.csv"
-permalink: /
+
 ---
 
 # Observation_period

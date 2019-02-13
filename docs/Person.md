@@ -3,7 +3,7 @@ layout: default
 title: Person
 nav_order: 2
 description: "Person mapping from patients.csv"
-permalink: /
+
 ---
 
 # Person

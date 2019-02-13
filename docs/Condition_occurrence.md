@@ -3,7 +3,6 @@ layout: default
 title: Condition_occurrence
 nav_order: 5
 description: "Condition_occurrence mapping from conditions.csv"
-permalink: /
 ---
 
 # Condition_occurrence

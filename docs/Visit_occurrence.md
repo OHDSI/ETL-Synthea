@@ -3,7 +3,7 @@ layout: default
 title: Visit_occurrence
 nav_order: 4
 description: "Visit_occurrence mapping from encounters.csv"
-permalink: /
+
 ---
 
 # Visit_occurrence

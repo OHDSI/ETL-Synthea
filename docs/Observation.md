@@ -3,7 +3,7 @@ layout: default
 title: Observation
 nav_order: 8
 description: "Observation mapping from allergies.csv and conditions.csv"
-permalink: /
+
 ---
 
 # Observation

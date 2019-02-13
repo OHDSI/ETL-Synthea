@@ -3,7 +3,6 @@ layout: default
 title: Drug_exposure
 nav_order: 6
 description: "Drug_exposure mapping from conditions.csv, medications.csv, and immunizations.csv"
-permalink: /
 ---
 
 # Drug_exposure

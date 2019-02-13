@@ -3,7 +3,7 @@ layout: default
 title: Measurement
 nav_order: 9
 description: "Measurement mapping from procedures.csv and observations.csv"
-permalink: /
+
 ---
 
 # Measurement

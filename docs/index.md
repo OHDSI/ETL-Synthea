@@ -3,7 +3,7 @@ layout: default
 title: Home
 nav_order: 1
 description: "This document is meant to describe the ETL process for the synthea dataset"
-permalink: /
+
 ---
 
 # Synthea ETL Documentation

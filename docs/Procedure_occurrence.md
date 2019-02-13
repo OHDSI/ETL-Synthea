@@ -3,7 +3,7 @@ layout: default
 title: Procedure_occurrence
 nav_order: 7
 description: "Procedure_occurrence mapping from procedures.csv"
-permalink: /
+
 ---
 
 # Procedure_occurrence
