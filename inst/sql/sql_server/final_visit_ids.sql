@@ -1,5 +1,6 @@
 
-DROP TABLE IF EXISTS @cdm_schema.FINAL_VISIT_IDS;
+if object_id('@cdm_schema.FINAL_VISIT_IDS', 'U') is not null drop table @cdm_schema.FINAL_VISIT_IDS;
+
 
 CREATE TABLE @cdm_schema.FINAL_VISIT_IDS AS 
 SELECT encounter_id, VISIT_OCCURRENCE_ID_NEW

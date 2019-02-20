@@ -1,4 +1,5 @@
-drop sequence if exists person_person_id_seq;
+
+if object_id('person_person_id_seq', 'U') is not null drop sequence person_person_id_seq;
 create sequence person_person_id_seq start with 1;
 
 

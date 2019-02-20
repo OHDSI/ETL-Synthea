@@ -1,4 +1,5 @@
-drop sequence if exists observation_id_seq;
+
+if object_id('observation_id_seq', 'U') is not null drop sequence observation_id_seq;
 create sequence observation_id_seq start with 1;
 
 insert into @cdm_schema.observation (

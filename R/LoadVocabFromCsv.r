@@ -1,8 +1,8 @@
-#' @title Load Vocabulary Tables.
+#' @title Load Vocabulary Tables From CSV Files.
 #'
-#' @description This function populates all Vocabulary tables. 
+#' @description This function populates all Vocabulary tables with data in csv files. 
 #'
-#' @usage LoadVocabTables(connectionDetails, cdmDatabaseSchema, vocabFileLoc)
+#' @usage LoadVocabFromCsv(connectionDetails, cdmDatabaseSchema, vocabFileLoc)
 #'
 #' @details This function assumes \cr\code{createCDMTables()} has already been run.  
 #'
@@ -18,7 +18,7 @@
 #'@export
 
 
-LoadVocabTables <- function (connectionDetails, cdmDatabaseSchema, vocabFileLoc)
+LoadVocabFromCsv <- function (connectionDetails, cdmDatabaseSchema, vocabFileLoc)
 {
 
     csvList <- c("concept.csv","vocabulary.csv","concept_ancestor.csv","concept_relationship.csv","relationship.csv","concept_synonym.csv","domain.csv","concept_class.csv")

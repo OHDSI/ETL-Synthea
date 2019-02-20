@@ -1,7 +1,8 @@
-DROP TABLE IF EXISTS @cdm_schema.IP_VISITS;
-DROP TABLE IF EXISTS @cdm_schema.ER_VISITS;
-DROP TABLE IF EXISTS @cdm_schema.OP_VISITS;
-DROP TABLE IF EXISTS @cdm_schema.ALL_VISITS;
+
+if object_id('@cdm_schema.IP_VISITS', 'U')  is not null drop table @cdm_schema.IP_VISITS;
+if object_id('@cdm_schema.ER_VISITS', 'U')  is not null drop table @cdm_schema.ER_VISITS;
+if object_id('@cdm_schema.OP_VISITS', 'U')  is not null drop table @cdm_schema.OP_VISITS;
+if object_id('@cdm_schema.ALL_VISITS', 'U') is not null drop table @cdm_schema.ALL_VISITS;
 
 /* Inpatient visits */
 /* Collapse IP claim lines with <=1 day between them into one visit */
@@ -130,6 +131,6 @@ AS
   	SELECT * FROM @cdm_schema.OP_VISITS
   ) T1;
 
-DROP TABLE IF EXISTS @cdm_schema.IP_VISITS;
-DROP TABLE IF EXISTS @cdm_schema.ER_VISITS;
-DROP TABLE IF EXISTS @cdm_schema.OP_VISITS;
+if object_id('@cdm_schema.IP_VISITS', 'U')  is not null drop table @cdm_schema.IP_VISITS;
+if object_id('@cdm_schema.ER_VISITS', 'U')  is not null drop table @cdm_schema.ER_VISITS;
+if object_id('@cdm_schema.OP_VISITS', 'U')  is not null drop table @cdm_schema.OP_VISITS;

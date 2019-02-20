@@ -15,13 +15,13 @@ description: "Person mapping from patients.csv"
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
 | person_id |  |  |  |
-| gender_concept_id | gender | case upper(p.gender)          when 'M' then 8507          when 'F' then 8532  end | Please drop rows with missing/unknown gender. |
-| year_of_birth | birthdate | Take Year from birthdate |  |
+| gender_concept_id | gender | When gender = 'M' then set gender_concept_id to 8507, when gender = 'F' then set to 8532| Drop any rows with missing/unknown gender. |
+| year_of_birth | birthdate | Take year from birthdate |  |
 | month_of_birth | birthdate | Take month from birthdate |  |
 | day_of_birth | birthdate | Take day from birthdate |  |
 | birth_datetime | birthdate | With midnight as time 00:00:00 |  |
-| race_concept_id | race | case upper(race)   	when 'WHITE' then 8527   	when 'BLACK' then 8516   	when 'ASIAN'  then 8515   	else 0   end |  |
-| ethnicity_concept_id | race  ethnicity | case when upper(race) in ('HISPANIC') then 38003563 else 0 end  case when upper(ethnicity) in (  'CENTRAL_AMERICAN',   'DOMINICAN',   'MEXICAN',   'PUERTO_RICAN',   'SOUTH_AMERICAN'  ) or upper(race) = 'HISPANIC'  then 38003563 else 0   end |  |
+| race_concept_id | race | When race = 'WHITE' then set as 8527, when race = 'BLACK' then set as 8516, when race = 'ASIAN' then set as 8515, otherwise set as 0|  |
+| ethnicity_concept_id | race  ethnicity | When race = 'HISPANIC', or when ethnicity in ('CENTRAL_AMERICAN',   'DOMINICAN', 'MEXICAN', 'PUERTO_RICAN', 'SOUTH_AMERICAN'  ) then set as 38003563, otherwise set as 0  |  |
 | location_id |  |  |  |
 | provider_id |  |  |  |
 | care_site_id |  |  |  |

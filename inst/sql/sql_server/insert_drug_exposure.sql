@@ -1,4 +1,5 @@
-drop sequence if exists drug_exposure_id_seq;
+
+if object_id('drug_exposure_id_seq', 'U') is not null drop sequence drug_exposure_id_seq;
 create sequence drug_exposure_id_seq start with 1;
 
 insert into @cdm_schema.drug_exposure (

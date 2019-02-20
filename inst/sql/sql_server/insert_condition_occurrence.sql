@@ -1,4 +1,5 @@
-drop sequence if exists condition_occurrence_id_seq;
+
+if object_id('condition_occurrence_id_seq', 'U') is not null drop sequence condition_occurrence_id_seq;
 create sequence condition_occurrence_id_seq start with 1;
 
 
