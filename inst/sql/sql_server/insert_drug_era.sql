@@ -2,8 +2,7 @@
 -- Code taken from:
 -- https://github.com/OHDSI/ETL-CMS/blob/master/SQL/create_CDMv5_drug_era_non_stockpile.sql
 
-drop sequence if exists drug_era_id_seq;
-
+if object_id('drug_era_id_seq', 'U') is not null drop sequence drug_era_id_seq;
 create sequence drug_era_id_seq start with 1;
 
 WITH

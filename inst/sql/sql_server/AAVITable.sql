@@ -1,6 +1,6 @@
 /*Assign VISIT_OCCURRENCE_ID to all encounters*/
 
-DROP TABLE IF EXISTS @cdm_schema.ASSIGN_ALL_VISIT_IDS;
+if object_id('@cdm_schema.ASSIGN_ALL_VISIT_IDS', 'U')  is not null drop table @cdm_schema.ASSIGN_ALL_VISIT_IDS;
 
 CREATE TABLE @cdm_schema.ASSIGN_ALL_VISIT_IDS AS
 SELECT  E.id AS encounter_id,

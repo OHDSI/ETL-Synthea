@@ -43,7 +43,7 @@ Standardized vocabulary
 ************************/
 {@vocab_create}?{
 
- DROP TABLE IF EXISTS @cdm_schema.concept;
+ if object_id('@cdm_schema.concept', 'U')  is not null drop table @cdm_schema.concept;
  CREATE TABLE @cdm_schema.concept (
   concept_id			    INTEGER			  NOT NULL ,
   concept_name			  VARCHAR(255)	NOT NULL ,
@@ -58,7 +58,7 @@ Standardized vocabulary
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.vocabulary;
+if object_id('@cdm_schema.vocabulary', 'U')  is not null drop table @cdm_schema.vocabulary;
 CREATE TABLE @cdm_schema.vocabulary (
   vocabulary_id			    VARCHAR(20)		NOT NULL,
   vocabulary_name		    VARCHAR(255)	NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE @cdm_schema.vocabulary (
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.domain;
+if object_id('@cdm_schema.domain', 'U')  is not null drop table @cdm_schema.domain;
 CREATE TABLE @cdm_schema.domain (
   domain_id			    VARCHAR(20)		NOT NULL,
   domain_name		    VARCHAR(255)	NOT NULL,
@@ -76,7 +76,7 @@ CREATE TABLE @cdm_schema.domain (
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.concept_class;
+if object_id('@cdm_schema.concept_class', 'U')  is not null drop table @cdm_schema.concept_class;
 CREATE TABLE @cdm_schema.concept_class (
   concept_class_id			    VARCHAR(20)		NOT NULL,
   concept_class_name		    VARCHAR(255)	NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE @cdm_schema.concept_class (
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.concept_relationship;
+if object_id('@cdm_schema.concept_relationship', 'U')  is not null drop table @cdm_schema.concept_relationship;
 CREATE TABLE @cdm_schema.concept_relationship (
   concept_id_1			INTEGER			NOT NULL,
   concept_id_2			INTEGER			NOT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE @cdm_schema.concept_relationship (
   )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.relationship;
+if object_id('@cdm_schema.relationship', 'U')  is not null drop table @cdm_schema.relationship;
 CREATE TABLE @cdm_schema.relationship (
   relationship_id			    VARCHAR(20)		NOT NULL,
   relationship_name			  VARCHAR(255)	NOT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE @cdm_schema.relationship (
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.concept_synonym;
+if object_id('@cdm_schema.concept_synonym', 'U')  is not null drop table @cdm_schema.concept_synonym;
 CREATE TABLE @cdm_schema.concept_synonym (
   concept_id			      INTEGER			  NOT NULL,
   concept_synonym_name	VARCHAR(1000)	NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE @cdm_schema.concept_synonym (
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.concept_ancestor;
+if object_id('@cdm_schema.concept_ancestor', 'U')  is not null drop table @cdm_schema.concept_ancestor;
 CREATE TABLE @cdm_schema.concept_ancestor (
   ancestor_concept_id		    INTEGER		NOT NULL,
   descendant_concept_id		  INTEGER		NOT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE @cdm_schema.concept_ancestor (
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.source_to_concept_map;
+if object_id('@cdm_schema.source_to_concept_map', 'U')  is not null drop table @cdm_schema.source_to_concept_map;
 CREATE TABLE @cdm_schema.source_to_concept_map (
   source_code				      VARCHAR(50)		NOT NULL,
   source_concept_id			  INTEGER			  NOT NULL,
@@ -138,7 +138,7 @@ CREATE TABLE @cdm_schema.source_to_concept_map (
 ;
 
 
-DROP TABLE IF EXISTS @cdm_schema.drug_strength;
+if object_id('@cdm_schema.drug_strength', 'U')  is not null drop table @cdm_schema.drug_strength;
 CREATE TABLE @cdm_schema.drug_strength (
   drug_concept_id				      INTEGER		  NOT NULL,
   ingredient_concept_id			  INTEGER		  NOT NULL,
@@ -156,25 +156,25 @@ CREATE TABLE @cdm_schema.drug_strength (
 ;
 
 
-DROP TABLE IF EXISTS @cdm_schema.cohort_definition;
+if object_id('@cdm_schema.cohort_definition', 'U')  is not null drop table @cdm_schema.cohort_definition;
 CREATE TABLE @cdm_schema.cohort_definition (
   cohort_definition_id				    INTEGER			  NOT NULL,
   cohort_definition_name			    VARCHAR(255)	NOT NULL,
-  cohort_definition_description		TEXT	NULL,
+  cohort_definition_description		VARCHAR(255)	NULL,
   definition_type_concept_id		  INTEGER			  NOT NULL,
-  cohort_definition_syntax			  TEXT	NULL,
+  cohort_definition_syntax			  VARCHAR(255)	NULL,
   subject_concept_id				      INTEGER			  NOT NULL,
   cohort_initiation_date			    DATE			    NULL
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.attribute_definition;
+if object_id('@cdm_schema.attribute_definition', 'U')  is not null drop table @cdm_schema.attribute_definition;
 CREATE TABLE @cdm_schema.attribute_definition (
   attribute_definition_id		  INTEGER			  NOT NULL,
   attribute_name				      VARCHAR(255)	NOT NULL,
-  attribute_description			  TEXT	NULL,
+  attribute_description			  VARCHAR(255)	NULL,
   attribute_type_concept_id		INTEGER			  NOT NULL,
-  attribute_syntax				    TEXT	NULL
+  attribute_syntax				    VARCHAR(255)	NULL
 )
 ;
 
@@ -185,13 +185,13 @@ Standardized meta-data
 
 ***************************/
 
-DROP TABLE IF EXISTS @cdm_schema.cdm_source;
+if object_id('@cdm_schema.cdm_source', 'U')  is not null drop table @cdm_schema.cdm_source;
 CREATE TABLE @cdm_schema.cdm_source
 (
   cdm_source_name					        VARCHAR(255)	NOT NULL ,
   cdm_source_abbreviation			    VARCHAR(25)		NULL ,
   cdm_holder							        VARCHAR(255)	NULL ,
-  source_description					    TEXT	NULL ,
+  source_description					    VARCHAR(255)	NULL ,
   source_documentation_reference	VARCHAR(255)	NULL ,
   cdm_etl_reference					      VARCHAR(255)	NULL ,
   source_release_date				      DATE			    NULL ,
@@ -201,13 +201,13 @@ CREATE TABLE @cdm_schema.cdm_source
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.metadata;
+if object_id('@cdm_schema.metadata', 'U')  is not null drop table @cdm_schema.metadata;
 CREATE TABLE @cdm_schema.metadata
 (
   metadata_concept_id       INTEGER       NOT NULL ,
   metadata_type_concept_id  INTEGER       NOT NULL ,
   name                      VARCHAR(250)  NOT NULL ,
-  value_as_string           TEXT  NULL ,
+  value_as_string           VARCHAR(255)  NULL ,
   value_as_concept_id       INTEGER       NULL ,
   metadata_date             DATE          NULL ,
   metadata_datetime         DATE      NULL
@@ -221,7 +221,7 @@ Standardized clinical data
 
 ************************/
 
-DROP TABLE IF EXISTS @cdm_schema.person;
+if object_id('@cdm_schema.person', 'U')  is not null drop table @cdm_schema.person;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.person
 (
@@ -246,7 +246,7 @@ CREATE TABLE @cdm_schema.person
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.observation_period;
+if object_id('@cdm_schema.observation_period', 'U')  is not null drop table @cdm_schema.observation_period;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.observation_period
 (
@@ -258,7 +258,7 @@ CREATE TABLE @cdm_schema.observation_period
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.specimen;
+if object_id('@cdm_schema.specimen', 'U')  is not null drop table @cdm_schema.specimen;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.specimen
 (
@@ -280,7 +280,7 @@ CREATE TABLE @cdm_schema.specimen
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.death;
+if object_id('@cdm_schema.death', 'U')  is not null drop table @cdm_schema.death;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.death
 (
@@ -294,7 +294,7 @@ CREATE TABLE @cdm_schema.death
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.visit_occurrence;
+if object_id('@cdm_schema.visit_occurrence', 'U')  is not null drop table @cdm_schema.visit_occurrence;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.visit_occurrence
 (
@@ -318,7 +318,7 @@ CREATE TABLE @cdm_schema.visit_occurrence
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.visit_detail;
+if object_id('@cdm_schema.visit_detail', 'U')  is not null drop table @cdm_schema.visit_detail;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.visit_detail
 (
@@ -344,7 +344,7 @@ CREATE TABLE @cdm_schema.visit_detail
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.procedure_occurrence;
+if object_id('@cdm_schema.procedure_occurrence', 'U')  is not null drop table @cdm_schema.procedure_occurrence;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.procedure_occurrence
 (
@@ -365,7 +365,7 @@ CREATE TABLE @cdm_schema.procedure_occurrence
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.drug_exposure;
+if object_id('@cdm_schema.drug_exposure', 'U')  is not null drop table @cdm_schema.drug_exposure;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.drug_exposure
 (
@@ -382,7 +382,7 @@ CREATE TABLE @cdm_schema.drug_exposure
   refills						            INTEGER		  	NULL ,
   quantity						          NUMERIC			    NULL ,
   days_supply					          INTEGER		  	NULL ,
-  sig							              TEXT	NULL ,
+  sig							              VARCHAR(255)	NULL ,
   route_concept_id				      INTEGER			  NULL ,
   lot_number					          VARCHAR(50)	  NULL ,
   provider_id					          INTEGER			  NULL ,
@@ -395,7 +395,7 @@ CREATE TABLE @cdm_schema.drug_exposure
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.device_exposure;
+if object_id('@cdm_schema.device_exposure', 'U')  is not null drop table @cdm_schema.device_exposure;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.device_exposure
 (
@@ -417,7 +417,7 @@ CREATE TABLE @cdm_schema.device_exposure
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.condition_occurrence;
+if object_id('@cdm_schema.condition_occurrence', 'U')  is not null drop table @cdm_schema.condition_occurrence;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.condition_occurrence
 (
@@ -440,7 +440,7 @@ CREATE TABLE @cdm_schema.condition_occurrence
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.measurement;
+if object_id('@cdm_schema.measurement', 'U')  is not null drop table @cdm_schema.measurement;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.measurement
 (
@@ -467,7 +467,7 @@ CREATE TABLE @cdm_schema.measurement
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.note;
+if object_id('@cdm_schema.note', 'U')  is not null drop table @cdm_schema.note;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.note
 (
@@ -478,7 +478,7 @@ CREATE TABLE @cdm_schema.note
   note_type_concept_id	INTEGER			  NOT NULL ,
   note_class_concept_id INTEGER			  NOT NULL ,
   note_title					  VARCHAR(250)	NULL ,
-  note_text						  TEXT  NULL ,
+  note_text						  VARCHAR(255)  NULL ,
   encoding_concept_id		INTEGER			  NOT NULL ,
   language_concept_id		INTEGER			  NOT NULL ,
   provider_id					  INTEGER			  NULL ,
@@ -489,7 +489,7 @@ CREATE TABLE @cdm_schema.note
 ;
 
 
-DROP TABLE IF EXISTS @cdm_schema.note_nlp;
+if object_id('@cdm_schema.note_nlp', 'U')  is not null drop table @cdm_schema.note_nlp;
 CREATE TABLE @cdm_schema.note_nlp
 (
   note_nlp_id					        INTEGER			  NOT NULL ,
@@ -509,7 +509,7 @@ CREATE TABLE @cdm_schema.note_nlp
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.observation;
+if object_id('@cdm_schema.observation', 'U')  is not null drop table @cdm_schema.observation;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.observation
 (
@@ -534,7 +534,7 @@ CREATE TABLE @cdm_schema.observation
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.fact_relationship;
+if object_id('@cdm_schema.fact_relationship', 'U')  is not null drop table @cdm_schema.fact_relationship;
 CREATE TABLE @cdm_schema.fact_relationship
 (
   domain_concept_id_1			INTEGER			NOT NULL ,
@@ -553,7 +553,7 @@ Standardized health system data
 
 ************************/
 
-DROP TABLE IF EXISTS @cdm_schema.location;
+if object_id('@cdm_schema.location', 'U')  is not null drop table @cdm_schema.location;
 CREATE TABLE @cdm_schema.location
 (
   location_id					  INTEGER			  NOT NULL ,
@@ -567,7 +567,7 @@ CREATE TABLE @cdm_schema.location
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.care_site;
+if object_id('@cdm_schema.care_site', 'U')  is not null drop table @cdm_schema.care_site;
 CREATE TABLE @cdm_schema.care_site
 (
   care_site_id						      INTEGER			  NOT NULL ,
@@ -579,7 +579,7 @@ CREATE TABLE @cdm_schema.care_site
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.provider;
+if object_id('@cdm_schema.provider', 'U')  is not null drop table @cdm_schema.provider;
 CREATE TABLE @cdm_schema.provider
 (
   provider_id					        INTEGER			  NOT NULL ,
@@ -605,7 +605,7 @@ Standardized health economics
 
 ************************/
 
-DROP TABLE IF EXISTS @cdm_schema.payer_plan_period;
+if object_id('@cdm_schema.payer_plan_period', 'U')  is not null drop table @cdm_schema.payer_plan_period;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.payer_plan_period
 (
@@ -629,7 +629,7 @@ CREATE TABLE @cdm_schema.payer_plan_period
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.cost;
+if object_id('@cdm_schema.cost', 'U')  is not null drop table @cdm_schema.cost;
 CREATE TABLE @cdm_schema.cost
 (
   cost_id					          INTEGER	    NOT NULL ,
@@ -664,7 +664,7 @@ Standardized derived elements
 
 ************************/
 
-DROP TABLE IF EXISTS @cdm_schema.cohort;
+if object_id('@cdm_schema.cohort', 'U')  is not null drop table @cdm_schema.cohort;
 --HINT DISTRIBUTE_ON_KEY(subject_id)
 CREATE TABLE @cdm_schema.cohort
 (
@@ -675,7 +675,7 @@ CREATE TABLE @cdm_schema.cohort
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.cohort_attribute;
+if object_id('@cdm_schema.cohort_attribute', 'U')  is not null drop table @cdm_schema.cohort_attribute;
 --HINT DISTRIBUTE_ON_KEY(subject_id)
 CREATE TABLE @cdm_schema.cohort_attribute
 (
@@ -689,7 +689,7 @@ CREATE TABLE @cdm_schema.cohort_attribute
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.drug_era;
+if object_id('@cdm_schema.drug_era', 'U')  is not null drop table @cdm_schema.drug_era;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.drug_era
 (
@@ -703,7 +703,7 @@ CREATE TABLE @cdm_schema.drug_era
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.dose_era;
+if object_id('@cdm_schema.dose_era', 'U')  is not null drop table @cdm_schema.dose_era;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.dose_era
 (
@@ -717,7 +717,7 @@ CREATE TABLE @cdm_schema.dose_era
 )
 ;
 
-DROP TABLE IF EXISTS @cdm_schema.condition_era;
+if object_id('@cdm_schema.condition_era', 'U')  is not null drop table @cdm_schema.condition_era;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.condition_era
 (

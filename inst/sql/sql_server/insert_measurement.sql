@@ -1,4 +1,5 @@
-drop sequence if exists measurement_id_seq;
+
+if object_id('measurement_id_seq', 'U') is not null drop sequence measurement_id_seq;
 create sequence measurement_id_seq start with 1;
 
 insert into @cdm_schema.measurement (

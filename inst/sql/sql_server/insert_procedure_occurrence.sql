@@ -1,4 +1,5 @@
-drop sequence if exists procedure_occurrence_id_seq;
+
+if object_id('procedure_occurrence_id_seq', 'U') is not null drop sequence procedure_occurrence_id_seq;
 create sequence procedure_occurrence_id_seq start with 1;
 
 insert into @cdm_schema.procedure_occurrence (

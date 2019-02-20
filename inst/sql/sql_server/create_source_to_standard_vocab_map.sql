@@ -2,7 +2,8 @@
 -- Create mapping table as per logic in 3.1.2 Source to Standard Terminology
 -- found in Truven_CCAE_and_MDCR_ETL_CDM_V5.2.0.doc
 --
-drop table if exists @cdm_schema.source_to_standard_vocab_map;
+
+if object_id('@cdm_schema.source_to_standard_vocab_map', 'U')  is not null drop table @cdm_schema.source_to_standard_vocab_map;
 
 create table @cdm_schema.source_to_standard_vocab_map as
 WITH CTE_VOCAB_MAP AS (

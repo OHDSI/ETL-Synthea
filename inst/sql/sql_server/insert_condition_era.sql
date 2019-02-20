@@ -2,8 +2,10 @@
 -- This script is taken from here:
 -- https://github.com/OHDSI/ETL-CMS/blob/master/SQL/create_CDMv5_condition_era.sql
 --
-drop sequence if exists condition_era_id_seq;
+
+if object_id('condition_era_id_seq', 'U') is not null drop sequence condition_era_id_seq;
 create sequence condition_era_id_seq start with 1;
+
 
 WITH cteConditionTarget (condition_occurrence_id, person_id, condition_concept_id, condition_start_date, condition_end_date) AS
 (

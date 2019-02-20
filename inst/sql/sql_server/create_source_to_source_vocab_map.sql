@@ -1,7 +1,7 @@
 
 --Use this code to map source codes to source concept ids;
 
-drop table if exists @cdm_schema.source_to_source_vocab_map;
+if object_id('@cdm_schema.source_to_source_vocab_map', 'U')  is not null drop table @cdm_schema.source_to_source_vocab_map;
 
 create table @cdm_schema.source_to_source_vocab_map as
 
