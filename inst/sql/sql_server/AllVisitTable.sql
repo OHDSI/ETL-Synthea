@@ -7,8 +7,6 @@ if object_id('@cdm_schema.ALL_VISITS', 'U') is not null drop table @cdm_schema.A
 /* Inpatient visits */
 /* Collapse IP claim lines with <=1 day between them into one visit */
 
-CREATE TABLE @cdm_schema.IP_VISITS
-AS
 WITH CTE_END_DATES AS (
 	SELECT patient, encounterclass, EVENT_DATE-1 AS END_DATE
 	FROM (
@@ -46,6 +44,7 @@ SELECT T2.encounter_id,
 	T2.encounterclass,
 	T2.VISIT_START_DATE,
 	T2.VISIT_END_DATE
+INTO @cdm_schema.IP_VISITS
 FROM (
 	SELECT
 	    encounter_id,
@@ -61,13 +60,12 @@ FROM (
 /* Emergency visits */
 /* collapse ER claim lines with no days between them into one visit */
 
-CREATE TABLE @cdm_schema.ER_VISITS
-AS
 SELECT T2.encounter_id,
     T2.patient,
 	T2.encounterclass,
 	T2.VISIT_START_DATE,
 	T2.VISIT_END_DATE
+INTO @cdm_schema.ER_VISITS
 FROM (
 	SELECT MIN(encounter_id) encounter_id,
 	    patient,
@@ -93,8 +91,6 @@ FROM (
 
 /* Outpatient visits */
 
-CREATE TABLE @cdm_schema.OP_VISITS
-AS
 WITH CTE_VISITS_DISTINCT AS (
 	SELECT MIN(id) encounter_id,
 	               patient,
@@ -110,6 +106,7 @@ SELECT MIN(encounter_id) encounter_id,
 		encounterclass,
 		VISIT_START_DATE,
 		MAX(VISIT_END_DATE) AS VISIT_END_DATE
+INTO @cdm_schema.OP_VISITS
 FROM CTE_VISITS_DISTINCT
 GROUP BY patient, encounterclass, VISIT_START_DATE;
 
@@ -119,17 +116,16 @@ GROUP BY patient, encounterclass, VISIT_START_DATE;
 drop sequence if exists visit_occurrence_id_seq;
 create sequence visit_occurrence_id_seq start with 1;
 
-CREATE TABLE @cdm_schema.all_visits
-AS
-  SELECT *, nextval('visit_occurrence_id_seq') as visit_occurrence_id
-  FROM
-  (
-  	SELECT * FROM @cdm_schema.IP_VISITS
-  	UNION ALL
-  	SELECT * FROM @cdm_schema.ER_VISITS
-  	UNION ALL
-  	SELECT * FROM @cdm_schema.OP_VISITS
-  ) T1;
+SELECT *, nextval('visit_occurrence_id_seq') as visit_occurrence_id
+INTO @cdm_schema.all_visits
+FROM
+(
+	SELECT * FROM @cdm_schema.IP_VISITS
+	UNION ALL
+	SELECT * FROM @cdm_schema.ER_VISITS
+	UNION ALL
+	SELECT * FROM @cdm_schema.OP_VISITS
+) T1;
 
 if object_id('@cdm_schema.IP_VISITS', 'U')  is not null drop table @cdm_schema.IP_VISITS;
 if object_id('@cdm_schema.ER_VISITS', 'U')  is not null drop table @cdm_schema.ER_VISITS;

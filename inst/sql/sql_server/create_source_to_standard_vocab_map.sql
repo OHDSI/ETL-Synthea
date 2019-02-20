@@ -5,7 +5,6 @@
 
 if object_id('@cdm_schema.source_to_standard_vocab_map', 'U')  is not null drop table @cdm_schema.source_to_standard_vocab_map;
 
-create table @cdm_schema.source_to_standard_vocab_map as
 WITH CTE_VOCAB_MAP AS (
        SELECT c.concept_code AS SOURCE_CODE, c.concept_id AS SOURCE_CONCEPT_ID, c.concept_name AS SOURCE_CODE_DESCRIPTION, c.vocabulary_id AS SOURCE_VOCABULARY_ID,
                            c.domain_id AS SOURCE_DOMAIN_ID, c.CONCEPT_CLASS_ID AS SOURCE_CONCEPT_CLASS_ID,
@@ -32,7 +31,7 @@ WITH CTE_VOCAB_MAP AS (
                      ON c2.CONCEPT_ID = stcm.target_concept_id
        WHERE stcm.INVALID_REASON IS NULL
 )
-select * from CTE_VOCAB_MAP;
+select * into @cdm_schema.source_to_standard_vocab_map from CTE_VOCAB_MAP;
 
 create index idx_vocab_map_source_code on @cdm_schema.source_to_standard_vocab_map (source_code);
 create index idx_vocab_map_source_vocab_id on @cdm_schema.source_to_standard_vocab_map (source_vocabulary_id);

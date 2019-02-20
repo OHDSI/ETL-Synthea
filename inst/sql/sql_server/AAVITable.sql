@@ -2,7 +2,6 @@
 
 if object_id('@cdm_schema.ASSIGN_ALL_VISIT_IDS', 'U')  is not null drop table @cdm_schema.ASSIGN_ALL_VISIT_IDS;
 
-CREATE TABLE @cdm_schema.ASSIGN_ALL_VISIT_IDS AS
 SELECT  E.id AS encounter_id,
 		E.patient as person_source_value,
 		E.start AS date_service,
@@ -37,7 +36,7 @@ SELECT  E.id AS encounter_id,
 				)
 			ELSE NULL
 		END AS VISIT_OCCURRENCE_ID_NEW
-
+INTO @cdm_schema.ASSIGN_ALL_VISIT_IDS
 FROM @synthea_schema.ENCOUNTERS E
 JOIN @cdm_schema.ALL_VISITS AV
 	ON E.patient = AV.patient
