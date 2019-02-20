@@ -36,7 +36,7 @@ coalesce(c.stop,c.start),
 coalesce(c.stop,c.start),
 c.stop,
 581452,
-cast(null as varchar),                      
+cast(null as varchar),
 0,
 0,
 coalesce(c.stop-c.start,0),
@@ -50,7 +50,7 @@ cast(null as varchar),
 c.code,
 (
 select srctosrcvm.source_concept_id
-   from @cdm_schema.source_to_source_vocab_map srctosrcvm
+   from @vocab_schema.source_to_source_vocab_map srctosrcvm
   where srctosrcvm.source_code = c.code
     and srctosrcvm.source_vocabulary_id  = 'SNOMED'
 ),
@@ -58,7 +58,7 @@ cast(null as varchar),
 cast(null as varchar)
 
 from @synthea_schema.conditions c
-join @cdm_schema.source_to_standard_vocab_map srctostdvm
+join @vocab_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = c.code
  and srctostdvm.target_domain_id        = 'Drug'
  and srctostdvm.target_vocabulary_id    = 'RxNorm'
@@ -79,7 +79,7 @@ coalesce(m.stop,m.start),
 coalesce(m.stop,m.start),
 m.stop,
 38000177,
-cast(null as varchar),                      
+cast(null as varchar),
 0,
 0,
 coalesce(m.stop-m.start,0),
@@ -93,7 +93,7 @@ cast(null as varchar),
 m.code,
 (
 select srctosrcvm.source_concept_id
-   from @cdm_schema.source_to_source_vocab_map srctosrcvm
+   from @vocab_schema.source_to_source_vocab_map srctosrcvm
   where srctosrcvm.source_code = m.code
     and srctosrcvm.source_vocabulary_id  = 'RxNorm'
 ),
@@ -101,7 +101,7 @@ cast(null as varchar),
 cast(null as varchar)
 
 from @synthea_schema.medications m
-join @cdm_schema.source_to_standard_vocab_map srctostdvm
+join @vocab_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = m.code
  and srctostdvm.target_domain_id        = 'Drug'
  and srctostdvm.target_vocabulary_id    = 'RxNorm'
@@ -122,7 +122,7 @@ i.date,
 i.date,
 i.date,
 581452,
-cast(null as varchar),                      
+cast(null as varchar),
 0,
 0,
 0,
@@ -136,7 +136,7 @@ cast(null as varchar),
 i.code,
 (
 select srctosrcvm.source_concept_id
-   from @cdm_schema.source_to_source_vocab_map srctosrcvm
+   from @vocab_schema.source_to_source_vocab_map srctosrcvm
   where srctosrcvm.source_code = i.code
     and srctosrcvm.source_vocabulary_id  = 'CVX'
 ),
@@ -144,7 +144,7 @@ cast(null as varchar),
 cast(null as varchar)
 
 from @synthea_schema.immunizations i
-join @cdm_schema.source_to_standard_vocab_map srctostdvm
+join @vocab_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = i.code
  and srctostdvm.target_domain_id        = 'Drug'
  and srctostdvm.target_vocabulary_id    = 'CVX'

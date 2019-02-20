@@ -15,7 +15,10 @@ function \code{createConnectionDetails} in the
 instance.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
+
+\item{vocabTableCreate}{Set to TRUE if the vocabulary tables should be created along with the event tables.
+Default is FALSE.}
 }
 \description{
-This function creates all OMOP CDM tables.
+This function creates all OMOP CDM tables (empty).
 }

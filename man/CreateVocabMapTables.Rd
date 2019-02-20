@@ -11,7 +11,7 @@ CreateVocabMapTables (connectionDetails, cdmDatabaseSchema)
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
-\item{cdmDatabaseSchema}{The name of the database schema that will contain the Vocab mapping
+\item{cdmDatabaseSchema}{The name of the database schema that will contain the Vocab mapping 
 tables.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
@@ -20,5 +20,5 @@ so for example 'cdm_instance.dbo'.}
 This function creates source to source and source to standard vocab mapping tables.
 }
 \details{
-This function assumes \cr\code{createCDMTables()} and \cr\code{LoadVocabTables()} have already been run.
+This function assumes \cr\code{createCDMTables()} and \cr\code{LoadVocabTables()} has already been run.
 }

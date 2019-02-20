@@ -14,7 +14,16 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
 
 ## Assuming the raw data and vocabulary has been loaded, this will run the synthea cdm sql builder
 
+CreateCDMTables(connectionDetails, "cdm_lauren", vocabTableCreate = FALSE)
 CreateVocabMapTables(connectionDetails, "cdm_lauren")
-CreateCDMTables(connectionDetails, "cdm_synthea")
-CreateVisitRollupTables(connectionDetails, "cdm_synthea", "raw_synthea")
-LoadCDMTables(connectionDetails, "cdm_synthea", "raw_synthea")
+
+CreateVisitRollupTables(connectionDetails,
+												cdmDatabaseSchema = "cdm_lauren",
+												syntheaDatabaseSchema = "raw_lauren"
+												)
+
+LoadCDMTables(connectionDetails,
+							cdmDatabaseSchema = "cdm_lauren",
+							syntheaDatabaseSchema = "raw_lauren",
+							vocabDatabaseSchema = "cdm_synthea"
+							)

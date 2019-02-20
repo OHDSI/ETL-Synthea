@@ -25,12 +25,12 @@ value_source_value
 )
 select
 nextval('measurement_id_seq'),
-p.person_id,                                 
-srctostdvm.target_concept_id,             
-pr.date,                                  
+p.person_id,
+srctostdvm.target_concept_id,
 pr.date,
 pr.date,
-5001,           
+pr.date,
+5001,
 0,
 cast(null as float),
 0,
@@ -44,7 +44,7 @@ cast(null as float),
 pr.code,
 (
 select srctosrcvm.source_concept_id
-   from @cdm_schema.source_to_source_vocab_map srctosrcvm
+   from @vocab_schema.source_to_source_vocab_map srctosrcvm
   where srctosrcvm.source_code = pr.code
     and srctosrcvm.source_vocabulary_id  = 'SNOMED'
 ),
@@ -52,7 +52,7 @@ cast(null as varchar),
 cast(null as varchar)
 
 from @synthea_schema.procedures pr
-join @cdm_schema.source_to_standard_vocab_map srctostdvm
+join @vocab_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = pr.code
  and srctostdvm.target_domain_id        = 'Measurement'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
@@ -65,12 +65,12 @@ union all
 
 select
 nextval('measurement_id_seq'),
-p.person_id,                                 
-srctostdvm.target_concept_id,             
-o.date,                                  
+p.person_id,
+srctostdvm.target_concept_id,
 o.date,
 o.date,
-5001,           
+o.date,
+5001,
 0,
 cast(null as float),
 0,
@@ -84,7 +84,7 @@ cast(null as float),
 o.code,
 (
 select srctosrcvm.source_concept_id
-   from @cdm_schema.source_to_source_vocab_map srctosrcvm
+   from @vocab_schema.source_to_source_vocab_map srctosrcvm
   where srctosrcvm.source_code = o.code
     and srctosrcvm.source_vocabulary_id  = 'LOINC'
 ),
@@ -92,7 +92,7 @@ cast(null as varchar),
 cast(null as varchar)
 
 from @synthea_schema.observations o
-join @cdm_schema.source_to_standard_vocab_map srctostdvm
+join @vocab_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = o.code
  and srctostdvm.target_domain_id        = 'Measurement'
  and srctostdvm.target_vocabulary_id    = 'LOINC'

@@ -22,15 +22,15 @@ unit_source_value,
 qualifier_source_value
 )
 select
-nextval('observation_id_seq'),        
-p.person_id,                         
-srctostdvm.target_concept_id,    
-a.start,                         
+nextval('observation_id_seq'),
+p.person_id,
+srctostdvm.target_concept_id,
 a.start,
-38000280,                 
-cast(null as float),      
-cast(null as varchar),    
-0,                        
+a.start,
+38000280,
+cast(null as float),
+cast(null as varchar),
+0,
 0,
 0,
 0,
@@ -40,7 +40,7 @@ cast(null as varchar),
 a.code,
 (
 select srctosrcvm.source_concept_id
-   from @cdm_schema.source_to_source_vocab_map srctosrcvm
+   from @vocab_schema.source_to_source_vocab_map srctosrcvm
   where srctosrcvm.source_code = a.code
     and srctosrcvm.source_vocabulary_id  = 'SNOMED'
 ),
@@ -48,7 +48,7 @@ cast(null as varchar),
 cast(null as varchar)
 
 from @synthea_schema.allergies a
-join @cdm_schema.source_to_standard_vocab_map srctostdvm
+join @vocab_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = a.code
  and srctostdvm.target_domain_id        = 'Observation'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
@@ -60,15 +60,15 @@ join @cdm_schema.person p
 union all
 
 select
-nextval('observation_id_seq'),        
-p.person_id,                         
-srctostdvm.target_concept_id,    
-c.start,                         
+nextval('observation_id_seq'),
+p.person_id,
+srctostdvm.target_concept_id,
 c.start,
-38000276,                 
-cast(null as float),      
-cast(null as varchar),    
-0,                        
+c.start,
+38000276,
+cast(null as float),
+cast(null as varchar),
+0,
 0,
 0,
 0,
@@ -78,7 +78,7 @@ cast(null as varchar),
 c.code,
 (
 select srctosrcvm.source_concept_id
-   from @cdm_schema.source_to_source_vocab_map srctosrcvm
+   from @vocab_schema.source_to_source_vocab_map srctosrcvm
   where srctosrcvm.source_code = c.code
     and srctosrcvm.source_vocabulary_id  = 'SNOMED'
 ),
@@ -86,7 +86,7 @@ cast(null as varchar),
 cast(null as varchar)
 
 from @synthea_schema.conditions c
-join @cdm_schema.source_to_standard_vocab_map srctostdvm
+join @vocab_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = c.code
  and srctostdvm.target_domain_id        = 'Observation'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'

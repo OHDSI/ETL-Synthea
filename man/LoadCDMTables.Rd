@@ -11,7 +11,7 @@ LoadCDMTables (connectionDetails, cdmDatabaseSchema, syntheaDatabaseSchema)
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
-\item{cdmDatabaseSchema}{The name of the database schema that will contain the different VISIT 
+\item{cdmDatabaseSchema}{The name of the database schema that will contain the different VISIT
 tables.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
@@ -20,12 +20,15 @@ so for example 'cdm_instance.dbo'.}
 instance.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
+
+\item{vocabDatabaseSchema}{The name of the database schema that contains the OMOP Vocabulary tables. Requires
+read permissions to this database. By default this is set to cdmDatabaseSchema.}
 }
 \description{
 This function loads the CDM tables with Synthea data.  The tables that comprise the Vocabulary are
               loaded via \cr\code{LoadVocabTables()}.
 }
 \details{
-This function assumes \cr\code{createCDMTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()}, 
+This function assumes \cr\code{createCDMTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()},
              and \cr\code{LoadVocabTables()} have all been run.
 }
