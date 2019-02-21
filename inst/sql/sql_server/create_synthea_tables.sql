@@ -17,8 +17,8 @@ patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
 description   varchar(100),
-reason_code   varchar(100),
-reason_desc   varchar(100)
+reasoncode   varchar(100),
+reasondesc   varchar(100)
 );
 
 
@@ -51,12 +51,12 @@ id			  varchar(1000),
 "date"        date,
 patient					varchar(1000),
 encounter				varchar(1000),
-bodysite_code			varchar(100),
-bodysite_description		varchar(100),
-modality_code			varchar(100),
-modality_description		varchar(100),
-SOP_code					varchar(100),
-SOP_description			varchar(100)
+bodysitecode			varchar(100),
+bodysitedescription		varchar(100),
+modalitycode			varchar(100),
+modalitydescription		varchar(100),
+SOPcode					varchar(100),
+SOPdescription			varchar(100)
 );
 
 
