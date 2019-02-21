@@ -37,9 +37,9 @@ CreateVisitRollupTables <- function (connectionDetails, cdmDatabaseSchema, synth
 
         sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
 
-        renderedSql <- SqlRender::renderSql(sqlQuery, cdm_schema = cdmDatabaseSchema, synthea_schema = syntheaDatabaseSchema)$sql
+        renderedSql <- SqlRender::render(sqlQuery, cdm_schema = cdmDatabaseSchema, synthea_schema = syntheaDatabaseSchema)
 
-        translatedSql <- SqlRender::translateSql(renderedSql, targetDialect = connectionDetails$dbms)$sql
+        translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
 
         writeLines(paste0("Running: ",query))
 	

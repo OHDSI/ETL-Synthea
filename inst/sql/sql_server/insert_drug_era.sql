@@ -2,8 +2,8 @@
 -- Code taken from:
 -- https://github.com/OHDSI/ETL-CMS/blob/master/SQL/create_CDMv5_drug_era_non_stockpile.sql
 
-if object_id('drug_era_id_seq', 'U') is not null drop sequence drug_era_id_seq;
-create sequence drug_era_id_seq start with 1;
+
+if object_id('tempdb..#tmp_de', 'U') is not null drop table #tmp_de;
 
 WITH
 ctePreDrugTarget(drug_exposure_id, person_id, ingredient_concept_id, drug_exposure_start_date, days_supply, drug_exposure_end_date) AS
@@ -18,9 +18,9 @@ ctePreDrugTarget(drug_exposure_id, person_id, ingredient_concept_id, drug_exposu
 			---NULLIF returns NULL if both values are the same, otherwise it returns the first parameter
 			NULLIF(drug_exposure_end_date, NULL),
 			---If drug_exposure_end_date != NULL, return drug_exposure_end_date, otherwise go to next case
-			NULLIF(drug_exposure_start_date + (INTERVAL '1 day' * days_supply), drug_exposure_start_date),
+			NULLIF(dateadd(day,days_supply,drug_exposure_start_date), drug_exposure_start_date),
 			---If days_supply != NULL or 0, return drug_exposure_start_date + days_supply, otherwise go to next case
-			drug_exposure_start_date + INTERVAL '1 day'
+			dateadd(day,1,drug_exposure_start_date)
 			---Add 1 day to the drug_exposure_start_date since there is no end_date or INTERVAL for the days_supply
 		) AS drug_exposure_end_date
 	FROM @cdm_schema.drug_exposure d
@@ -80,11 +80,11 @@ GROUP BY
 --------------------------------------------------------------------------------------------------------------
 , cteSubExposures(row_number, person_id, drug_concept_id, drug_sub_exposure_start_date, drug_sub_exposure_end_date, drug_exposure_count) AS
 (
-	SELECT ROW_NUMBER() OVER (PARTITION BY person_id, drug_concept_id, drug_sub_exposure_end_date)
+	SELECT ROW_NUMBER() OVER (PARTITION BY person_id, drug_concept_id, drug_sub_exposure_end_date ORDER BY person_id)
 		, person_id, drug_concept_id, MIN(drug_exposure_start_date) AS drug_sub_exposure_start_date, drug_sub_exposure_end_date, COUNT(*) AS drug_exposure_count
 	FROM cteDrugExposureEnds
 	GROUP BY person_id, drug_concept_id, drug_sub_exposure_end_date
-	ORDER BY person_id, drug_concept_id
+	--ORDER BY person_id, drug_concept_id
 )
 --------------------------------------------------------------------------------------------------------------
 /*Everything above grouped exposures into sub_exposures if there was overlap between exposures.
@@ -94,13 +94,13 @@ GROUP BY
 , cteFinalTarget(row_number, person_id, ingredient_concept_id, drug_sub_exposure_start_date, drug_sub_exposure_end_date, drug_exposure_count, days_exposed) AS
 (
 	SELECT row_number, person_id, drug_concept_id, drug_sub_exposure_start_date, drug_sub_exposure_end_date, drug_exposure_count
-		, drug_sub_exposure_end_date - drug_sub_exposure_start_date AS days_exposed
+		, datediff(day,drug_sub_exposure_start_date,drug_sub_exposure_end_date) AS days_exposed
 	FROM cteSubExposures
 )
 --------------------------------------------------------------------------------------------------------------
 , cteEndDates (person_id, ingredient_concept_id, end_date) AS -- the magic
 (
-	SELECT person_id, ingredient_concept_id, event_date - INTERVAL '30 days' AS end_date -- unpad the end date
+	SELECT person_id, ingredient_concept_id, dateadd(day,-30,event_date) AS end_date -- unpad the end date
 	FROM
 	(
 		SELECT person_id, ingredient_concept_id, event_date, event_type,
@@ -122,7 +122,7 @@ GROUP BY
 			UNION ALL
 
 			-- pad the end dates by 30 to allow a grace period for overlapping ranges.
-			SELECT person_id, ingredient_concept_id, drug_sub_exposure_end_date + INTERVAL '30 days', 1 AS event_type, NULL
+			SELECT person_id, ingredient_concept_id, dateadd(day,30,drug_sub_exposure_end_date), 1 AS event_type, NULL
 			FROM cteFinalTarget
 		) RAWDATA
 	) e
@@ -147,15 +147,17 @@ GROUP BY
 	, drug_exposure_count
 	, days_exposed
 )
-INSERT INTO @cdm_schema.drug_era(drug_era_id,person_id, drug_concept_id, drug_era_start_date, drug_era_end_date, drug_exposure_count, gap_days)
 SELECT
-    nextval('drug_era_id_seq')
+    row_number()over(order by person_id) drug_era_id
 	, person_id
 	, drug_concept_id
 	, MIN(drug_sub_exposure_start_date) AS drug_era_start_date
 	, drug_era_end_date
 	, SUM(drug_exposure_count) AS drug_exposure_count
-	, EXTRACT(EPOCH FROM drug_era_end_date - MIN(drug_sub_exposure_start_date) - SUM(days_exposed)) / 86400 AS gap_days
+	, datediff(d,'1970-01-01',dateadd(day,-(datediff(day,MIN(drug_sub_exposure_start_date),drug_era_end_date)-SUM(days_exposed)),drug_era_end_date)) as gap_days
+INTO #tmp_de
 FROM cteDrugEraEnds dee
-GROUP BY person_id, drug_concept_id, drug_era_end_date
-ORDER BY person_id, drug_concept_id;
+GROUP BY person_id, drug_concept_id, drug_era_end_date;
+
+INSERT INTO @cdm_schema.drug_era(drug_era_id,person_id, drug_concept_id, drug_era_start_date, drug_era_end_date, drug_exposure_count, gap_days)
+SELECT * FROM #tmp_de;

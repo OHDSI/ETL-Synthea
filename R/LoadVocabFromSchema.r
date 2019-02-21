@@ -9,11 +9,11 @@
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
-#' @param fromCdmSchema  The name of the database schema that already contains the Vocabulary 
+#' @param vocabSourceSchema  The name of the database schema that already contains the Vocabulary 
 #'                                     tables to copy.  Requires read permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
-#' @param toCdmSchema  The name of the database schema into which to copy the Vocabulary 
+#' @param vocabTargetSchema  The name of the database schema into which to copy the Vocabulary 
 #'                                     tables.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
@@ -21,7 +21,7 @@
 #'@export
 
 
-LoadVocabFromSchema <- function (connectionDetails, fromCdmSchema, toCdmSchema)
+LoadVocabFromSchema <- function (connectionDetails, vocabSourceSchema, vocabTargetSchema)
 {
 
     vocabTableList <- c("concept","vocabulary","concept_ancestor","concept_relationship","relationship","concept_synonym","domain","concept_class")
@@ -30,7 +30,7 @@ LoadVocabFromSchema <- function (connectionDetails, fromCdmSchema, toCdmSchema)
 	
     for (tableName in vocabTableList) {
 	
-	    sqlStmt <- paste0("insert into ",toCdmSchema,".",tableName," select * from ",fromCdmSchema,".",tableName)
+	    sqlStmt <- paste0("insert into ",vocabTargetSchema,".",tableName," select * from ",vocabSourceSchema,".",tableName)
 			
         writeLines(paste0("Copying: ",tableName))
 

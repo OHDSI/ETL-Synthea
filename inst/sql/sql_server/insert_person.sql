@@ -1,8 +1,4 @@
 
-if object_id('person_person_id_seq', 'U') is not null drop sequence person_person_id_seq;
-create sequence person_person_id_seq start with 1;
-
-
 insert into @cdm_schema.person (
 person_id,                        
 gender_concept_id,
@@ -24,14 +20,14 @@ ethnicity_source_value,
 ethnicity_source_concept_id
 )
 select
-	nextval('person_person_id_seq'),   
+	row_number()over(order by p.id),   
 	case upper(p.gender)
 		when 'M' then 8507
 		when 'F' then 8532
 	end,                               
-	extract(year  from p.birthdate),  
-	extract(month from p.birthdate),  
-	extract(day   from p.birthdate),  
+	datepart(year, p.birthdate),  
+	datepart(month, p.birthdate),  
+	datepart(day, p.birthdate),  
 	p.birthdate,                   
 	case upper(p.race)             
 		when 'WHITE' then 8527
@@ -46,7 +42,7 @@ select
 	NULL,							
 	NULL,                         
 	NULL,                          
-	id,                            
+	p.id,                            
 	p.gender,                      
 	0,                              
 	p.race,                       

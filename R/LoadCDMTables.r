@@ -42,9 +42,9 @@ LoadCDMTables <- function (connectionDetails, cdmDatabaseSchema, syntheaDatabase
 
         sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
 
-        renderedSql <- SqlRender::renderSql(sqlQuery, cdm_schema = cdmDatabaseSchema, synthea_schema = syntheaDatabaseSchema, vocab_schema = vocabDatabaseSchema)$sql
+        renderedSql <- SqlRender::render(sqlQuery, cdm_schema = cdmDatabaseSchema, synthea_schema = syntheaDatabaseSchema, vocab_schema = vocabDatabaseSchema)
 
-        translatedSql <- SqlRender::translateSql(renderedSql, targetDialect = connectionDetails$dbms)$sql
+        translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
 
         writeLines(paste0("Running: ",query))
 

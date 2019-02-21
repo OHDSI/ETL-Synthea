@@ -27,9 +27,9 @@ CreateCDMTables <- function (connectionDetails, cdmDatabaseSchema, vocabTableCre
 
     sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
 
-    renderedSql <- SqlRender::renderSql(sqlQuery, cdm_schema = cdmDatabaseSchema, vocab_create = vocabTableCreate)$sql
+    renderedSql <- SqlRender::render(sqlQuery, cdm_schema = cdmDatabaseSchema, vocab_create = vocabTableCreate)
 
-    translatedSql <- SqlRender::translateSql(renderedSql, targetDialect = connectionDetails$dbms)$sql
+    translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
 
     writeLines("Running create_cdm_tables.sql")
 

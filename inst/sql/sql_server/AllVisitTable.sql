@@ -8,7 +8,7 @@ if object_id('@cdm_schema.ALL_VISITS', 'U') is not null drop table @cdm_schema.A
 /* Collapse IP claim lines with <=1 day between them into one visit */
 
 WITH CTE_END_DATES AS (
-	SELECT patient, encounterclass, EVENT_DATE-1 AS END_DATE
+	SELECT patient, encounterclass, dateadd(day,-1,EVENT_DATE) AS END_DATE
 	FROM (
 		SELECT patient, encounterclass, EVENT_DATE, EVENT_TYPE,
 			MAX(START_ORDINAL) OVER (PARTITION BY patient, encounterclass ORDER BY EVENT_DATE, EVENT_TYPE ROWS UNBOUNDED PRECEDING) AS START_ORDINAL,
@@ -19,7 +19,7 @@ WITH CTE_END_DATES AS (
 			FROM @synthea_schema.encounters
 			WHERE encounterclass = 'inpatient'
 			UNION ALL
-			SELECT patient, encounterclass, stop+1, 1 AS EVENT_TYPE, NULL
+			SELECT patient, encounterclass, dateadd(day,1,stop), 1 AS EVENT_TYPE, NULL
 			FROM @synthea_schema.encounters
 			WHERE encounterclass = 'inpatient'
 		) RAWDATA
@@ -113,10 +113,8 @@ GROUP BY patient, encounterclass, VISIT_START_DATE;
 
 /* All visits */
 
-drop sequence if exists visit_occurrence_id_seq;
-create sequence visit_occurrence_id_seq start with 1;
 
-SELECT *, nextval('visit_occurrence_id_seq') as visit_occurrence_id
+SELECT *, row_number()over(order by patient) as visit_occurrence_id
 INTO @cdm_schema.all_visits
 FROM
 (

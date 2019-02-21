@@ -42,6 +42,12 @@ LoadSyntheaTables <- function (connectionDetails, syntheaDatabaseSchema, synthea
 	
         writeLines(paste0("Loading: ",csv))
 	
+        # experiencing weird errors on pdw due to CODE and/or REASONCODE being created as an integer64
+
+		if("CODE" %in% colnames(syntheaTable))       syntheaTable$CODE       <- as.character(syntheaTable$CODE)
+		if("REASONCODE" %in% colnames(syntheaTable)) syntheaTable$REASONCODE <- as.character(syntheaTable$REASONCODE)
+
+		
 	    DatabaseConnector::insertTable(conn,paste0(syntheaDatabaseSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(syntheaTable), dropTableIfExists = FALSE, createTable = FALSE, progressBar = TRUE)
 	}
 

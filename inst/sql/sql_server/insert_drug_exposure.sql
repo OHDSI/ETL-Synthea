@@ -1,6 +1,4 @@
 
-if object_id('drug_exposure_id_seq', 'U') is not null drop sequence drug_exposure_id_seq;
-create sequence drug_exposure_id_seq start with 1;
 
 insert into @cdm_schema.drug_exposure (
 drug_exposure_id,
@@ -28,7 +26,7 @@ route_source_value,
 dose_unit_source_value
 )
 select
-nextval('drug_exposure_id_seq'),
+row_number()over(order by p.person_id),
 p.person_id,
 srctostdvm.target_concept_id,
 c.start,
@@ -40,7 +38,7 @@ c.stop,
 cast(null as varchar),
 0,
 0,
-coalesce(c.stop-c.start,0),
+coalesce(datediff(day,c.start,c.stop),0),
 cast(null as varchar),
 0,
 0,
@@ -71,7 +69,7 @@ join @cdm_schema.person p
 union all
 
 select
-nextval('drug_exposure_id_seq'),
+row_number()over(order by p.person_id),
 p.person_id,
 srctostdvm.target_concept_id,
 m.start,
@@ -83,7 +81,7 @@ m.stop,
 cast(null as varchar),
 0,
 0,
-coalesce(m.stop-m.start,0),
+coalesce(datediff(day,m.start,m.stop),0),
 cast(null as varchar),
 0,
 0,
@@ -114,7 +112,7 @@ join @cdm_schema.person p
 union all
 
 select
-nextval('drug_exposure_id_seq'),
+row_number()over(order by p.person_id),
 p.person_id,
 srctostdvm.target_concept_id,
 i.date,

@@ -1,6 +1,4 @@
 
-if object_id('observation_period_id_seq', 'U') is not null drop sequence observation_period_id_seq;
-create sequence observation_period_id_seq start with 1;
 
 insert into @cdm_schema.observation_period (
 observation_period_id,
@@ -9,7 +7,7 @@ observation_period_start_date,
 observation_period_end_date,
 period_type_concept_id
 )
-select nextval('observation_period_id_seq') observation_period_id,
+select row_number()over(order by person_id),
        person_id,
 	   start_date,
 	   end_date,

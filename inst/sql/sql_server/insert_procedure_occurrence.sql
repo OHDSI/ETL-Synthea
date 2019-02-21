@@ -1,7 +1,4 @@
 
-if object_id('procedure_occurrence_id_seq', 'U') is not null drop sequence procedure_occurrence_id_seq;
-create sequence procedure_occurrence_id_seq start with 1;
-
 insert into @cdm_schema.procedure_occurrence (
 procedure_occurrence_id,
 person_id,
@@ -19,7 +16,7 @@ procedure_source_concept_id,
 modifier_source_value
 )
 select
-nextval('procedure_occurrence_id_seq'),
+row_number()over(order by p.person_id),
 p.person_id,
 srctostdvm.target_concept_id,
 pr.date,

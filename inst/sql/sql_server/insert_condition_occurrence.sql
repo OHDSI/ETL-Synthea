@@ -1,7 +1,4 @@
 
-if object_id('condition_occurrence_id_seq', 'U') is not null drop sequence condition_occurrence_id_seq;
-create sequence condition_occurrence_id_seq start with 1;
-
 
 insert into @cdm_schema.condition_occurrence (
 condition_occurrence_id,
@@ -21,7 +18,8 @@ condition_source_concept_id,
 condition_status_source_value,
 condition_status_concept_id
 )
-select nextval('condition_occurrence_id_seq'),
+select
+row_number()over(order by p.person_id),
 p.person_id,
 srctostdvm.target_concept_id,
 c.start,

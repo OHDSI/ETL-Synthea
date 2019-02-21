@@ -25,9 +25,9 @@ DropSyntheaTables <- function (connectionDetails, syntheaDatabaseSchema)
 
     sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
 
-    renderedSql <- SqlRender::renderSql(sqlQuery, synthea_schema = syntheaDatabaseSchema)$sql
+    renderedSql <- SqlRender::render(sqlQuery, synthea_schema = syntheaDatabaseSchema)
 
-    translatedSql <- SqlRender::translateSql(renderedSql, targetDialect = connectionDetails$dbms)$sql
+    translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
 
     writeLines("Running drop_synthea_tables.sql")
 	

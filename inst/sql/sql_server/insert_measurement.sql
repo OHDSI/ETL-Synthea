@@ -1,6 +1,4 @@
 
-if object_id('measurement_id_seq', 'U') is not null drop sequence measurement_id_seq;
-create sequence measurement_id_seq start with 1;
 
 insert into @cdm_schema.measurement (
 measurement_id,
@@ -25,7 +23,7 @@ unit_source_value,
 value_source_value
 )
 select
-nextval('measurement_id_seq'),
+row_number()over(order by p.person_id),
 p.person_id,
 srctostdvm.target_concept_id,
 pr.date,
@@ -65,7 +63,7 @@ join @cdm_schema.person p
 union all
 
 select
-nextval('measurement_id_seq'),
+row_number()over(order by p.person_id),
 p.person_id,
 srctostdvm.target_concept_id,
 o.date,
