@@ -19,7 +19,7 @@ encounter     varchar(1000),
 code          varchar(100),
 description   varchar(100),
 reasoncode   varchar(100),
-reasondesc   varchar(100)
+reasondescription   varchar(100)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
