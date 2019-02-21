@@ -1,4 +1,5 @@
 
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.allergies (
 start         date,
 stop          date,
@@ -8,7 +9,7 @@ code          varchar(100),
 description   varchar(100)
 );
 
-
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.careplans (
 id            varchar(1000),
 start         date,
@@ -21,7 +22,7 @@ reasoncode   varchar(100),
 reasondesc   varchar(100)
 );
 
-
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.conditions (
 start         date,
 stop          date,
@@ -31,7 +32,7 @@ code          varchar(100),
 description   varchar(100)
 );
 
-
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.encounters (
 id            		varchar(1000),
 start         		date,
@@ -46,6 +47,7 @@ reasoncode   			varchar(100),
 reasondescription varchar(100)
 );
 
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.imaging_studies (
 id			  varchar(1000),
 "date"        date,
@@ -59,7 +61,7 @@ SOPcode					varchar(100),
 SOPdescription			varchar(100)
 );
 
-
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.immunizations (
 "date"        date,
 patient       varchar(1000),
@@ -69,7 +71,7 @@ description   varchar(100),
 cost					numeric
 );
 
-
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.medications (
 start         date,
 stop          date,
@@ -84,7 +86,7 @@ reasoncode   	varchar(100),
 reasondescription   varchar(100)
 );
 
-
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.observations (
 "date"         date,
 patient       varchar(1000),
@@ -96,7 +98,7 @@ units         varchar(100),
 type					varchar(100)
 );
 
-
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.organizations (
 id			  varchar(1000),
 "name"	      varchar(1000),
@@ -108,7 +110,7 @@ phone		  varchar(100),
 utilization	  varchar(100)
 );
 
-
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.patients (
 id            varchar(1000),
 birthdate     date,
@@ -132,7 +134,7 @@ state					varchar(100),
 zip						varchar(100)
 );
 
-
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.procedures (
 "date"         date,
 patient       varchar(1000),
@@ -144,7 +146,7 @@ reasoncode   varchar(100),
 reasondescription   varchar(100)
 );
 
-
+--HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.providers (
 id            varchar(1000),
 oranization   varchar(100),

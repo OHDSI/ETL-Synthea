@@ -2,6 +2,7 @@
 
 if object_id('@cdm_schema.ASSIGN_ALL_VISIT_IDS', 'U')  is not null drop table @cdm_schema.ASSIGN_ALL_VISIT_IDS;
 
+
 SELECT  E.id AS encounter_id,
 		E.patient as person_source_value,
 		E.start AS date_service,
