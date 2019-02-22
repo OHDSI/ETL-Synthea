@@ -37,10 +37,22 @@ LoadSyntheaTables <- function (connectionDetails, syntheaDatabaseSchema, synthea
 	conn <- DatabaseConnector::connect(connectionDetails) 
 	
     for (csv in csvList) {
+	    
+		# FIXME: The providers.csv files includes a trailing comma that disrupts the dataframe creation.
+		#        The following is a temporary workaround.
+	    if (csv == "providers.csv") {
+
+		    syntheaTable <- data.table::fread(file = paste0(syntheaFileLoc, "/", csv), stringsAsFactors = FALSE, header = FALSE, sep = ",")    
+            syntheaTable <- syntheaTable[,1:10]
+            colnames(syntheaTable) <- c("ID","ORGANIZATION","NAME","GENDER","SPECIALTY","ADDRESS","CITY","STATE","ZIP","UTILIZATION")
+
+		} else {
+
+	        syntheaTable <- data.table::fread(file = paste0(syntheaFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = ",")    
 	
-	    syntheaTable <- data.table::fread(file = paste0(syntheaFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = ",")    
-	
-        writeLines(paste0("Loading: ",csv))
+        }
+		
+		writeLines(paste0("Loading: ",csv))
 	
         # experiencing weird errors on pdw due to CODE and/or REASONCODE being created as an integer64
 
