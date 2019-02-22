@@ -149,7 +149,7 @@ reasondescription   varchar(100)
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.providers (
 id            varchar(1000),
-oranization   varchar(100),
+organization   varchar(100),
 name          varchar(100),
 gender        varchar(1),
 specialty     varchar(1000),
