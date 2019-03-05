@@ -1,11 +1,11 @@
-#' @title Load CDM Tables.
+#' @title Load CDM Non-Vocabulary Tables.
 #'
-#' @description This function loads the CDM tables with Synthea data.  The tables that comprise the Vocabulary are
+#' @description This function loads the CDM Event tables with Synthea data.  The tables that comprise the Vocabulary are
 #'               loaded via \cr\code{LoadVocabTables()}.
 #'
 #' @usage LoadCDMTables (connectionDetails, cdmDatabaseSchema, syntheaDatabaseSchema)
 #'
-#' @details This function assumes \cr\code{createCDMTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()},
+#' @details This function assumes \cr\code{createEventTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()},
 #'              and \cr\code{LoadVocabTables()} have all been run.
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
