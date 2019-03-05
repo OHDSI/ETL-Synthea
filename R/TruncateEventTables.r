@@ -15,13 +15,13 @@
 #'@export
 
 
-TruncateNonVocabTables <- function (connectionDetails, cdmDatabaseSchema)
+TruncateEventTables <- function (connectionDetails, cdmDatabaseSchema)
 {
 
 
     pathToSql <- base::system.file("sql/sql_server", package = "ETLSyntheaBuilder")
 
-    sqlFile <- base::paste0(pathToSql, "/", "truncate_non_vocab_tables.sql")
+    sqlFile <- base::paste0(pathToSql, "/", "truncate_event_tables.sql")
 
     sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
 
@@ -29,7 +29,7 @@ TruncateNonVocabTables <- function (connectionDetails, cdmDatabaseSchema)
 
     translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
 
-    writeLines("Running truncate_non_vocab_tables.sql")
+    writeLines("Running truncate_event_tables.sql")
 	
 	conn <- DatabaseConnector::connect(connectionDetails) 
 	

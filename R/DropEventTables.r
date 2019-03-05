@@ -15,13 +15,13 @@
 #'@export
 
 
-DropCDMTables <- function (connectionDetails, cdmDatabaseSchema)
+DropEventTables <- function (connectionDetails, cdmDatabaseSchema)
 {
 
 
     pathToSql <- base::system.file("sql/sql_server", package = "ETLSyntheaBuilder")
 
-    sqlFile <- base::paste0(pathToSql, "/", "drop_cdm_tables.sql")
+    sqlFile <- base::paste0(pathToSql, "/", "drop_event_tables.sql")
 
     sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
 
@@ -29,7 +29,7 @@ DropCDMTables <- function (connectionDetails, cdmDatabaseSchema)
 
     translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
 
-    writeLines("Running drop_cdm_tables.sql")
+    writeLines("Running drop_event_tables.sql")
 	
 	conn <- DatabaseConnector::connect(connectionDetails) 
 	
