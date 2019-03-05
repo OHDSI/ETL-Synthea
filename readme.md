@@ -41,16 +41,16 @@ Use the bulk-load script (Linux), R package (within an R session), or WindowsLoa
 )
 
 ETLSyntheaBuilder::DropVocabTables(cd,"cdm_synthea10")
-ETLSyntheaBuilder::DropCDMTables(cd,"cdm_synthea10")
+ETLSyntheaBuilder::DropEventTables(cd,"cdm_synthea10")
 ETLSyntheaBuilder::DropSyntheaTables(cd,"native")
 ETLSyntheaBuilder::CreateVocabTables(cd,"cdm_synthea10")
-ETLSyntheaBuilder::CreateCDMTables(cd,"cdm_synthea10")
+ETLSyntheaBuilder::CreateEventTables(cd,"cdm_synthea10")
 ETLSyntheaBuilder::CreateSyntheaTables(cd,"native")
 ETLSyntheaBuilder::LoadSyntheaTables(cd,"native","/tmp/synthea/output/csv")
 ETLSyntheaBuilder::LoadVocabTables(cd,"cdm_synthea10","/tmp/Vocabulary_20181119")
 ETLSyntheaBuilder::CreateVocabMapTables(cd,"cdm_synthea10")
 ETLSyntheaBuilder::CreateVisitRollupTables(cd,"cdm_synthea10","native")
-ETLSyntheaBuilder::LoadCDMTables(cd,"cdm_synthea10","native")
+ETLSyntheaBuilder::LoadEventTables(cd,"cdm_synthea10","native")
 ```
 
 ### Step by Step Example (Windows command line)
