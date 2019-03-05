@@ -1,25 +1,16 @@
 
-if object_id('@cdm_schema.attribute_definition', 'U')  is not null drop table @cdm_schema.attribute_definition;
 if object_id('@cdm_schema.care_site', 'U')             is not null drop table @cdm_schema.care_site;
 if object_id('@cdm_schema.cdm_source', 'U')            is not null drop table @cdm_schema.cdm_source;
 if object_id('@cdm_schema.cohort', 'U')                is not null drop table @cdm_schema.cohort;
 if object_id('@cdm_schema.cohort_attribute', 'U')      is not null drop table @cdm_schema.cohort_attribute;
-if object_id('@cdm_schema.cohort_definition', 'U')     is not null drop table @cdm_schema.cohort_definition;
-if object_id('@cdm_schema.concept', 'U')               is not null drop table @cdm_schema.concept;
-if object_id('@cdm_schema.concept_ancestor', 'U')      is not null drop table @cdm_schema.concept_ancestor;
-if object_id('@cdm_schema.concept_class', 'U')         is not null drop table @cdm_schema.concept_class;
-if object_id('@cdm_schema.concept_relationship', 'U')  is not null drop table @cdm_schema.concept_relationship;
-if object_id('@cdm_schema.concept_synonym', 'U')       is not null drop table @cdm_schema.concept_synonym;
 if object_id('@cdm_schema.condition_era', 'U')         is not null drop table @cdm_schema.condition_era;
 if object_id('@cdm_schema.condition_occurrence', 'U')  is not null drop table @cdm_schema.condition_occurrence;
 if object_id('@cdm_schema.cost', 'U')                  is not null drop table @cdm_schema.cost;
 if object_id('@cdm_schema.death', 'U')                 is not null drop table @cdm_schema.death;
 if object_id('@cdm_schema.device_exposure', 'U')       is not null drop table @cdm_schema.device_exposure;
-if object_id('@cdm_schema.domain', 'U')                is not null drop table @cdm_schema.domain;
 if object_id('@cdm_schema.dose_era', 'U')              is not null drop table @cdm_schema.dose_era;
 if object_id('@cdm_schema.drug_era', 'U')              is not null drop table @cdm_schema.drug_era;
 if object_id('@cdm_schema.drug_exposure', 'U')         is not null drop table @cdm_schema.drug_exposure;
-if object_id('@cdm_schema.drug_strength', 'U')         is not null drop table @cdm_schema.drug_strength;
 if object_id('@cdm_schema.fact_relationship', 'U')     is not null drop table @cdm_schema.fact_relationship;
 if object_id('@cdm_schema.location', 'U')              is not null drop table @cdm_schema.location;
 if object_id('@cdm_schema.measurement', 'U')           is not null drop table @cdm_schema.measurement;
@@ -32,9 +23,6 @@ if object_id('@cdm_schema.payer_plan_period', 'U')     is not null drop table @c
 if object_id('@cdm_schema.person', 'U')                is not null drop table @cdm_schema.person;
 if object_id('@cdm_schema.procedure_occurrence', 'U')  is not null drop table @cdm_schema.procedure_occurrence;
 if object_id('@cdm_schema.provider', 'U')              is not null drop table @cdm_schema.provider;
-if object_id('@cdm_schema.relationship', 'U')          is not null drop table @cdm_schema.relationship;
-if object_id('@cdm_schema.source_to_concept_map', 'U') is not null drop table @cdm_schema.source_to_concept_map;
 if object_id('@cdm_schema.specimen', 'U')              is not null drop table @cdm_schema.specimen;
 if object_id('@cdm_schema.visit_detail', 'U')          is not null drop table @cdm_schema.visit_detail;
 if object_id('@cdm_schema.visit_occurrence', 'U')      is not null drop table @cdm_schema.visit_occurrence;
-if object_id('@cdm_schema.vocabulary', 'U')            is not null drop table @cdm_schema.vocabulary;

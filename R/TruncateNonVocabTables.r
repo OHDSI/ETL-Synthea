@@ -1,8 +1,8 @@
-#' @title Drop OMOP CDM Tables.
+#' @title Truncate Non-Vocabulary CDM Tables.
 #'
-#' @description This function drops CDM tables, excluding Vocabulary tables. 
+#' @description This function truncates CDM tables, excluding Vocabulary tables. 
 #'
-#' @usage DropCDMTables(connectionDetails,cdmDatabaseSchema)
+#' @usage TruncateCDMTables(connectionDetails,cdmDatabaseSchema)
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
@@ -15,13 +15,13 @@
 #'@export
 
 
-DropCDMTables <- function (connectionDetails, cdmDatabaseSchema)
+TruncateNonVocabTables <- function (connectionDetails, cdmDatabaseSchema)
 {
 
 
     pathToSql <- base::system.file("sql/sql_server", package = "ETLSyntheaBuilder")
 
-    sqlFile <- base::paste0(pathToSql, "/", "drop_cdm_tables.sql")
+    sqlFile <- base::paste0(pathToSql, "/", "truncate_non_vocab_tables.sql")
 
     sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
 
@@ -29,7 +29,7 @@ DropCDMTables <- function (connectionDetails, cdmDatabaseSchema)
 
     translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
 
-    writeLines("Running drop_cdm_tables.sql")
+    writeLines("Running truncate_non_vocab_tables.sql")
 	
 	conn <- DatabaseConnector::connect(connectionDetails) 
 	

@@ -1,40 +1,40 @@
-#' @title Drop OMOP CDM Tables.
+#' @title Create Vocabulary Tables.
 #'
-#' @description This function drops CDM tables, excluding Vocabulary tables. 
+#' @description This function creates only the Vocabulary tables.
 #'
-#' @usage DropCDMTables(connectionDetails,cdmDatabaseSchema)
+#' @usage CreateVocabTables(connectionDetails,vocabDatabaseSchema)
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
-#' @param cdmDatabaseSchema  The name of the database schema that contains the OMOP CDM
+#' @param vocabDatabaseSchema  The name of the database schema that will contain the Vocabulary
 #'                                     instance.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
-#'                                     so for example 'cdm_instance.dbo'.
+#'                                     so for example 'vocab_instance.dbo'.
 #'
 #'@export
 
 
-DropCDMTables <- function (connectionDetails, cdmDatabaseSchema)
+CreateVocabTables <- function (connectionDetails, vocabDatabaseSchema)
 {
 
 
     pathToSql <- base::system.file("sql/sql_server", package = "ETLSyntheaBuilder")
 
-    sqlFile <- base::paste0(pathToSql, "/", "drop_cdm_tables.sql")
+    sqlFile <- base::paste0(pathToSql, "/", "create_vocab_tables.sql")
 
     sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
 
-    renderedSql <- SqlRender::render(sqlQuery, cdm_schema = cdmDatabaseSchema)
+    renderedSql <- SqlRender::render(sqlQuery, vocab_schema = vocabDatabaseSchema)
 
     translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
 
-    writeLines("Running drop_cdm_tables.sql")
-	
-	conn <- DatabaseConnector::connect(connectionDetails) 
-	
+    writeLines("Running create_vocab_tables.sql")
+
+	conn <- DatabaseConnector::connect(connectionDetails)
+
     DatabaseConnector::dbExecute(conn, translatedSql, progressBar = TRUE, reportOverallTime = TRUE)
 
-    on.exit(DatabaseConnector::disconnect(conn)) 
-	
+    on.exit(DatabaseConnector::disconnect(conn))
+
 }

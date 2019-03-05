@@ -1,6 +1,6 @@
 #' @title Create OMOP CDM Tables.
 #'
-#' @description This function creates all OMOP CDM tables (empty).
+#' @description This function creates OMOP CDM tables, excluding vocabulary tables.
 #'
 #' @usage CreateCDMTables(connectionDetails,cdmDatabaseSchema)
 #'
@@ -11,13 +11,11 @@
 #'                                     instance.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
-#' @param vocabTableCreate Set to TRUE if the vocabulary tables should be created along with the event tables.
-#'                                     Default is FALSE.
 #'
 #'@export
 
 
-CreateCDMTables <- function (connectionDetails, cdmDatabaseSchema, vocabTableCreate = FALSE)
+CreateCDMTables <- function (connectionDetails, cdmDatabaseSchema)
 {
 
 
@@ -27,7 +25,7 @@ CreateCDMTables <- function (connectionDetails, cdmDatabaseSchema, vocabTableCre
 
     sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
 
-    renderedSql <- SqlRender::render(sqlQuery, cdm_schema = cdmDatabaseSchema, vocab_create = vocabTableCreate)
+    renderedSql <- SqlRender::render(sqlQuery, cdm_schema = cdmDatabaseSchema)
 
     translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
 
