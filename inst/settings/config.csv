@@ -1,0 +1,2 @@
+dbms,user,pw,server,port,raw_db,raw,cdm_db,cdm
+"postgresql","Epi_rds_write","~5H8Ey~vr1K3","rds-epidev.c9noqp7vjybh.us-east-1.rds.amazonaws.com",1433,"native","cdm_testing_nhanes","testing","cdm_testing_nhanes"

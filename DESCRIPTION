@@ -1,0 +1,24 @@
+Package: ETLSyntheaBuilder
+Type: Package
+Title: A Builder for Converting the Synthea Data to the OMOP CDM
+Version: 0.1.0
+Date: 2018-01-23
+Author: Anthony Molinaro [aut, cre],
+        Clair Blacketer [aut],
+        Frank DeFalco [aut]
+Maintainer: Anthony Molinaro <amolin19@its.jnj.com>
+Description: ETL and Builder to convert Synthea Data to the OMOP CDM.
+    Staring with csv files for an OMOP Vocabulary and csv files for Synthea,
+    this package creates database tables from these csv files and maps them
+    correctly to create a full functional OMOP CDM from Synthea.
+    This package assumes an RDBMS exists to which you have read/write access.
+License: Apache License 2.0
+VignetteBuilder: knitr
+Depends: 
+    DatabaseConnector
+Imports:
+    SqlRender,
+	data.table
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
