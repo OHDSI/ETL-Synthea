@@ -14,7 +14,7 @@ description: "Person mapping from patients.csv"
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
-| person_id |  |  |  |
+| person_id |  |  Autogenerate|  |
 | gender_concept_id | gender | When gender = 'M' then set gender_concept_id to 8507, when gender = 'F' then set to 8532| Drop any rows with missing/unknown gender. |
 | year_of_birth | birthdate | Take year from birthdate |  |
 | month_of_birth | birthdate | Take month from birthdate |  |
