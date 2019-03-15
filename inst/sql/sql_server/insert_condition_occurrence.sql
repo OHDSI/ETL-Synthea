@@ -21,7 +21,7 @@ condition_status_concept_id
 select
 row_number()over(order by p.person_id),
 p.person_id,
-srctostdvm.target_concept_id,
+case when srctostdvm.target_concept_id is null then 0 else srctostdvm.target_concept_id,
 c.start,
 c.start,
 c.stop,
@@ -34,15 +34,19 @@ cast(null as integer),
 0,
 c.code,
 (
-select srctosrcvm.source_concept_id
-   from @vocab_schema.source_to_source_vocab_map srctosrcvm
-  where srctosrcvm.source_code = c.code
-    and srctosrcvm.source_vocabulary_id  = 'SNOMED'
-),
+	select case when source_concept_id
+				 is null then 0 else source_concept_id
+	from (
+					select srctosrcvm.source_concept_id
+				   from @vocab_schema.source_to_source_vocab_map srctosrcvm
+				  where srctosrcvm.source_code = c.code
+				    and srctosrcvm.source_vocabulary_id  = 'SNOMED'
+	    )
+) ,
 NULL,
 0
 from @synthea_schema.conditions c
-join @vocab_schema.source_to_standard_vocab_map srctostdvm
+left join @vocab_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = c.code
  and srctostdvm.target_domain_id        = 'Condition'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
