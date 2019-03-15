@@ -18,7 +18,7 @@ modifier_source_value
 select
 row_number()over(order by p.person_id),
 p.person_id,
-srctostdvm.target_concept_id,
+case when srctostdvm.target_concept_id is NULL then 0 else srctostdvm.target_concept_id end as target_concept_id,
 pr.date,
 pr.date,
 38000275,
@@ -30,10 +30,13 @@ cast(null as integer),
 0,
 pr.code,
 (
-select srctosrcvm.source_concept_id
-   from @vocab_schema.source_to_source_vocab_map srctosrcvm
-  where srctosrcvm.source_code = pr.code
-    and srctosrcvm.source_vocabulary_id  = 'SNOMED'
+select case when source_concept_id is NULL then 0 else source_concept_id end as source_concept_id
+from (
+		select srctosrcvm.source_concept_id
+	   from @vocab_schema.source_to_source_vocab_map srctosrcvm
+	  where srctosrcvm.source_code = pr.code
+	    and srctosrcvm.source_vocabulary_id  = 'SNOMED'
+	    ) a
 ),
 NULL
 

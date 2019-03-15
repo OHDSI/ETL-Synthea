@@ -10,15 +10,15 @@ library("DatabaseConnector")
 
 connectionDetails <- DatabaseConnector::createConnectionDetails(
 									   dbms="postgresql",
-										 server="localhost/synthea10",
-										 user=Sys.getenv("postgresEC2User"),
-										 password= Sys.getenv("postgresEC2Pw"),
-										 port=5433
+										 server=Sys.getenv("postgresOhdsiServer"),
+										 user=Sys.getenv("postgresOhdsiUser"),
+										 password= Sys.getenv("postgresOhdsiPw"),
+										 port=5432
 )
 
 ## Assuming the raw data and vocabulary has been loaded, this will run the synthea cdm sql builder
 
-CreateCDMTables(connectionDetails, "cdm_lauren")
+CreateEventTables(connectionDetails, "cdm_lauren")
 
 CreateVocabMapTables(connectionDetails, "cdm_lauren")
 
