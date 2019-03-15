@@ -39,7 +39,7 @@ getTestSql <- function(connectionDetails) {
 }
 
 getTests <- function() {
-	#source('R/ConditionOccurrenceTests.R')
+	source('extras/ConditionTests.r')
 	#source('R/ConditionEraTests.R')
 	#source('R/CostTests.R')
 	#source('R/DeathTests.R')
@@ -48,15 +48,18 @@ getTests <- function() {
 	#source('R/DrugEraTests.R')
 	#source('R/LocationTests.R')
 	# source('R/MeasurementTests.R')
-	# source('R/ObservationPeriodTests.R')
-	# source('R/ObservationTests.R')
+	source('extras/ObservationPeriodTests.r')
+	# source('extras/ObservationTests.R')
 	# source('R/PayerPlanPeriodTests.R')
 	source('extras/PersonTests.r')
 	# source('R/ProcedureOccurrenceTests.R')
 	# source('R/ProviderTests.R')
-	# source('R/VisitOccurrenceTest.R')
+	source('extras/VisitTests.r')
 }
 
 createTests <- function() {
-	createPersonTests();
+	createPersonTests()
+	createConditionTests()
+	createObservationPeriodTests()
+	createVisitTests()
 }

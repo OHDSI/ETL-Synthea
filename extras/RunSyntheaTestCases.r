@@ -15,7 +15,7 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
 )
 
 ## STEP 0: Initialize an empty schema (if necessary)
-
+DropSyntheaTables(connectionDetails, "synthea_test")
 CreateSyntheaTables(connectionDetails, "synthea_test") #creating empty synthea tables
 CreateEventTables(connectionDetails, "synthea_test") #creating empty cdm tables
 
