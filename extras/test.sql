@@ -1,0 +1,8 @@
+IF OBJECT_ID('synthea_test.test_results', 'U') IS NOT NULL DROP TABLE synthea_test.test_results;
+CREATE TABLE synthea_test.test_results (id INT, description VARCHAR(512), test VARCHAR(256), status VARCHAR(5));
+-- 1: Drop patients with no gender, id is PERSON_SOURCE_VALUE
+INSERT INTO synthea_test.test_results SELECT 1 AS id, 'Drop patients with no gender, id is PERSON_SOURCE_VALUE' AS description, 'Expect person' AS test, CASE WHEN (SELECT COUNT(*) FROM synthea_test.person WHERE person_source_value = '1') != 0 THEN 'FAIL' ELSE 'PASS' END AS status;
+-- 2: Patient with unknown race has RACE_CONCEPT_ID = 0, id is PERSON_SOURCE_VALUE
+INSERT INTO synthea_test.test_results SELECT 2 AS id, 'Patient with unknown race has RACE_CONCEPT_ID = 0, id is PERSON_SOURCE_VALUE' AS description, 'Expect person' AS test, CASE WHEN (SELECT COUNT(*) FROM synthea_test.person WHERE race_concept_id = '0' AND person_source_value = '2') = 0 THEN 'FAIL' ELSE 'PASS' END AS status;
+-- 3: Patient with ethnicity other than hispanic has ETHNICITY_CONCEPT_ID = 0, id is PERSON_SOURCE_VALUE
+INSERT INTO synthea_test.test_results SELECT 3 AS id, 'Patient with ethnicity other than hispanic has ETHNICITY_CONCEPT_ID = 0, id is PERSON_SOURCE_VALUE' AS description, 'Expect person' AS test, CASE WHEN (SELECT COUNT(*) FROM synthea_test.person WHERE ethnicity_concept_id = '0' AND person_source_value = '3') = 0 THEN 'FAIL' ELSE 'PASS' END AS status;

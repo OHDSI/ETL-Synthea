@@ -1,0 +1,53 @@
+
+createVisitTests <- function () {
+
+	patient <- createPatient()
+	encounter1 <- createEncounter()
+	encounter2 <- createEncounter()
+	declareTest(id = patient$id, "Collapse IP claim lines with <= 1 day between them, id is PERSON_SOURCE_VALUE")
+	add_patients(id = patient$id)
+	add_encounters(id = encounter1$id, patient = patient$id, encounterclass = "inpatient", start = "2004-09-26", stop = "2004-09-27")
+	add_encounters(id = encounter2$id, patient = patient$id, encounterclass = "inpatient", start = "2004-09-27", stop = "2004-09-30")
+	expect_visit_occurrence(visit_start_date = "2004-09-26", visit_end_date = "2004-09-30", visit_concept_id = 9201)
+
+	patient <- createPatient()
+	encounter1 <- createEncounter()
+	encounter2 <- createEncounter()
+	declareTest(id = patient$id, "Collapse OP claims that occur within an IP visit, id is PERSON_SOURCE_VALUE")
+	add_patients(id = patient$id)
+	add_encounters(id = encounter1$id, patient = patient$id, encounterclass = "inpatient", start = "2009-03-01", stop = "2009-03-04")
+	add_encounters(id = encounter2$id, patient = patient$id, encounterclass = "outpatient", start = "2009-03-02", stop = "2009-03-02")
+	expect_visit_occurrence(visit_start_date="2009-03-01", visit_end_date="2009-03-04", visit_concept_id = 9201)
+	expect_no_visit_occurrence(visit_start_date = "2009-03-02", visit_concept_id = 9202)
+
+	patient <- createPatient()
+	encounter1 <- createEncounter()
+	encounter2 <- createEncounter()
+	declareTest(id = patient$id, "ER visit occurs on the first day of the IP visit, two visits created, id is PERSON_SOURCE_VALUE")
+	add_patients(id = patient$id)
+	add_encounters(id = encounter1$id, patient = patient$id, encounterclass = "inpatient", start = "2010-05-01", stop = "2010-05-04")
+	add_encounters(id = encounter2$id, patient = patient$id, encounterclass = "emergency", start = "2010-05-01", stop = "2010-05-01")
+	expect_visit_occurrence(visit_start_date = "2010-05-01", visit_end_date = "2010-05-04", visit_concept_id = 9201)
+	expect_visit_occurrence(visit_start_date = "2010-05-01", visit_end_date = "2010-05-01", visit_concept_id = 9203)
+
+	patient <- createPatient()
+	encounter1 <- createEncounter()
+	encounter2 <- createEncounter()
+	declareTest(id = patient$id, "OP visit starts before IP visit but ends during IP, two visits created, id is PERSON_SOURCE_VALUE")
+	add_patients(id = patient$id)
+	add_encounters(id = encounter1$id, patient = patient$id, encounterclass = "inpatient", start = "1990-03-06", stop = "1990-03-08")
+	add_encounters(id = encounter2$id, patient = patient$id, encounterclass = "ambulatory", start = "1990-03-05", stop = "1990-03-06")
+	expect_visit_occurrence(visit_start_date = "1990-03-06", visit_end_date = "1990-03-08", visit_concept_id = 9201)
+	expect_visit_occurrence(visit_start_date = "1990-03-05", visit_end_date = "1990-03-06", visit_concept_id = 9202)
+
+	patient <- createPatient()
+	encounter1 <- createEncounter()
+	encounter2 <- createEncounter()
+	declareTest(id = patient$id, "Two ER visits start on the same day, one visit created, id is PERSON_SOURCE_VALUE")
+	add_patients(id = patient$id)
+	add_encounters(id = encounter1$id, patient = patient$id, encounterclass = "emergency", start = "1994-11-24", stop = "1994-11-24")
+	add_encounters(id = encounter2$id, patient = patient$id, encounterclass = "urgentcare", start = "1994-11-24", stop = "1994-11-25")
+	expect_visit_occurrence(visit_start_date = "1994-11-24", visit_end_date = "1994-11-25", visit_concept_id = 9203)
+	expect_no_visit_occurrence(visit_start_date = "1994-11-24", visit_end_date = "1994-11-24", visit_concept_id = 9203)
+
+}
