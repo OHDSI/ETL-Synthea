@@ -37,7 +37,7 @@ https://github.com/OHDSI/ETL-Synthea/blob/master/ETL/SQL/AllVisitTable.sql
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
-| visit_occurrence_id |  |  |  |
+| visit_occurrence_id |  |Autogenerate  |  |
 | person_id | patient | Map by mapping person.person_source_value to patient.  Find person.person_id by mapping encouters.patient to person.person_source_value. |  |
 | visit_concept_id | encounterclass | case   when lower(encouterclass) = 'ambulatory' then 9202  when lower(encouterclass) = 'emergency' then 9203  when lower(encouterclass) = 'inpatient'     then 9201  when lower(encouterclass) = 'wellness'     then 9202  when lower(encouterclass) = 'urgentcare'  then 9203   when lower(encouterclass) = 'outpatient'   then 9202  else 0  end |  |
 | visit_start_date | start |  |  |
