@@ -14,22 +14,49 @@ getSequence <- function (startValue = 1) {
 
 sequencer <- getSequence()
 
+
 createPatient <- function() {
 	personId = sequencer$nextSequence();
 	return (list(id = personId));
 }
+
 
 createEncounter <- function() {
 	encounterId = sequencer$nextSequence();
 	return (list(id = encounterId));
 }
 
+
 ## Function to get insertsql statement
 getInsertSql <- function(connectionDetails) {
 	return(frameworkContext$insertSql);
 }
 
+
 ## Function to get testsql statement
 getTestSql <- function(connectionDetails) {
 	return(frameworkContext$testSql);
+}
+
+getTests <- function() {
+	#source('R/ConditionOccurrenceTests.R')
+	#source('R/ConditionEraTests.R')
+	#source('R/CostTests.R')
+	#source('R/DeathTests.R')
+	#source('R/DeviceExposureTests.R')
+	#source('R/DrugExposureTests.R')
+	#source('R/DrugEraTests.R')
+	#source('R/LocationTests.R')
+	# source('R/MeasurementTests.R')
+	# source('R/ObservationPeriodTests.R')
+	# source('R/ObservationTests.R')
+	# source('R/PayerPlanPeriodTests.R')
+	source('extras/PersonTests.r')
+	# source('R/ProcedureOccurrenceTests.R')
+	# source('R/ProviderTests.R')
+	# source('R/VisitOccurrenceTest.R')
+}
+
+createTests <- function() {
+	createPersonTests();
 }

@@ -13,7 +13,7 @@ initFramework <- function() {
   defaults$encounter <- 'c430e49d-9612-4ba0-92ec-70ab4afdcb5f'
   defaults$code <- '419474003'
   defaults$description <- 'Allergy to mould'
-  assign('allergies.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('allergies', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$id <- '906fceed-443f-4f59-acab-562f80c5cb44'
@@ -24,7 +24,7 @@ initFramework <- function() {
   defaults$description <- 'Respiratory therapy'
   defaults$reasoncode <- '10509002'
   defaults$reasondescription <- 'Acute bronchitis (disorder)'
-  assign('careplans.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('careplans', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$start <- '2017-12-26'
@@ -32,7 +32,7 @@ initFramework <- function() {
   defaults$encounter <- '50bbccc5-bb6b-4073-8244-045f10a28469'
   defaults$code <- '444814009'
   defaults$description <- 'Viral sinusitis (disorder)'
-  assign('conditions.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('conditions', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$id <- '8ead2604-2f95-4ecb-a898-8c29f74709fb'
@@ -43,7 +43,7 @@ initFramework <- function() {
   defaults$code <- '185349003'
   defaults$description <- 'Encounter for check up (procedure)'
   defaults$cost <- '129.16'
-  assign('encounters.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('encounters', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$id <- '26cd0a95-10a6-4a30-8af1-ebc602d39b72'
@@ -56,7 +56,7 @@ initFramework <- function() {
   defaults$modality_description <- 'Computed Tomography'
   defaults$sop_code <- '1.2.840.10008.5.1.4.1.1.2'
   defaults$sop_description <- 'CT Image Storage'
-  assign('imaging_studies.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('imaging_studies', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$date <- '2016-06-16'
@@ -65,7 +65,7 @@ initFramework <- function() {
   defaults$code <- '140'
   defaults$description <- 'Influenza  seasonal  injectable  preservative free'
   defaults$cost <- '140.52'
-  assign('immunizations.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('immunizations', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$start <- '2016-04-03'
@@ -76,7 +76,7 @@ initFramework <- function() {
   defaults$cost <- '263.49'
   defaults$dispenses <- '1'
   defaults$totalcost <- '3161.88'
-  assign('medications.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('medications', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$date <- '1986-06-20'
@@ -87,7 +87,7 @@ initFramework <- function() {
   defaults$value <- 'Never smoker'
   defaults$units <- 'mg/dL'
   defaults$type <- 'numeric'
-  assign('observations.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('observations', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$id <- 'e31a194d-e8b1-4e81-a511-5da4ad99f8c8'
@@ -105,7 +105,7 @@ initFramework <- function() {
   defaults$city <- 'Boston'
   defaults$state <- 'Massachusetts'
   defaults$zip <- '02108'
-  assign('patients.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('patients', defaults, envir = frameworkContext$defaultValues)
 
   defaults <- list()
   defaults$date <- '2018-02-27'
@@ -116,13 +116,13 @@ initFramework <- function() {
   defaults$cost <- '516.65'
   defaults$reasoncode <- '72892002'
   defaults$reasondescription <- 'Normal pregnancy'
-  assign('procedures.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('procedures', defaults, envir = frameworkContext$defaultValues)
 }
 
 initFramework()
 
-set_defaults_allergies.csv <- function(start, stop, patient, encounter, code, description) {
-  defaults <- get('allergies.csv', envir = frameworkContext$defaultValues)
+set_defaults_allergies <- function(start, stop, patient, encounter, code, description) {
+  defaults <- get('allergies', envir = frameworkContext$defaultValues)
   if (!missing(start)) {
     defaults$start <- start
   }
@@ -141,12 +141,12 @@ set_defaults_allergies.csv <- function(start, stop, patient, encounter, code, de
   if (!missing(description)) {
     defaults$description <- description
   }
-  assign('allergies.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('allergies', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
-set_defaults_careplans.csv <- function(id, start, stop, patient, encounter, code, description, reasoncode, reasondescription) {
-  defaults <- get('careplans.csv', envir = frameworkContext$defaultValues)
+set_defaults_careplans <- function(id, start, stop, patient, encounter, code, description, reasoncode, reasondescription) {
+  defaults <- get('careplans', envir = frameworkContext$defaultValues)
   if (!missing(id)) {
     defaults$id <- id
   }
@@ -174,12 +174,12 @@ set_defaults_careplans.csv <- function(id, start, stop, patient, encounter, code
   if (!missing(reasondescription)) {
     defaults$reasondescription <- reasondescription
   }
-  assign('careplans.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('careplans', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
-set_defaults_conditions.csv <- function(start, stop, patient, encounter, code, description) {
-  defaults <- get('conditions.csv', envir = frameworkContext$defaultValues)
+set_defaults_conditions <- function(start, stop, patient, encounter, code, description) {
+  defaults <- get('conditions', envir = frameworkContext$defaultValues)
   if (!missing(start)) {
     defaults$start <- start
   }
@@ -198,12 +198,12 @@ set_defaults_conditions.csv <- function(start, stop, patient, encounter, code, d
   if (!missing(description)) {
     defaults$description <- description
   }
-  assign('conditions.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('conditions', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
-set_defaults_encounters.csv <- function(id, start, stop, patient, encounterclass, code, description, cost, reasoncode, reasondescription) {
-  defaults <- get('encounters.csv', envir = frameworkContext$defaultValues)
+set_defaults_encounters <- function(id, start, stop, patient, encounterclass, code, description, cost, reasoncode, reasondescription) {
+  defaults <- get('encounters', envir = frameworkContext$defaultValues)
   if (!missing(id)) {
     defaults$id <- id
   }
@@ -234,12 +234,12 @@ set_defaults_encounters.csv <- function(id, start, stop, patient, encounterclass
   if (!missing(reasondescription)) {
     defaults$reasondescription <- reasondescription
   }
-  assign('encounters.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('encounters', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
-set_defaults_imaging_studies.csv <- function(id, date, patient, encounter, bodysite_code, bodysite_description, modality_code, modality_description, sop_code, sop_description) {
-  defaults <- get('imaging_studies.csv', envir = frameworkContext$defaultValues)
+set_defaults_imaging_studies <- function(id, date, patient, encounter, bodysite_code, bodysite_description, modality_code, modality_description, sop_code, sop_description) {
+  defaults <- get('imaging_studies', envir = frameworkContext$defaultValues)
   if (!missing(id)) {
     defaults$id <- id
   }
@@ -270,12 +270,12 @@ set_defaults_imaging_studies.csv <- function(id, date, patient, encounter, bodys
   if (!missing(sop_description)) {
     defaults$sop_description <- sop_description
   }
-  assign('imaging_studies.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('imaging_studies', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
-set_defaults_immunizations.csv <- function(date, patient, encounter, code, description, cost) {
-  defaults <- get('immunizations.csv', envir = frameworkContext$defaultValues)
+set_defaults_immunizations <- function(date, patient, encounter, code, description, cost) {
+  defaults <- get('immunizations', envir = frameworkContext$defaultValues)
   if (!missing(date)) {
     defaults$date <- date
   }
@@ -294,12 +294,12 @@ set_defaults_immunizations.csv <- function(date, patient, encounter, code, descr
   if (!missing(cost)) {
     defaults$cost <- cost
   }
-  assign('immunizations.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('immunizations', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
-set_defaults_medications.csv <- function(start, stop, patient, encounter, code, description, cost, dispenses, totalcost, reasoncode, reasondescription) {
-  defaults <- get('medications.csv', envir = frameworkContext$defaultValues)
+set_defaults_medications <- function(start, stop, patient, encounter, code, description, cost, dispenses, totalcost, reasoncode, reasondescription) {
+  defaults <- get('medications', envir = frameworkContext$defaultValues)
   if (!missing(start)) {
     defaults$start <- start
   }
@@ -333,12 +333,12 @@ set_defaults_medications.csv <- function(start, stop, patient, encounter, code, 
   if (!missing(reasondescription)) {
     defaults$reasondescription <- reasondescription
   }
-  assign('medications.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('medications', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
-set_defaults_observations.csv <- function(date, patient, encounter, code, description, value, units, type) {
-  defaults <- get('observations.csv', envir = frameworkContext$defaultValues)
+set_defaults_observations <- function(date, patient, encounter, code, description, value, units, type) {
+  defaults <- get('observations', envir = frameworkContext$defaultValues)
   if (!missing(date)) {
     defaults$date <- date
   }
@@ -363,12 +363,12 @@ set_defaults_observations.csv <- function(date, patient, encounter, code, descri
   if (!missing(type)) {
     defaults$type <- type
   }
-  assign('observations.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('observations', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
-set_defaults_patients.csv <- function(id, birthdate, deathdate, ssn, drivers, passport, prefix, first, last, suffix, maiden, marital, race, ethnicity, gender, birthplace, address, city, state, zip) {
-  defaults <- get('patients.csv', envir = frameworkContext$defaultValues)
+set_defaults_patients <- function(id, birthdate, deathdate, ssn, drivers, passport, prefix, first, last, suffix, maiden, marital, race, ethnicity, gender, birthplace, address, city, state, zip) {
+  defaults <- get('patients', envir = frameworkContext$defaultValues)
   if (!missing(id)) {
     defaults$id <- id
   }
@@ -429,12 +429,12 @@ set_defaults_patients.csv <- function(id, birthdate, deathdate, ssn, drivers, pa
   if (!missing(zip)) {
     defaults$zip <- zip
   }
-  assign('patients.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('patients', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
-set_defaults_procedures.csv <- function(date, patient, encounter, code, description, cost, reasoncode, reasondescription) {
-  defaults <- get('procedures.csv', envir = frameworkContext$defaultValues)
+set_defaults_procedures <- function(date, patient, encounter, code, description, cost, reasoncode, reasondescription) {
+  defaults <- get('procedures', envir = frameworkContext$defaultValues)
   if (!missing(date)) {
     defaults$date <- date
   }
@@ -459,57 +459,57 @@ set_defaults_procedures.csv <- function(date, patient, encounter, code, descript
   if (!missing(reasondescription)) {
     defaults$reasondescription <- reasondescription
   }
-  assign('procedures.csv', defaults, envir = frameworkContext$defaultValues)
+  assign('procedures', defaults, envir = frameworkContext$defaultValues)
   invisible(defaults)
 }
 
-get_defaults_allergies.csv <- function() {
-  defaults <- get('allergies.csv', envir = frameworkContext$defaultValues)
+get_defaults_allergies <- function() {
+  defaults <- get('allergies', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
-get_defaults_careplans.csv <- function() {
-  defaults <- get('careplans.csv', envir = frameworkContext$defaultValues)
+get_defaults_careplans <- function() {
+  defaults <- get('careplans', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
-get_defaults_conditions.csv <- function() {
-  defaults <- get('conditions.csv', envir = frameworkContext$defaultValues)
+get_defaults_conditions <- function() {
+  defaults <- get('conditions', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
-get_defaults_encounters.csv <- function() {
-  defaults <- get('encounters.csv', envir = frameworkContext$defaultValues)
+get_defaults_encounters <- function() {
+  defaults <- get('encounters', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
-get_defaults_imaging_studies.csv <- function() {
-  defaults <- get('imaging_studies.csv', envir = frameworkContext$defaultValues)
+get_defaults_imaging_studies <- function() {
+  defaults <- get('imaging_studies', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
-get_defaults_immunizations.csv <- function() {
-  defaults <- get('immunizations.csv', envir = frameworkContext$defaultValues)
+get_defaults_immunizations <- function() {
+  defaults <- get('immunizations', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
-get_defaults_medications.csv <- function() {
-  defaults <- get('medications.csv', envir = frameworkContext$defaultValues)
+get_defaults_medications <- function() {
+  defaults <- get('medications', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
-get_defaults_observations.csv <- function() {
-  defaults <- get('observations.csv', envir = frameworkContext$defaultValues)
+get_defaults_observations <- function() {
+  defaults <- get('observations', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
-get_defaults_patients.csv <- function() {
-  defaults <- get('patients.csv', envir = frameworkContext$defaultValues)
+get_defaults_patients <- function() {
+  defaults <- get('patients', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
-get_defaults_procedures.csv <- function() {
-  defaults <- get('procedures.csv', envir = frameworkContext$defaultValues)
+get_defaults_procedures <- function() {
+  defaults <- get('procedures', envir = frameworkContext$defaultValues)
   return(defaults)
 }
 
@@ -518,8 +518,8 @@ declareTest <- function(id, description) {
   frameworkContext$testDescription <- description
 }
 
-add_allergies.csv <- function(start, stop, patient, encounter, code, description) {
-  defaults <- get('allergies.csv', envir = frameworkContext$defaultValues)
+add_allergies <- function(start, stop, patient, encounter, code, description) {
+  defaults <- get('allergies', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(start)) {
@@ -570,13 +570,13 @@ add_allergies.csv <- function(start, stop, patient, encounter, code, description
     values <- c(values, if (is.null(description)) "NULL" else if (is(description, "subQuery")) paste0("(", as.character(description), ")") else paste0("'", as.character(description), "'"))
   }
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[allergies.csv]", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[allergies]", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
 
-add_careplans.csv <- function(id, start, stop, patient, encounter, code, description, reasoncode, reasondescription) {
-  defaults <- get('careplans.csv', envir = frameworkContext$defaultValues)
+add_careplans <- function(id, start, stop, patient, encounter, code, description, reasoncode, reasondescription) {
+  defaults <- get('careplans', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(id)) {
@@ -651,13 +651,13 @@ add_careplans.csv <- function(id, start, stop, patient, encounter, code, descrip
     values <- c(values, if (is.null(reasondescription)) "NULL" else if (is(reasondescription, "subQuery")) paste0("(", as.character(reasondescription), ")") else paste0("'", as.character(reasondescription), "'"))
   }
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[careplans.csv]", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[careplans]", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
 
-add_conditions.csv <- function(start, stop, patient, encounter, code, description) {
-  defaults <- get('conditions.csv', envir = frameworkContext$defaultValues)
+add_conditions <- function(start, stop, patient, encounter, code, description) {
+  defaults <- get('conditions', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(start)) {
@@ -708,13 +708,13 @@ add_conditions.csv <- function(start, stop, patient, encounter, code, descriptio
     values <- c(values, if (is.null(description)) "NULL" else if (is(description, "subQuery")) paste0("(", as.character(description), ")") else paste0("'", as.character(description), "'"))
   }
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[conditions.csv]", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[conditions]", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
 
-add_encounters.csv <- function(id, start, stop, patient, encounterclass, code, description, cost, reasoncode, reasondescription) {
-  defaults <- get('encounters.csv', envir = frameworkContext$defaultValues)
+add_encounters <- function(id, start, stop, patient, encounterclass, code, description, cost, reasoncode, reasondescription) {
+  defaults <- get('encounters', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(id)) {
@@ -797,13 +797,13 @@ add_encounters.csv <- function(id, start, stop, patient, encounterclass, code, d
     values <- c(values, if (is.null(reasondescription)) "NULL" else if (is(reasondescription, "subQuery")) paste0("(", as.character(reasondescription), ")") else paste0("'", as.character(reasondescription), "'"))
   }
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[encounters.csv]", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[encounters]", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
 
-add_imaging_studies.csv <- function(id, date, patient, encounter, bodysite_code, bodysite_description, modality_code, modality_description, sop_code, sop_description) {
-  defaults <- get('imaging_studies.csv', envir = frameworkContext$defaultValues)
+add_imaging_studies <- function(id, date, patient, encounter, bodysite_code, bodysite_description, modality_code, modality_description, sop_code, sop_description) {
+  defaults <- get('imaging_studies', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(id)) {
@@ -886,13 +886,13 @@ add_imaging_studies.csv <- function(id, date, patient, encounter, bodysite_code,
     values <- c(values, if (is.null(sop_description)) "NULL" else if (is(sop_description, "subQuery")) paste0("(", as.character(sop_description), ")") else paste0("'", as.character(sop_description), "'"))
   }
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[imaging_studies.csv]", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[imaging_studies]", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
 
-add_immunizations.csv <- function(date, patient, encounter, code, description, cost) {
-  defaults <- get('immunizations.csv', envir = frameworkContext$defaultValues)
+add_immunizations <- function(date, patient, encounter, code, description, cost) {
+  defaults <- get('immunizations', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(date)) {
@@ -943,13 +943,13 @@ add_immunizations.csv <- function(date, patient, encounter, code, description, c
     values <- c(values, if (is.null(cost)) "NULL" else if (is(cost, "subQuery")) paste0("(", as.character(cost), ")") else paste0("'", as.character(cost), "'"))
   }
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[immunizations.csv]", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[immunizations]", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
 
-add_medications.csv <- function(start, stop, patient, encounter, code, description, cost, dispenses, totalcost, reasoncode, reasondescription) {
-  defaults <- get('medications.csv', envir = frameworkContext$defaultValues)
+add_medications <- function(start, stop, patient, encounter, code, description, cost, dispenses, totalcost, reasoncode, reasondescription) {
+  defaults <- get('medications', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(start)) {
@@ -1040,13 +1040,13 @@ add_medications.csv <- function(start, stop, patient, encounter, code, descripti
     values <- c(values, if (is.null(reasondescription)) "NULL" else if (is(reasondescription, "subQuery")) paste0("(", as.character(reasondescription), ")") else paste0("'", as.character(reasondescription), "'"))
   }
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[medications.csv]", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[medications]", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
 
-add_observations.csv <- function(date, patient, encounter, code, description, value, units, type) {
-  defaults <- get('observations.csv', envir = frameworkContext$defaultValues)
+add_observations <- function(date, patient, encounter, code, description, value, units, type) {
+  defaults <- get('observations', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(date)) {
@@ -1113,13 +1113,13 @@ add_observations.csv <- function(date, patient, encounter, code, description, va
     values <- c(values, if (is.null(type)) "NULL" else if (is(type, "subQuery")) paste0("(", as.character(type), ")") else paste0("'", as.character(type), "'"))
   }
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[observations.csv]", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[observations]", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
 
-add_patients.csv <- function(id, birthdate, deathdate, ssn, drivers, passport, prefix, first, last, suffix, maiden, marital, race, ethnicity, gender, birthplace, address, city, state, zip) {
-  defaults <- get('patients.csv', envir = frameworkContext$defaultValues)
+add_patients <- function(id, birthdate, deathdate, ssn, drivers, passport, prefix, first, last, suffix, maiden, marital, race, ethnicity, gender, birthplace, address, city, state, zip) {
+  defaults <- get('patients', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(id)) {
@@ -1282,13 +1282,13 @@ add_patients.csv <- function(id, birthdate, deathdate, ssn, drivers, passport, p
     values <- c(values, if (is.null(zip)) "NULL" else if (is(zip, "subQuery")) paste0("(", as.character(zip), ")") else paste0("'", as.character(zip), "'"))
   }
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[patients.csv]", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[patients]", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
 
-add_procedures.csv <- function(date, patient, encounter, code, description, cost, reasoncode, reasondescription) {
-  defaults <- get('procedures.csv', envir = frameworkContext$defaultValues)
+add_procedures <- function(date, patient, encounter, code, description, cost, reasoncode, reasondescription) {
+  defaults <- get('procedures', envir = frameworkContext$defaultValues)
   fields <- c()
   values <- c()
   if (missing(date)) {
@@ -1355,7 +1355,7 @@ add_procedures.csv <- function(date, patient, encounter, code, description, cost
     values <- c(values, if (is.null(reasondescription)) "NULL" else if (is(reasondescription, "subQuery")) paste0("(", as.character(reasondescription), ")") else paste0("'", as.character(reasondescription), "'"))
   }
 
-  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[procedures.csv]", fields = fields, values = values)
+  inserts <- list(testId = frameworkContext$testId, testDescription = frameworkContext$testDescription, table = "[procedures]", fields = fields, values = values)
   frameworkContext$inserts[[length(frameworkContext$inserts) + 1]] <- inserts
   invisible(NULL)
 }
@@ -10594,16 +10594,16 @@ lookup_cohort_definition <- function(fetchField, cohort_definition_id, cohort_de
 
 generateInsertSql <- function(databaseSchema = NULL) {
   insertSql <- c()
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[allergies.csv];")
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[careplans.csv];")
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[conditions.csv];")
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[encounters.csv];")
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[imaging_studies.csv];")
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[immunizations.csv];")
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[medications.csv];")
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[observations.csv];")
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[patients.csv];")
-  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[procedures.csv];")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[allergies];")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[careplans];")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[conditions];")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[encounters];")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[imaging_studies];")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[immunizations];")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[medications];")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[observations];")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[patients];")
+  insertSql <- c(insertSql, "TRUNCATE TABLE @cdm_database_schema.[procedures];")
   createInsertStatement <- function(insert, env) {
     s <- c()
     if (env$testId != insert$testId) {
