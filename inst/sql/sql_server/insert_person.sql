@@ -25,9 +25,9 @@ select
 		when 'M' then 8507
 		when 'F' then 8532
 	end,
-	date_part('year', p.birthdate),
-	date_part('month', p.birthdate),
-	date_part('day', p.birthdate),
+	YEAR(p.birthdate),
+	MONTH(p.birthdate),
+	DAY(p.birthdate),
 	p.birthdate,
 	case upper(p.race)
 		when 'WHITE' then 8527
