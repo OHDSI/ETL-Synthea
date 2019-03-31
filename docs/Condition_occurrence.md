@@ -20,7 +20,7 @@ description: "Condition_occurrence mapping from conditions.csv"
 | condition_start_datetime | start |  |  |
 | condition_end_date | stop |  |  |
 | condition_end_datetime | stop |  |  |
-| condition_type_concept_id |  |  |  |
+| condition_type_concept_id |32020  |  |Set to 32020 (EHR Encounter Diagnosis) for all records  |
 | stop_reason |  |  |  |
 | provider_id |  |  |  |
 | visit_occurrence_id | encounter | Lookup visit_occurrence_id using encounter, joining to temp table defined in AllVisitTable.sql. |  |
