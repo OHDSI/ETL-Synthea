@@ -50,7 +50,7 @@ ETLSyntheaBuilder::LoadSyntheaTables(cd,"native","/tmp/synthea/output/csv")
 ETLSyntheaBuilder::LoadVocabTables(cd,"cdm_synthea10","/tmp/Vocabulary_20181119")
 ETLSyntheaBuilder::CreateVocabMapTables(cd,"cdm_synthea10")
 ETLSyntheaBuilder::CreateVisitRollupTables(cd,"cdm_synthea10","native")
-ETLSyntheaBuilder::LoadEventTables(cd,"cdm_synthea10","native")
+ETLSyntheaBuilder::LoadCDMTables(cd,"cdm_synthea10","native")
 ```
 
 ### Step by Step Example (Windows command line)
