@@ -18,23 +18,22 @@
 TruncateEventTables <- function (connectionDetails, cdmDatabaseSchema)
 {
 
+    eventTables <- c( 'care_site', 'cdm_source', 'cohort', 'cohort_attribute', 'condition_era', 'condition_occurrence', 'cost',
+                      'death', 'device_exposure', 'dose_era', 'drug_era', 'drug_exposure', 'fact_relationship', 'location',
+                      'measurement', 'metadata', 'note', 'note_nlp', 'observation', 'observation_period', 'payer_plan_period',
+                      'person', 'procedure_occurrence', 'provider', 'specimen', 'visit_detail', 'visit_occurrence' )
 
-    pathToSql <- base::system.file("sql/sql_server", package = "ETLSyntheaBuilder")
+    conn <- DatabaseConnector::connect(connectionDetails) 
 
-    sqlFile <- base::paste0(pathToSql, "/", "truncate_event_tables.sql")
-
-    sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
-
-    renderedSql <- SqlRender::render(sqlQuery, cdm_schema = cdmDatabaseSchema)
-
-    translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
-
-    writeLines("Running truncate_event_tables.sql")
+    writeLines("Truncating event tables...")
 	
-	conn <- DatabaseConnector::connect(connectionDetails) 
+    for (tableName in eventTables) {
+	  if (DatabaseConnector::dbExistsTable(conn = conn, name = tableName, schema = cdmDatabaseSchema)) { 
+	    writeLines(paste0("Truncating ",tableName))
+        DatabaseConnector::dbExecute(conn, paste0("truncate table ",cdmDatabaseSchema,".",tableName,";"))
+      }
+	}
 	
-    DatabaseConnector::dbExecute(conn, translatedSql, progressBar = TRUE, reportOverallTime = TRUE)
-
     on.exit(DatabaseConnector::disconnect(conn)) 
 	
 }
