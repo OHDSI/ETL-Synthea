@@ -3,7 +3,7 @@
 #' @description This function loads the CDM Event tables with Synthea data.  The tables that comprise the Vocabulary are
 #'               loaded via \cr\code{LoadVocabTables()}.
 #'
-#' @usage LoadCDMTables (connectionDetails, cdmDatabaseSchema, syntheaDatabaseSchema)
+#' @usage LoadEventTables (connectionDetails, cdmDatabaseSchema, syntheaDatabaseSchema)
 #'
 #' @details This function assumes \cr\code{createEventTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()},
 #'              and \cr\code{LoadVocabTables()} have all been run.
@@ -25,7 +25,7 @@
 #'@export
 
 
-LoadCDMTables <- function (connectionDetails, cdmDatabaseSchema, syntheaDatabaseSchema, vocabDatabaseSchema = cdmDatabaseSchema)
+LoadEventTables <- function (connectionDetails, cdmDatabaseSchema, syntheaDatabaseSchema, vocabDatabaseSchema = cdmDatabaseSchema)
 {
 
     queries <- c("insert_person.sql", "insert_observation_period.sql", "insert_visit_occurrence.sql", "insert_condition_occurrence.sql",
