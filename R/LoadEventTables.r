@@ -29,7 +29,7 @@ LoadEventTables <- function (connectionDetails, cdmDatabaseSchema, syntheaDataba
 {
 
     queries <- c("insert_person.sql", "insert_observation_period.sql", "insert_visit_occurrence.sql", "insert_condition_occurrence.sql",
-                 "insert_observation.sql", "insert_measurement.sql", "insert_procedure_occurrence.sql", "insert_drug_exposure.sql ",
+                 "insert_observation.sql", "insert_measurement.sql", "insert_procedure_occurrence.sql", "insert_drug_exposure.sql",
 				 "insert_condition_era.sql", "insert_drug_era.sql")
 
 	conn <- DatabaseConnector::connect(connectionDetails)
