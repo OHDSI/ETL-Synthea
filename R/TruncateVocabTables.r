@@ -18,23 +18,20 @@
 TruncateVocabTables <- function (connectionDetails, vocabDatabaseSchema)
 {
 
+  vocabTables <- c( 'attribute_definition', 'cohort_definition', 'concept', 'concept_ancestor', 'concept_class', 'concept_relationship', 
+                    'concept_synonym', 'domain', 'drug_strength', 'relationship', 'source_to_concept_map', 'vocabulary' )
 
-    pathToSql <- base::system.file("sql/sql_server", package = "ETLSyntheaBuilder")
+  conn <- DatabaseConnector::connect(connectionDetails) 
 
-    sqlFile <- base::paste0(pathToSql, "/", "truncate_vocab_tables.sql")
-
-    sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
-
-    renderedSql <- SqlRender::render(sqlQuery, vocab_schema = vocabDatabaseSchema)
-
-    translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
-
-    writeLines("Running truncate_vocab_tables.sql")
+  writeLines("Truncating vocabulary tables...")
 	
-	conn <- DatabaseConnector::connect(connectionDetails) 
+    for (tableName in vocabTables) {
+	  if (DatabaseConnector::dbExistsTable(conn = conn, name = tableName, schema = vocabDatabaseSchema)) { 
+	    writeLines(paste0("Truncating ",tableName))
+        DatabaseConnector::dbExecute(conn, paste0("truncate table ",vocabDatabaseSchema,".",tableName,";"))
+      }
+	}
 	
-    DatabaseConnector::dbExecute(conn, translatedSql, progressBar = TRUE, reportOverallTime = TRUE)
-
     on.exit(DatabaseConnector::disconnect(conn)) 
 	
 }

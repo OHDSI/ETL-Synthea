@@ -20,10 +20,10 @@ condition_source_concept_id,
 condition_status_source_value,
 condition_status_concept_id
 )
-select nextval('condition_occurrence_id_seq'),  
-p.person_id,                                   
-srctostdvm.target_concept_id,                      
-c.start,                                   
+select nextval('condition_occurrence_id_seq'),
+p.person_id,
+case when srctostdvm.target_concept_id is NULL then 0 else srctostdvm.target_concept_id end as target_concept_id,
+c.start,
 c.start,
 c.stop,
 c.stop,
@@ -35,15 +35,18 @@ cast(null as integer),
 0,
 c.code,
 (
-select srctosrcvm.source_concept_id
-   from source_to_source_vocab_map srctosrcvm
-  where srctosrcvm.source_code = c.code
-    and srctosrcvm.source_vocabulary_id  = 'SNOMED'
+	select case when source_concept_id is null then 0 else source_concept_id end as source_concept_id
+	from (
+		select srctosrcvm.source_concept_id
+	   from source_to_source_vocab_map srctosrcvm
+	  where srctosrcvm.source_code = c.code
+	    and srctosrcvm.source_vocabulary_id  = 'SNOMED'
+	    ) a
 ),
 NULL,
-0        
+0
 from conditions c
-join source_to_standard_vocab_map srctostdvm
+left join source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = c.code
  and srctostdvm.target_domain_id        = 'Condition'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'

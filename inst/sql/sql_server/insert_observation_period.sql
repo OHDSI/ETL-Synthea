@@ -11,11 +11,11 @@ select row_number()over(order by person_id),
        person_id,
 	   start_date,
 	   end_date,
-	   44814724 period_type_concept_id 
+	   44814724 period_type_concept_id
   from (
 select p.person_id,
        min(e.start) start_date,
-	   max(e.start) end_date
+	   max(e.stop) end_date
   from @cdm_schema.person p
   join @synthea_schema.encounters e
     on p.person_source_value = e.patient
