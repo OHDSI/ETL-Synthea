@@ -16,10 +16,10 @@ description: "Procedure_occurrence mapping from procedures.csv"
 | --- | --- | --- | --- |
 | procedure_occurrence_id |  |  |  |
 | person_id | patient | Map by mapping person.person_source_value to patient.  Find person.person_id by mapping encouters.patient to person.person_source_value. |  |
-| procedure_concept_id | code | Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP:    select ctvm.target_concept_id    from procedures pr     join cte_target_vocab_map ctvm       on ctvm.source_code              = pr.code     and ctvm.target_domain_id       = 'Procedure'     and ctvm.target_vocabulary_id = 'SNOMED' |  |
+| procedure_concept_id | code | Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP:    select ctvm.target_concept_id    from procedures pr     join cte_target_vocab_map ctvm       on ctvm.source_code              = pr.code     and ctvm.target_domain_id       = 'Procedure'     and ctvm.target_vocabulary_id = 'SNOMED'     and ctvm.target_invalid_reason is NULL     and ctvm.target_standard_concept = 'S' |  |
 | procedure_date | date |  |  |
-| procedure_datetime | date |  |  |
-| procedure_type_concept_id |  |  |  |
+| procedure_datetime | date | Use 00:00:00 as the time. |  |
+| procedure_type_concept_id |  |  | Use concept_id 38000275 for all records. |
 | modifier_concept_id |  |  |  |
 | quantity |  |  |  |
 | provider_id |  |  |  |
@@ -28,3 +28,4 @@ description: "Procedure_occurrence mapping from procedures.csv"
 | procedure_source_value | code |  |  |
 | procedure_source_concept_id | code | Use code to lookup source_concept_id in CTE_SOURCE_VOCAB_MAP:     select csvm.source_concept_id     from cte_source_vocab_map csvm      join procedures pr        on csvm.source_code                 = pr.code      and csvm.source_vocabulary_id  = 'SNOMED' |  |
 | modifier_source_value |  |  |  |
+

@@ -37,20 +37,21 @@ https://github.com/OHDSI/ETL-Synthea/blob/master/ETL/SQL/AllVisitTable.sql
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
-| visit_occurrence_id |  |Autogenerate  |  |
+| visit_occurrence_id |  |  |  |
 | person_id | patient | Map by mapping person.person_source_value to patient.  Find person.person_id by mapping encouters.patient to person.person_source_value. |  |
-| visit_concept_id | encounterclass | case   when lower(encouterclass) = 'ambulatory' then 9202  when lower(encouterclass) = 'emergency' then 9203  when lower(encouterclass) = 'inpatient'     then 9201  when lower(encouterclass) = 'wellness'     then 9202  when lower(encouterclass) = 'urgentcare'  then 9203   when lower(encouterclass) = 'outpatient'   then 9202  else 0  end |  |
+| visit_concept_id | encounterclass | When encounterclass is 'emergency' or 'urgentcare' then set to 9203. When encounterclass is 'ambulatory', 'wellness', or 'outpatient' then set to 9202. When encounterclass is 'inpatient' then set to 9201. Otherwise set to 0. |  |
 | visit_start_date | start |  |  |
 | visit_start_datetime | start |  |  |
 | visit_end_date | stop |  |  |
 | visit_end_datetime | stop |  |  |
-| visit_type_concept_id |  |  |  |
+| visit_type_concept_id |  |  |Set all records as concept_id 44818517.  |
 | provider_id |  |  |  |
 | care_site_id |  |  |  |
 | visit_source_value | encounterclass |  |  |
 | visit_source_concept_id |  |  |  |
-| admitting_source_concept_id |  |  |  |
-| admitting_source_value |  |  |  |
+| admitted_from_concept_id |  |  |  |
+| admitted_from_source_value |  |  |  |
 | discharge_to_concept_id |  |  |  |
 | discharge_to_source_value |  |  |  |
 | preceding_visit_occurrence_id |  |  |  |
+

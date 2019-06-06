@@ -14,14 +14,14 @@ description: "Drug_exposure mapping from conditions.csv, medications.csv, and im
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
 | drug_exposure_id |  |  |  |
-| person_id | patient | Map by mapping person.person_source_value to patient.  Find person.person_id by mapping encouters.patient to person.person_source_value. |  |
-| drug_concept_id | code | Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP:    select ctvm.target_concept_id    from medications m     join cte_target_vocab_map ctvm       on ctvm.source_code               = m.code     and ctvm.target_domain_id        = 'Drug'     and ctvm.target_vocabulary_id  = 'RxNorm' |  |
+| person_id | patient | Map by mapping person.person_source_value to patient.  Find person.person_id by mapping  medications.patient to person.person_source_value. |  |
+| drug_concept_id | code | Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP:    select ctvm.target_concept_id    from medications m     join cte_target_vocab_map ctvm       on ctvm.source_code               = m.code     and ctvm.target_domain_id        = 'Drug'     and ctvm.target_vocabulary_id  = 'RxNorm'     and ctvm.target_standard_concept = 'S'     and ctvm.target_invalid_reason is NULL |  |
 | drug_exposure_start_date | start |  |  |
-| drug_exposure_start_datetime | start |  |  |
-| drug_exposure_end_date | stop |  |  |
-| drug_exposure_end_datetime | stop |  |  |
-| verbatim_end_date |  |  |  |
-| drug_type_concept_id |  |  |  |
+| drug_exposure_start_datetime | start | Use 00:00:00 as the time. |  |
+| drug_exposure_end_date | stop  start |  |  |
+| drug_exposure_end_datetime | stop  start | Use 00:00:00 as the time. |  |
+| verbatim_end_date | stop |  |  |
+| drug_type_concept_id |  |  |Use the concept_id 581452 for all records from the immunizations and conditions tables and concept_id 38000177 for all records from the medications table.   |
 | stop_reason |  |  |  |
 | refills |  |  |  |
 | quantity |  |  |  |
@@ -33,7 +33,7 @@ description: "Drug_exposure mapping from conditions.csv, medications.csv, and im
 | visit_occurrence_id | encounter | Lookup visit_occurrence_id using encounter, joining to temp table defined in AllVisitTable.sql. |  |
 | visit_detail_id |  |  |  |
 | drug_source_value | code |  |  |
-| drug_source_concept_id | code | Use code to lookup target_concept_id in CTE_SOURCE_VOCAB_MAP:    select csvm.source_concept_id    from medications m     join cte_source_vocab_map csvm      on cvm.source_code                = m.code     and cvm.source_vocabulary_id = 'RxNorm' |  |
+| drug_source_concept_id | code | Use code to lookup target_concept_id in CTE_SOURCE_VOCAB_MAP:    select csvm.source_concept_id    from medications m     join cte_source_vocab_map csvm      on cvm.source_code                = m.code      and cvm.source_vocabulary_id = 'RxNorm' |  |
 | route_source_value |  |  |  |
 | dose_unit_source_value |  |  |  |
 
@@ -44,14 +44,14 @@ description: "Drug_exposure mapping from conditions.csv, medications.csv, and im
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
 | drug_exposure_id |  |  |  |
-| person_id | patient | Map by mapping person.person_source_value to patient.  Find person.person_id by mapping encouters.patient to person.person_source_value. |  |
-| drug_concept_id | code | Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP:    select ctvm.target_concept_id    from immunizations i     join cte_target_vocab_map ctvm       on ctvm.source_code               = i.code     and ctvm.target_domain_id        = 'Drug'     and ctvm.target_vocabulary_id = 'CVX' |  |
+| person_id | patient | Map by mapping person.person_source_value to patient.  Find person.person_id by mapping immunizations.patient to person.person_source_value. |  |
+| drug_concept_id | code | Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP:    select ctvm.target_concept_id    from immunizations i     join cte_target_vocab_map ctvm       on ctvm.source_code               = i.code     and ctvm.target_domain_id        = 'Drug'     and ctvm.target_vocabulary_id = 'CVX'     and ctvm.target_standard_concept = 'S'     and ctvm.target_invalid_reason is NULL |  |
 | drug_exposure_start_date | date |  |  |
-| drug_exposure_start_datetime | date |  |  |
+| drug_exposure_start_datetime | date | Use 00:00:00 as the time. |  |
 | drug_exposure_end_date | date |  |  |
-| drug_exposure_end_datetime | date |  |  |
+| drug_exposure_end_datetime | date | Use 00:00:00 as the time. |  |
 | verbatim_end_date | date |  |  |
-| drug_type_concept_id |  |  |  |
+| drug_type_concept_id |  |  | Use the concept_id 581452 for all records from the immunizations and conditions tables and concept_id 38000177 for all records from the medications table.  |
 | stop_reason |  |  |  |
 | refills |  |  |  |
 | quantity |  |  |  |
@@ -75,13 +75,13 @@ description: "Drug_exposure mapping from conditions.csv, medications.csv, and im
 | --- | --- | --- | --- |
 | drug_exposure_id |  |  |  |
 | person_id | patient | Map by mapping person.person_source_value to patient.  Find person.person_id by mapping encouters.patient to person.person_source_value. |  |
-| drug_concept_id | code | Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP:    select ctvm.target_concept_id    from conditions c     join cte_target_vocab_map ctvm       on ctvm.source_code              = c.code     and ctvm.target_domain_id       = 'Drug'     and ctvm.target_vocabulary_id = 'RxNorm' |  |
+| drug_concept_id | code | Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP:    select ctvm.target_concept_id    from conditions c     join cte_target_vocab_map ctvm       on ctvm.source_code              = c.code     and ctvm.target_domain_id       = 'Drug'     and ctvm.target_vocabulary_id = 'RxNorm'     and ctvm.target_standard_concept = 'S'     and ctvm.target_invalid_reason is NULL |  |
 | drug_exposure_start_date | start |  |  |
 | drug_exposure_start_datetime | start |  |  |
 | drug_exposure_end_date | stop |  |  |
 | drug_exposure_end_datetime | stop |  |  |
 | verbatim_end_date | stop |  |  |
-| drug_type_concept_id |  |  |  |
+| drug_type_concept_id |  |  | Use the concept_id 581452 for all records from the immunizations and conditions tables and concept_id 38000177 for all records from the medications table.  |
 | stop_reason |  |  |  |
 | refills |  |  |  |
 | quantity |  |  |  |
@@ -93,6 +93,6 @@ description: "Drug_exposure mapping from conditions.csv, medications.csv, and im
 | visit_occurrence_id | encounter | Lookup visit_occurrence_id using encounter, joining to temp table defined in AllVisitTable.sql. |  |
 | visit_detail_id |  |  |  |
 | drug_source_value | code |  |  |
-| drug_source_concept_id | code | Use code to lookup source_concept_id in CTE_SOURCE_VOCAB_MAP:     select csvm.source_concept_id     from cte_source_vocab_map csvm      join conditions c        on csvm.source_code                 = c.code      and csvm.source_vocabulary_id  = 'RxNorm' |  |
+| drug_source_concept_id | code | Use code to lookup source_concept_id in CTE_SOURCE_VOCAB_MAP:     select csvm.source_concept_id     from cte_source_vocab_map csvm      join conditions c        on csvm.source_code                 = c.code      and csvm.source_vocabulary_id  = 'SNOMED' |  |
 | route_source_value |  |  |  |
 | dose_unit_source_value |  |  |  |
