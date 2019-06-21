@@ -35,6 +35,7 @@ join @vocab_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = pr.code
  and srctostdvm.target_domain_id        = 'Procedure'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
+ and srctostdvm.source_vocabulary_id    = 'SNOMED'
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason IS NULL
 left join @vocab_schema.source_to_source_vocab_map srctosrcvm

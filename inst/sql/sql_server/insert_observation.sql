@@ -43,6 +43,7 @@ left join @vocab_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = a.code
  and srctostdvm.target_domain_id        = 'Observation'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
+ and srctostdvm.source_vocabulary_id    = 'SNOMED'
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason IS NULL
 left join @vocab_schema.source_to_source_vocab_map srctosrcvm
@@ -79,6 +80,7 @@ left join @vocab_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = c.code
  and srctostdvm.target_domain_id        = 'Observation'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
+ and srctostdvm.source_vocabulary_id    = 'SNOMED'
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason IS NULL
 left join @vocab_schema.source_to_source_vocab_map srctosrcvm
