@@ -86,9 +86,9 @@ PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_condition_era.sql" "postg
 echo "Loading drug_era"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_drug_era.sql" "postgresql://$USERNAME:$PASSWORD@$HOSTNAME/$DB" 
 
-# PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/cdm_v5.3.constraints_ddl.sql" "postgresql://$USERNAME:$PASSWORD@$HOSTNAME/$DB" 
-
 # PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/cdm_v5.3_indexes_ddl.sql" "postgresql://$USERNAME:$PASSWORD@$HOSTNAME/$DB" 
+
+# PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/cdm_v5.3_constraints_ddl.sql" "postgresql://$USERNAME:$PASSWORD@$HOSTNAME/$DB" 
 
 
 # TODO - Either create a staging schema for native Synthea tables or drop the Synthea tables after ETL complete
