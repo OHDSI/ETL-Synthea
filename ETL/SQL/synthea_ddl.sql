@@ -5,7 +5,7 @@ stop          date,
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
-description   varchar(100)
+description   varchar(255)
 );
 
 drop table if exists careplans;
@@ -16,9 +16,9 @@ stop          date,
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
-description   varchar(100),
-reason_code   varchar(100),
-reason_desc   varchar(100)
+description   varchar(255),
+reason_code   varchar(255),
+reason_desc   varchar(255)
 );
 
 drop table if exists conditions;
@@ -28,7 +28,7 @@ stop          date,
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
-description   varchar(100)
+description   varchar(255)
 );
 
 drop table if exists encounters;
@@ -40,10 +40,10 @@ patient       		varchar(1000),
 provider			varchar(1000),
 encounterclass		varchar(1000),
 code          		varchar(100),
-description   		varchar(100),
+description   		varchar(255),
 cost							numeric,
 reasoncode   			varchar(100),
-reasondescription varchar(100)
+reasondescription varchar(255)
 );
 
 drop table if exists immunizations;
@@ -52,7 +52,7 @@ create table immunizations (
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
-description   varchar(100),
+description   varchar(255),
 cost					numeric
 );
 
@@ -63,11 +63,11 @@ id			  varchar(1000),
 patient					varchar(1000),
 encounter				varchar(1000),
 bodysitecode			varchar(100),
-bodysitedescription		varchar(100),
+bodysitedescription		varchar(255),
 modalitycode			varchar(100),
-modalitydescription		varchar(100),
+modalitydescription		varchar(255),
 SOPcode					varchar(100),
-SOPdescription			varchar(100)
+SOPdescription			varchar(255)
 );
 
 drop table if exists medications;
@@ -82,7 +82,7 @@ cost					numeric,
 dispenses			int,
 totalcost			numeric,
 reasoncode   	varchar(100),
-reasondescription   varchar(100)
+reasondescription   varchar(255)
 );
 
 drop table if exists observations;
@@ -91,7 +91,7 @@ create table observations (
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
-description   varchar(100),
+description   varchar(255),
 value     		varchar(1000),
 units         varchar(100),
 type					varchar(100)
@@ -139,7 +139,7 @@ create table procedures (
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
-description   varchar(100),
+description   varchar(255),
 cost					numeric,
 reasoncode   varchar(100),
 reasondescription   varchar(100)
