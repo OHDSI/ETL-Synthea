@@ -2,7 +2,7 @@
 #'
 #' @description This function fetches (pruned) table data into R dataframes and writes them to a SQLite DB.
 #'
-#' @usage exportToSQLite(connectionDetails,cdmDatabaseSchema,vocabDatabaseSchema,SQLiteDbName = "cdm.sqlite",SQLiteFileLoc)
+#' @usage exportToSQLite(connectionDetails,cdmDatabaseSchema,vocabDatabaseSchema,SQLiteDbName = "cdm.sqlite")
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the

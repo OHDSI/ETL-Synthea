@@ -4,7 +4,7 @@
 \alias{exportToSQLite}
 \title{Export a CDM (Vocabulary and Event tables) into a SQLite Database.}
 \usage{
-exportToSQLite(connectionDetails,cdmDatabaseSchema,vocabDatabaseSchema,SQLiteDbName = "cdm.sqlite",SQLiteFileLoc)
+exportToSQLite(connectionDetails,cdmDatabaseSchema,vocabDatabaseSchema,SQLiteDbName = "cdm.sqlite")
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
