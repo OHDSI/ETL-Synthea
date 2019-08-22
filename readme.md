@@ -13,7 +13,7 @@ Use the bulk-load script (Linux), R package (within an R session), or WindowsLoa
 
   3. Load and convert Synthea CSV data to an OMOP CDM using ./bulk-load:
 ```
-./bulk-load synthea10 native cdm_synthea10 postgres lollipop /tmp/synthea/output/csv /tmp/Vocabulary_20181119
+./bulk-load synthea10 localhost native cdm_synthea10 postgres lollipop /tmp/synthea/output/csv /tmp/Vocabulary_20181119
 ```
  The example above loads into a PostgreSQL database called synthea10.  The schema to load the Synthea tables is native.
  The schema to load the Vocabulary tables is cdm_synthea10.  The username and pw are postgres and lollipop.

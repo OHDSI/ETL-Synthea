@@ -39,8 +39,9 @@ cat(file="extras/test.sql", paste(generateTestSql(databaseSchema = paste("synthe
 conn <- connect(connectionDetails)
 
 insertSql <- SqlRender::readSql("extras/insert.sql")
-renderedSql <- render(sql = insertSql)$sql
-executeSql(conn, renderedSql)
+renderedSql <- render(sql = insertSql)
+translateSql <- translate(renderedSql, targetDialect = "postgresql")
+executeSql(conn, translateSql)
 
 # STEP 5: Take a break, run builder externally
 #               .--.
