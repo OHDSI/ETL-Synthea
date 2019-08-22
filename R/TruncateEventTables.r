@@ -1,6 +1,6 @@
 #' @title Truncate Non-Vocabulary CDM Tables.
 #'
-#' @description This function truncates CDM tables, excluding Vocabulary tables. 
+#' @description This function truncates CDM tables, excluding Vocabulary tables.
 #'
 #' @usage TruncateCDMTables(connectionDetails,cdmDatabaseSchema)
 #'
@@ -17,24 +17,8 @@
 
 TruncateEventTables <- function (connectionDetails, cdmDatabaseSchema)
 {
-
-
-    pathToSql <- base::system.file("sql/sql_server", package = "ETLSyntheaBuilder")
-
-    sqlFile <- base::paste0(pathToSql, "/", "truncate_event_tables.sql")
-
-    sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
-
-    renderedSql <- SqlRender::render(sqlQuery, cdm_schema = cdmDatabaseSchema)
-
-    translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
-
-    writeLines("Running truncate_event_tables.sql")
-	
-	conn <- DatabaseConnector::connect(connectionDetails) 
-	
-    DatabaseConnector::dbExecute(conn, translatedSql, progressBar = TRUE, reportOverallTime = TRUE)
-
-    on.exit(DatabaseConnector::disconnect(conn)) 
-	
+	sql <- SqlRender::loadRenderTranslateSql("truncate_event_tables.sql", "ETLSyntheaBuilder", dbms = connectionDetails$dbms, cdm_schema = cdmDatabaseSchema)
+	conn <- DatabaseConnector::connect(connectionDetails)
+	DatabaseConnector::dbExecute(conn, sql, progressBar = TRUE, reportOverallTime = TRUE)
+  on.exit(DatabaseConnector::disconnect(conn))
 }

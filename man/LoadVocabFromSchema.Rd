@@ -11,12 +11,12 @@ LoadVocabFromSchema(connectionDetails, fromCdmSchema, toCdmSchema)
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
-\item{vocabSourceSchema}{The name of the database schema that already contains the Vocabulary 
+\item{vocabSourceSchema}{The name of the database schema that already contains the Vocabulary
 tables to copy.  Requires read permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
-\item{vocabTargetSchema}{The name of the database schema into which to copy the Vocabulary 
+\item{vocabTargetSchema}{The name of the database schema into which to copy the Vocabulary
 tables.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
