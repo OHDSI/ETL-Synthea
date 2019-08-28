@@ -60,7 +60,7 @@ on srctostdvm.source_code             = c.code
  and srctostdvm.target_invalid_reason IS NULL
 left join @vocab_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = c.code
- and srctosrcvm.source_vocabulary_id    = 'SNOMED'
+ and srctosrcvm.source_vocabulary_id    = 'RxNorm'
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id = c.encounter
 join @cdm_schema.person p
