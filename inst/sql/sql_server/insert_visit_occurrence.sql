@@ -44,8 +44,6 @@ select
 	NULL,
 	0,                                
 	NULL,   
-	0,
-	NULL,
 	lag(visit_occurrence_id) 
 	 over(partition by p.person_id
 			  order by av.visit_start_date)

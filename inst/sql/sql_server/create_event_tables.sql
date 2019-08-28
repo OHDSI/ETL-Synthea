@@ -154,8 +154,8 @@ CREATE TABLE @cdm_schema.visit_occurrence
   care_site_id					BIGINT			NULL,
   visit_source_value			VARCHAR(50)		NULL,
   visit_source_concept_id		INTEGER			NOT NULL ,
-  admitted_from_concept_id      INTEGER     	NOT NULL ,   
-  admitted_from_source_value    VARCHAR(50) 	NULL ,
+  admitting_source_concept_id	INTEGER			NULL ,
+  admitting_source_value		VARCHAR(50)	    NULL ,
   discharge_to_source_value		VARCHAR(50)		NULL ,
   discharge_to_concept_id		INTEGER   		NOT NULL ,
   preceding_visit_occurrence_id	BIGINT 			NULL
