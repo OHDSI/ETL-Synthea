@@ -359,29 +359,27 @@ if object_id('@cdm_schema.observation', 'U')  is not null drop table @cdm_schema
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.observation
 (
-  observation_id					BIGINT			NOT NULL ,
-  person_id						    BIGINT			NOT NULL ,
-  observation_concept_id			INTEGER			NOT NULL ,
-  observation_date				    DATE			NULL ,
-  observation_datetime				TIMESTAMP		NOT NULL ,
-  observation_type_concept_id	    INTEGER			NOT NULL ,
-  value_as_number				    NUMERIC			NULL ,
-  value_as_string				    VARCHAR(60)		NULL ,
-  value_as_concept_id			    INTEGER			NULL ,
-  qualifier_concept_id			    INTEGER			NULL ,
-  unit_concept_id				    INTEGER			NULL ,
-  provider_id					    BIGINT			NULL ,
-  visit_occurrence_id			    BIGINT			NULL ,
-  visit_detail_id               	BIGINT      	NULL ,
-  observation_source_value		  	VARCHAR(50)		NULL ,
-  observation_source_concept_id		INTEGER			NOT NULL ,
-  unit_source_value				    VARCHAR(50)		NULL ,
-  qualifier_source_value			VARCHAR(50)		NULL ,
-  observation_event_id				BIGINT			NULL , 
-  obs_event_field_concept_id		INTEGER			NOT NULL , 
-  value_as_datetime					TIMESTAMP		NULL
+  observation_id				INTEGER			NOT NULL ,
+  person_id						INTEGER			NOT NULL ,
+  observation_concept_id		INTEGER			NOT NULL ,
+  observation_date				DATE			NOT NULL ,
+  observation_datetime			TIMESTAMP		NULL ,
+  observation_type_concept_id	INTEGER			NOT NULL ,
+  value_as_number				NUMERIC			NULL ,
+  value_as_string				VARCHAR(60)	    NULL ,
+  value_as_concept_id			INTEGER			NULL ,
+  qualifier_concept_id			INTEGER			NULL ,
+  unit_concept_id				INTEGER			NULL ,
+  provider_id					INTEGER			NULL ,
+  visit_occurrence_id			INTEGER			NULL ,
+  visit_detail_id               INTEGER         NULL ,
+  observation_source_value		VARCHAR(50)	    NULL ,
+  observation_source_concept_id	INTEGER			NULL ,
+  unit_source_value				VARCHAR(50)	    NULL ,
+  qualifier_source_value		VARCHAR(50)	    NULL
 )
 ;
+
 
 if object_id('@cdm_schema.survey_conduct', 'U')  is not null drop table @cdm_schema.survey_conduct;
 --HINT DISTRIBUTE ON KEY(person_id)
