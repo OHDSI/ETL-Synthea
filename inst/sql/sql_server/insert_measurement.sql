@@ -23,27 +23,47 @@ measurement_source_concept_id,
 unit_source_value,
 value_source_value
 )
+select row_number()over(order by person_id) measurement_id,
+person_id,
+measurement_concept_id,
+measurement_date,
+measurement_datetime,
+measurement_time,
+measurement_type_concept_id,
+operator_concept_id,
+value_as_number,
+value_as_concept_id,
+unit_concept_id,
+range_low,
+range_high,
+provider_id,
+visit_occurrence_id,
+visit_detail_id,
+measurement_source_value,
+measurement_source_concept_id,
+unit_source_value,
+value_source_value
+from (
 select
-  row_number()over(order by p.person_id),
   p.person_id,
-  case when srctostdvm.target_concept_id is NULL then 0 else srctostdvm.target_concept_id end as target_concept_id,
-  pr.date,
-  pr.date,
-  pr.date,
-  5001,
-  0,
-  cast(null as float),
-  0,
-  0,
-  cast(null as float),
-  cast(null as float),
-  0,
+  case when srctostdvm.target_concept_id is NULL then 0 else srctostdvm.target_concept_id end as measurement_concept_id,
+  pr.date measurement_date,
+  pr.date measurement_datetime,
+  pr.date measurement_time,
+  5001 measurement_type_concept_id,
+  0 operator_concept_id,
+  cast(null as float) value_as_number,
+  0 value_as_concept_id,
+  0 unit_concept_id,
+  cast(null as float) range_low,
+  cast(null as float) range_high,
+  0 provider_id,
   fv.visit_occurrence_id_new visit_occurrence_id,
-  0,
-  pr.code,
-  coalesce(srctosrcvm.source_concept_id,0),
-  cast(null as varchar),
-  cast(null as varchar)
+  0 visit_detail_id,
+  pr.code measurement_source_value,
+  coalesce(srctosrcvm.source_concept_id,0) measurement_source_concept_id,
+  cast(null as varchar) unit_source_value,
+  cast(null as varchar) value_source_value
 from @synthea_schema.procedures pr
   left join @vocab_schema.source_to_standard_vocab_map  srctostdvm
 on srctostdvm.source_code             = pr.code
@@ -61,7 +81,6 @@ join @cdm_schema.person p
   on p.person_source_value              = pr.patient
 union all
 select
-  row_number()over(order by p.person_id),
   p.person_id,
   case when srctostdvm.target_concept_id is NULL then 0 else srctostdvm.target_concept_id end as target_concept_id,
   o.date,
@@ -95,5 +114,6 @@ left join @vocab_schema.source_to_source_vocab_map srctosrcvm
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id                    = o.encounter
 join @cdm_schema.person p
-  on p.person_source_value              = o.patient;
+  on p.person_source_value              = o.patient
+  ) tmp;
   
