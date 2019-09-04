@@ -65,7 +65,7 @@ select
   cast(null as varchar) unit_source_value,
   cast(null as varchar) value_source_value
 from @synthea_schema.procedures pr
-  left join @vocab_schema.source_to_standard_vocab_map  srctostdvm
+left join @vocab_schema.source_to_standard_vocab_map  srctostdvm
 on srctostdvm.source_code             = pr.code
  and srctostdvm.target_domain_id        = 'Measurement'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
@@ -90,7 +90,7 @@ select
   0,
   cast(null as float),
   0,
-  0,
+  case when map1.target_concept_id is NULL then 0 else map1.target_concept_id end as unit_concept_id,
   cast(null as float),
   cast(null as float),
   0,
@@ -98,16 +98,18 @@ select
   0,
   o.code,
   coalesce(srctosrcvm.source_concept_id,0),
-  cast(null as varchar),
+  o.units,
   cast(null as varchar)
 from @synthea_schema.observations o
-  left join @vocab_schema.source_to_standard_vocab_map  srctostdvm
-on srctostdvm.source_code             = o.code
+left join @vocab_schema.source_to_standard_vocab_map  srctostdvm
+  on srctostdvm.source_code             = o.code
  and srctostdvm.target_domain_id        = 'Measurement'
  and srctostdvm.target_vocabulary_id    = 'LOINC'
  and srctostdvm.source_vocabulary_id    = 'LOINC'
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason IS NULL
+left join @vocab_schema.source_to_standard_vocab_map  map1
+  on map1.source_code                   = o.units
 left join @vocab_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = o.code
  and srctosrcvm.source_vocabulary_id    = 'LOINC'
