@@ -42,12 +42,17 @@ LoadSyntheaTables <- function (connectionDetails, syntheaDatabaseSchema, synthea
 		
 		writeLines(paste0("Loading: ",csv))
 	
-        # experiencing weird errors on pdw due to CODE and/or REASONCODE being created as an integer64
+        # experiencing type conversion errors and need to explicitly case some columns
 
-		if("CODE" %in% colnames(syntheaTable))         syntheaTable$CODE         <- as.character(syntheaTable$CODE)
-		if("REASONCODE" %in% colnames(syntheaTable))   syntheaTable$REASONCODE   <- as.character(syntheaTable$REASONCODE)
-        if("PHONE" %in% colnames(syntheaTable))        syntheaTable$PHONE        <- as.character(syntheaTable$PHONE)
-        if("UTILIZATION" %in% colnames(syntheaTable))  syntheaTable$UTILIZATION  <- as.character(syntheaTable$UTILIZATION)
+        if("START"       %in% colnames(syntheaTable))  syntheaTable$START        <- as.Date(syntheaTable$START,format="%Y-%m-%d")
+        if("STOP"        %in% colnames(syntheaTable))  syntheaTable$STOP         <- as.Date(syntheaTable$STOP,format="%Y-%m-%d")
+        if("DATE"        %in% colnames(syntheaTable))  syntheaTable$DATE         <- as.Date(syntheaTable$DATE,format="%Y-%m-%d")
+        if("BIRTHDATE"   %in% colnames(syntheaTable))  syntheaTable$BIRTHDATE    <- as.Date(syntheaTable$BIRTHDATE,format="%Y-%m-%d")
+        if("DEATHDATE"   %in% colnames(syntheaTable))  syntheaTable$DEATHDATE    <- as.Date(syntheaTable$DEATHDATE,format="%Y-%m-%d")
+		if("CODE"        %in% colnames(syntheaTable))  syntheaTable$CODE         <- as.character(syntheaTable$CODE)
+		if("REASONCODE"  %in% colnames(syntheaTable))  syntheaTable$REASONCODE   <- as.character(syntheaTable$REASONCODE)
+        if("PHONE"       %in% colnames(syntheaTable))  syntheaTable$PHONE        <- as.character(syntheaTable$PHONE)
+        if("UTILIZATION" %in% colnames(syntheaTable))  syntheaTable$UTILIZATION  <- as.numeric(syntheaTable$UTILIZATION)
 
 		
 	    DatabaseConnector::insertTable(conn,paste0(syntheaDatabaseSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(syntheaTable), dropTableIfExists = FALSE, createTable = FALSE, progressBar = TRUE)
