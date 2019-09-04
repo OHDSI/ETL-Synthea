@@ -31,8 +31,8 @@ select
   coalesce(srctosrcvm.source_concept_id,0),
   NULL
 from @synthea_schema.procedures pr
-  join @vocab_schema.source_to_standard_vocab_map  srctostdvm
-on srctostdvm.source_code             = pr.code
+left join @vocab_schema.source_to_standard_vocab_map  srctostdvm
+  on srctostdvm.source_code             = pr.code
  and srctostdvm.target_domain_id        = 'Procedure'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
  and srctostdvm.source_vocabulary_id    = 'SNOMED'
