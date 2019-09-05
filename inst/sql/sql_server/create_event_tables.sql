@@ -307,7 +307,7 @@ CREATE TABLE @cdm_schema.measurement
   measurement_source_value		VARCHAR(50)		NULL ,
   measurement_source_concept_id	INTEGER			NOT NULL ,
   unit_source_value				VARCHAR(50)		NULL ,
-  value_source_value			VARCHAR(50)		NULL
+  value_source_value			VARCHAR(100)	NULL
 )
 ;
 
