@@ -39,10 +39,13 @@ start         		date,
 stop			    date,
 patient       		varchar(1000),
 provider			varchar(1000),
+payer			varchar(1000),
 encounterclass		varchar(1000),
 code          		varchar(100),
 description   		varchar(100),
-cost				numeric,
+base_encounter_cost				numeric,
+total_claim_cost				numeric,
+payer_coverage				numeric,
 reasoncode   		varchar(100),
 reasondescription   varchar(100)
 );
@@ -68,7 +71,7 @@ patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
 description   varchar(100),
-cost		  numeric
+base_cost		  numeric
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
@@ -76,10 +79,12 @@ create table @synthea_schema.medications (
 start               date,
 stop                date,
 patient             varchar(1000),
+payer               varchar(1000),
 encounter           varchar(1000),
 code                varchar(100),
 description         varchar(1000),
-cost		        numeric,
+base_cost		        numeric,
+payer_coverage		  numeric,
 dispenses	        int,
 totalcost	        numeric,
 reasoncode   	    varchar(100),
@@ -106,7 +111,10 @@ address       varchar(1000),
 city		  varchar(100),
 state     	  varchar(100),
 zip           varchar(100),
+lat	        numeric,
+lon	        numeric,
 phone		  varchar(100),
+revenue	        numeric,
 utilization	  varchar(100)
 );
 
@@ -131,7 +139,12 @@ birthplace    varchar(100),
 address       varchar(100),
 city		  varchar(100),
 state		  varchar(100),
-zip			  varchar(100)
+county		  varchar(100),
+zip			  varchar(100),
+lat	        numeric,
+lon	        numeric,
+healthcare_expenses	        numeric,
+healthcare_coverage	        numeric
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
@@ -139,11 +152,11 @@ create table @synthea_schema.procedures (
 "date"              date,
 patient             varchar(1000),
 encounter           varchar(1000),
-code                varchar(100),
-description         varchar(100),
-cost			    numeric,
-reasoncode          varchar(100),
-reasondescription   varchar(100)
+code                varchar(1000),
+description         varchar(1000),
+base_cost			    numeric,
+reasoncode          varchar(1000),
+reasondescription   varchar(1000)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
@@ -157,5 +170,7 @@ address       varchar(100),
 city          varchar(100),
 state         varchar(100),
 zip           varchar(100),
+lat	        numeric,
+lon	        numeric,
 utilization   numeric
 );
