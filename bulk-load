@@ -47,41 +47,41 @@ echo "creating visit logic tables..."
 
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/AllVisitTable.sql" $CONN_STRING
 
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/AAVITable.sql" $CONN_STRING
+PGOPTIONS="--search_path=$CDM,$NATIVE" psql -f "ETL/SQL/AAVITable.sql" $CONN_STRING
 
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/final_visit_ids.sql" $CONN_STRING
+PGOPTIONS="--search_path=$CDM,$NATIVE" psql -f "ETL/SQL/final_visit_ids.sql" $CONN_STRING
 
 echo "Performing ETL"
 
 # echo "Loading location"
-# PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_location.sql" $CONN_STRING 
+# PGOPTIONS="--search_path=$CDM,$NATIVE" psql -f "ETL/SQL/insert_location.sql" $CONN_STRING 
 
 echo "Loading person"
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_person.sql" $CONN_STRING 
+PGOPTIONS="--search_path=$CDM,$NATIVE" psql -f "ETL/SQL/insert_person.sql" $CONN_STRING 
 
 # echo "Loading death"
-# PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_death.sql" $CONN_STRING 
+# PGOPTIONS="--search_path=$CDM,$NATIVE" psql -f "ETL/SQL/insert_death.sql" $CONN_STRING 
 
 echo "Loading observation_period"
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_observation_period.sql" $CONN_STRING 
+PGOPTIONS="--search_path=$CDM,$NATIVE" psql -f "ETL/SQL/insert_observation_period.sql" $CONN_STRING 
 
 echo "Loading visit_occurrence"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_visit_occurrence.sql" $CONN_STRING 
 
 echo "Loading observation"
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_observation.sql" $CONN_STRING 
+PGOPTIONS="--search_path=$CDM,$NATIVE" psql -f "ETL/SQL/insert_observation.sql" $CONN_STRING 
 
 echo "Loading condition_occurrence"
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_condition_occurrence.sql" $CONN_STRING 
+PGOPTIONS="--search_path=$CDM,$NATIVE" psql -f "ETL/SQL/insert_condition_occurrence.sql" $CONN_STRING 
 
 echo "Loading procedure_occurrence"
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_procedure_occurrence.sql" $CONN_STRING 
+PGOPTIONS="--search_path=$CDM,$NATIVE" psql -f "ETL/SQL/insert_procedure_occurrence.sql" $CONN_STRING 
 
 echo "Loading measurement"
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_measurement.sql" $CONN_STRING 
+PGOPTIONS="--search_path=$CDM,$NATIVE" psql -f "ETL/SQL/insert_measurement.sql" $CONN_STRING 
 
 echo "Loading drug exposure"
-PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_drug_exposure.sql" $CONN_STRING 
+PGOPTIONS="--search_path=$CDM,$NATIVE" psql -f "ETL/SQL/insert_drug_exposure.sql" $CONN_STRING 
 
 echo "Loading condition_era"
 PGOPTIONS="--search_path=$CDM" psql -f "ETL/SQL/insert_condition_era.sql" $CONN_STRING 
