@@ -57,7 +57,7 @@ select
   0 unit_concept_id,
   cast(null as float) range_low,
   cast(null as float) range_high,
-  0 provider_id,
+  NULL provider_id,
   fv.visit_occurrence_id_new visit_occurrence_id,
   0 visit_detail_id,
   pr.code measurement_source_value,
@@ -93,7 +93,7 @@ select
   coalesce(srcmap1.target_concept_id,0) unit_concept_id,
   cast(null as float),
   cast(null as float),
-  0 provider_id,
+  NULL provider_id,
   fv.visit_occurrence_id_new visit_occurrence_id,
   0 visit_detail_id,
   o.code measurement_source_value,
@@ -110,10 +110,10 @@ left join @vocab_schema.source_to_standard_vocab_map  srctostdvm
  and srctostdvm.target_invalid_reason IS NULL
 left join @vocab_schema.source_to_source_vocab_map  srcmap1
   on srcmap1.source_code                = o.units
- and srcmap1.target_vocabulary_id       = 'UCUM' 
+ and srcmap1.target_vocabulary_id       = 'UCUM'
 left join @vocab_schema.source_to_source_vocab_map  srcmap2
   on srcmap2.source_code                = o.value
- and srcmap2.target_domain_id           = 'Measurement' 
+ and srcmap2.target_domain_id           = 'Measurement'
 left join @vocab_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = o.code
  and srctosrcvm.source_vocabulary_id    = 'LOINC'
@@ -122,4 +122,3 @@ left join @cdm_schema.final_visit_ids fv
 join @cdm_schema.person p
   on p.person_source_value              = o.patient
   ) tmp;
-  
