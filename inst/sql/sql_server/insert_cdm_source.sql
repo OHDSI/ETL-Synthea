@@ -13,11 +13,11 @@ vocabulary_version
 'Synthea synthetic health database',
 'Synthea',
 'OHDSI Community',
-'SyntheaTM is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats.', 
+'SyntheaTM is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats.',
 'https://synthetichealth.github.io/synthea/',
 'https://github.com/OHDSI/ETL-Synthea',
-'2019-05-25',
-'2019-05-25',
-'v5.3.1',
-'v5.0 18-JAN-19'
-);    
+'2019-10-02',
+'2019-10-07',
+'v6.0',
+'v5.0 17-JUN-19'
+);
