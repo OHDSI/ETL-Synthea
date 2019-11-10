@@ -1,2 +1,12 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+
+^Design$
+^ETL$
+^WindowsLoader.r$
+^assets$
+^bulk-load$
+^docs$
+^extras$
+^pruning.sql$
+^readme.md$
