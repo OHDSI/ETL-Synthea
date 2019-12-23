@@ -138,6 +138,19 @@ CREATE TABLE @cdm_schema.specimen
 )
 ;
 
+if object_id('@cdm_schema.death', 'U')  is not null drop table @cdm_schema.death;
+--HINT DISTRIBUTE_ON_KEY(person_id)
+CREATE TABLE @cdm_schema.death (
+    person_id               INTEGER     NOT NULL,
+    death_date              DATE        NOT NULL,
+    death_datetime          TIMESTAMP   NULL,
+    death_type_concept_id   INTEGER     NOT NULL,
+    cause_concept_id        INTEGER     NULL,
+    cause_source_value      VARCHAR(50) NULL,
+    cause_source_concept_id INTEGER     NULL
+)
+;
+
 if object_id('@cdm_schema.visit_occurrence', 'U')  is not null drop table @cdm_schema.visit_occurrence;
 --HINT DISTRIBUTE_ON_KEY(person_id)
 CREATE TABLE @cdm_schema.visit_occurrence
