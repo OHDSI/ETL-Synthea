@@ -1,0 +1,10 @@
+DROP VIEW @vocab_schema.concept;
+DROP VIEW @vocab_schema.concept_relationship;
+DROP VIEW @vocab_schema.concept_ancestor;
+DROP VIEW @vocab_schema.concept_synonym;
+DROP VIEW @vocab_schema.concept_class;
+DROP VIEW @vocab_schema.domain;
+DROP VIEW @vocab_schema.vocabulary;
+DROP VIEW @vocab_schema.relationship;
+DROP VIEW @vocab_schema.drug_strength;
+DROP VIEW @vocab_schema.source_to_concept_map;

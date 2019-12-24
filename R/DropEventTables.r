@@ -17,8 +17,6 @@
 
 DropEventTables <- function (connectionDetails, cdmDatabaseSchema)
 {
-
-
     pathToSql <- base::system.file("sql/sql_server", package = "ETLSyntheaBuilder")
 
     sqlFile <- base::paste0(pathToSql, "/", "drop_event_tables.sql")

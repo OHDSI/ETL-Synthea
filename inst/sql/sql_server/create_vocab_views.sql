@@ -1,0 +1,10 @@
+CREATE VIEW @cdm_schema.concept AS (SELECT * FROM @vocab_schema.concept);
+CREATE VIEW @cdm_schema.concept_relationship AS (SELECT * FROM @vocab_schema.concept_relationship);
+CREATE VIEW @cdm_schema.concept_ancestor AS (SELECT * FROM @vocab_schema.concept_ancestor);
+CREATE VIEW @cdm_schema.concept_synonym AS (SELECT * FROM @vocab_schema.concept_synonym);
+CREATE VIEW @cdm_schema.concept_class AS (SELECT * FROM @vocab_schema.concept_class);
+CREATE VIEW @cdm_schema.domain AS (SELECT * FROM @vocab_schema.domain);
+CREATE VIEW @cdm_schema.vocabulary AS (SELECT * FROM @vocab_schema.vocabulary);
+CREATE VIEW @cdm_schema.relationship AS (SELECT * FROM @vocab_schema.relationship);
+CREATE VIEW @cdm_schema.drug_strength AS (SELECT * FROM @vocab_schema.drug_strength);
+CREATE VIEW @cdm_schema.source_to_concept_map AS (SELECT * FROM @vocab_schema.source_to_concept_map);
