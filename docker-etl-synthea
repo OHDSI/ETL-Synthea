@@ -1,0 +1,33 @@
+#!/usr/bin/r
+
+library(ETLSyntheaBuilder)
+
+# Get passed environment variables.
+env_var_names <- list("SYNTHEA_DB_URI", "SYNTHEA_CDM_SCHEMA", "SYNTHEA_RAW_SCHEMA", "SYNTHEA_VOCAB_SCHEMA")
+env_vars <- Sys.getenv(env_var_names, unset=NA)
+
+# Replace unset environement variables with defaults.
+default_vars <- list("postgresql://localhost/postgres", "cdm_synthea", "raw_synthea", "vocab")
+env_vars[is.na(env_vars)] <- default_vars[is.na(env_vars)]
+
+db_conf <- parse_url(env_vars$SYNTHEA_DB_URI)
+
+cd <- DatabaseConnector::createConnectionDetails(
+  dbms=db_conf$scheme,
+  user=db_conf$username,
+  password=db_conf$password,
+  server=server,
+  port=db_conf$port
+)
+
+ETLSyntheaBuilder::DropVocabTables(cd, env_vars$SYNTHEA_CDM_SCHEMA)
+ETLSyntheaBuilder::DropEventTables(cd, env_vars$SYNTHEA_CDM_SCHEMA)
+ETLSyntheaBuilder::DropSyntheaTables(cd, env_vars$SYNTHEA_RAW_SCHEMA)
+ETLSyntheaBuilder::DropMapAndRollupTables(cd, env_vars$SYNTHEA_CDM_SCHEMA)
+ETLSyntheaBuilder::CreateEventTables(cd, env_vars$SYNTHEA_CDM_SCHEMA)
+ETLSyntheaBuilder::CreateSyntheaTables(cd, env_vars$SYNTHEA_CDM_SCHEMA)
+ETLSyntheaBuilder::LoadSyntheaTables(cd, env_vars$SYNTHEA_RAW_SCHEMA, "/data/synthea/csv")
+ETLSyntheaBuilder::LoadVocabFromSchema(cd, env_vars$SYNTHEA_VOCAB_SCHEMA, env_vars$SYNTEHA_CDM_SCHEMA)
+ETLSyntheaBuilder::CreateVocabMapTables(cd, env_vars$SYNTHEA_CDM_SCHEMA)
+ETLSyntheaBuilder::CreateVisitRollupTables(cd, env_vars$SYNTHEA_CDM_SCHEMA, env_vars$SYNTHEA_RAW_SCHEMA)
+ETLSyntheaBuilder::LoadEventTables(cd, env_vars$SYNTHEA_CDM_SCHEMA, env_vars$SYNTHEA_RAW_SCHEMA)
