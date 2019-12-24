@@ -33,7 +33,7 @@ DropVocabViews <- function (connectionDetails, vocabDatabaseSchema)
 
     conn <- DatabaseConnector::connect(connectionDetails)
 
-    DatabaseConnector::dbExecute(conn, translatedSql, progressBar = TRUE, reportOverallTime = TRUE)
+    DatabaseConnector::dbExecute(conn, translatedSql, progressBar = TRUE, reportOverallTime = TRUE, runAsBatch = TRUE)
 
     on.exit(DatabaseConnector::disconnect(conn))
 }
