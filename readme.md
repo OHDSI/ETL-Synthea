@@ -36,6 +36,21 @@ ETLSyntheaBuilder::CreateVisitRollupTables(cd,"cdm_synthea10","native")
 ETLSyntheaBuilder::LoadEventTables(cd,"cdm_synthea10","native")
 ```
 
+### Docker usage
+
+The docker image associated with this repo can be used to run ETL-Synthea without installing any dependencies except Docker. It requires a Synthea CSV dataset to be generated (see links below). It also requires a schema in the target database where a OHDSI vocabulary is loaded.
+
+```
+docker build -t ohdsi/etl-synthea .
+docker run --rm \
+  -e SYNTHEA_DB_URI="postgres://myuser:mypassword@host:port/dbname" \
+  -e SYNTHEA_RAW_SCHEMA=native \
+  -e SYNTHEA_CDM_SCHEMA=cdm_synthea \
+  -e SYNTHEA_VOCAB_SCHEMA=vocab \
+  -v /path/to/synthea/csv:/data/synthea/csv
+  ohdsi/etl-synthea
+```
+
 ### Simulating Data with Synthea
 
 For more information on Synthea visit:
