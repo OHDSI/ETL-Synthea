@@ -25,7 +25,7 @@ DropVocabViews <- function (connectionDetails, vocabDatabaseSchema)
 
     sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
 
-    renderedSql <- SqlRender::render(sqlQuery, vocab_schema = vocabDatabaseSchema)
+    renderedSql <- SqlRender::render(sqlQuery, cdm_schema = vocabDatabaseSchema)
 
     translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
 
