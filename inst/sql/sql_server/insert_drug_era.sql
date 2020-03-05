@@ -5,7 +5,7 @@
 
 if object_id('tempdb..#tmp_de', 'U') is not null drop table #tmp_de;
 
-CREATE TEMP TABLE tmp_de AS
+CREATE TEMP TABLE #tmp_de AS
 
 WITH
 ctePreDrugTarget(drug_exposure_id, person_id, ingredient_concept_id, drug_exposure_start_datetime, days_supply, drug_exposure_end_datetime) AS

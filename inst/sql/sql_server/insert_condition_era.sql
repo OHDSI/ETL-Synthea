@@ -5,7 +5,7 @@
 
 if object_id('tempdb..#tmp_ce', 'U') is not null drop table #tmp_ce;
 
-CREATE TEMP TABLE tmp_ce AS
+CREATE TEMP TABLE #tmp_ce AS
 
 WITH cteConditionTarget (condition_occurrence_id, person_id, condition_concept_id, condition_start_datetime, condition_end_datetime) AS
 (

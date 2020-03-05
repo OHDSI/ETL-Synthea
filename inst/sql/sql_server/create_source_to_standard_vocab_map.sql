@@ -18,7 +18,7 @@ WITH CTE_VOCAB_MAP AS (
                         AND lower(cr.relationship_id) = 'maps to'
               JOIN @cdm_schema.CONCEPT C1
                         ON CR.CONCEPT_ID_2 = C1.CONCEPT_ID
-                        AND C1.INVALID_REASON IN (NULL,'')
+                        AND (C1.INVALID_REASON IS NULL OR C1.INVALID_REASON = '')
        UNION
        SELECT source_code, SOURCE_CONCEPT_ID, SOURCE_CODE_DESCRIPTION, source_vocabulary_id, c1.domain_id AS SOURCE_DOMAIN_ID, c2.CONCEPT_CLASS_ID AS SOURCE_CONCEPT_CLASS_ID,
                                         c1.VALID_START_DATE AS SOURCE_VALID_START_DATE, c1.VALID_END_DATE AS SOURCE_VALID_END_DATE,
@@ -29,7 +29,7 @@ WITH CTE_VOCAB_MAP AS (
                      ON c1.concept_id = stcm.source_concept_id
               LEFT OUTER JOIN @cdm_schema.CONCEPT c2
                      ON c2.CONCEPT_ID = stcm.target_concept_id
-       WHERE stcm.INVALID_REASON IN (NULL,'')
+       WHERE stcm.INVALID_REASON IS NULL OR stcm.INVALID_REASON = ''
 )
 select * into @cdm_schema.source_to_standard_vocab_map from CTE_VOCAB_MAP;
 
