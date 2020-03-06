@@ -11,7 +11,7 @@ LoadVocabFromCsv(connectionDetails, cdmDatabaseSchema, vocabFileLoc)
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
-\item{cdmDatabaseSchema}{The name of the database schema that will contain the Vocabulary 
+\item{cdmDatabaseSchema}{The name of the database schema that will contain the Vocabulary
 tables.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
