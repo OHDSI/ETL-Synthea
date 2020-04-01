@@ -1,5 +1,5 @@
 # Utility to Load Synthea CSV data to OMOP CDM
-## Currently supports CDM v5.3 and CDM v6.0
+## Currently supports CDM v6.0 (see branch [v5.3.1-updates](https://github.com/OHDSI/ETL-Synthea/tree/v5.3.1-updates) for CDM v5.3 support)
 
 Follow the steps on the [synthea wiki](https://github.com/synthetichealth/synthea/wiki) to run the program and generate the files. This builder works off of the csv files, not the fhir files. To do this the `exporter.csv.export` option in the `./src/main/resources/synthea.properties` file needs to be set to TRUE.
 
