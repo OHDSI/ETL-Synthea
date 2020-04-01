@@ -508,7 +508,7 @@ CREATE TABLE @cdm_schema.cost
   payer_plan_period_id			INTEGER			NULL ,
   amount_allowed		        NUMERIC			  NULL ,
   revenue_code_concept_id		INTEGER			NULL ,
-  reveue_code_source_value  VARCHAR(50) NULL,
+  revenue_code_source_value  VARCHAR(50) NULL,
   drg_concept_id			      INTEGER		  NULL,
   drg_source_value			    VARCHAR(3)	NULL
 )
