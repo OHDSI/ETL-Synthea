@@ -25,7 +25,7 @@ Follow the steps on the [synthea wiki](https://github.com/synthetichealth/synthe
 )
 
 ETLSyntheaBuilder::DropVocabTables(connectionDetails = cd,
-                                   cdmDatabaseSchema = "cdm_synthea10")
+                                   vocabDatabaseSchema = "cdm_synthea10")
 
 ETLSyntheaBuilder::DropEventTables(connectionDetails = cd,
                                    cdmDatabaseSchema = "cdm_synthea10")
