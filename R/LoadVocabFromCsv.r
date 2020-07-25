@@ -2,14 +2,14 @@
 #'
 #' @description This function populates all Vocabulary tables with data in csv files.
 #'
-#' @usage LoadVocabFromCsv(connectionDetails, cdmDatabaseSchema, vocabFileLoc)
+#' @usage LoadVocabFromCsv(connectionDetails, vocabDatabaseSchema, vocabFileLoc)
 #'
 #' @details This function assumes \cr\code{createCDMTables()} has already been run.
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
-#' @param cdmDatabaseSchema  The name of the database schema that will contain the Vocabulary
+#' @param vocabDatabaseSchema  The name of the database schema that will contain the Vocabulary
 #'                                     tables.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
@@ -18,7 +18,7 @@
 #'@export
 
 
-LoadVocabFromCsv <- function (connectionDetails, cdmDatabaseSchema, vocabFileLoc)
+LoadVocabFromCsv <- function (connectionDetails, vocabDatabaseSchema, vocabFileLoc)
 {
 
     csvList <- c("concept.csv","vocabulary.csv","concept_ancestor.csv","concept_relationship.csv","relationship.csv","concept_synonym.csv","domain.csv","concept_class.csv", "drug_strength.csv")
@@ -39,7 +39,7 @@ LoadVocabFromCsv <- function (connectionDetails, cdmDatabaseSchema, vocabFileLoc
 
         writeLines(paste0("Loading: ",csv))
 
-	    DatabaseConnector::insertTable(conn,paste0(cdmDatabaseSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, progressBar = TRUE)
+	    DatabaseConnector::insertTable(conn,paste0(vocabDatabaseSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, progressBar = TRUE)
 	}
 
     on.exit(DatabaseConnector::disconnect(conn))
