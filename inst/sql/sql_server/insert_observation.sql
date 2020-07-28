@@ -1,4 +1,9 @@
 
+drop sequence if exists observation_id_seq;
+create sequence observation_id_seq start with 1;
+
+
+
 insert into @cdm_schema.observation (
 observation_id,
 person_id,
@@ -20,7 +25,7 @@ unit_source_value,
 qualifier_source_value
 )
 select
-row_number()over(order by p.person_id),
+nextval('observation_id_seq'), 
 p.person_id,
 case when srctostdvm.target_concept_id is NULL then 0 else srctostdvm.target_concept_id end as target_concept_id,
 a.start,
@@ -56,7 +61,7 @@ join @cdm_schema.person p
 union all
 
 select
-row_number()over(order by p.person_id),
+nextval('observation_id_seq'), 
 p.person_id,
 case when srctostdvm.target_concept_id is NULL then 0 else srctostdvm.target_concept_id end as target_concept_id,
 c.start,

@@ -1,3 +1,5 @@
+drop sequence if exists drug_exposure_id_seq;
+create sequence drug_exposure_id_seq start with 1;
 
 
 insert into @cdm_schema.drug_exposure (
@@ -26,7 +28,7 @@ route_source_value,
 dose_unit_source_value
 )
 select
-row_number()over(order by p.person_id),
+nextval('drug_exposure_id_seq'),
 p.person_id,
 case when srctostdvm.target_concept_id is NULL then 0 else srctostdvm.target_concept_id end as target_concept_id,
 c.start,
@@ -68,7 +70,7 @@ join @cdm_schema.person p
 union all
 
 select
-row_number()over(order by p.person_id),
+nextval('drug_exposure_id_seq'),
 p.person_id,
 case when srctostdvm.target_concept_id is NULL then 0 else srctostdvm.target_concept_id end as target_concept_id,
 m.start,
@@ -109,7 +111,7 @@ join @cdm_schema.person p
 union all
 
 select
-row_number()over(order by p.person_id),
+nextval('drug_exposure_id_seq'),
 p.person_id,
 case when srctostdvm.target_concept_id is NULL then 0 else srctostdvm.target_concept_id end as target_concept_id,
 i.date,
