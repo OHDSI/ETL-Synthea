@@ -1,5 +1,6 @@
 # Utility to Load Synthea CSV data to OMOP CDM
 ## Currently supports CDM V5.3
+Also Synthea as of commit 47d08bf of 2019-10-07.  Commit 47d08bf because that was the HEAD when schema work, was done. See issue #43. Note that this commit is before the v2.5.0 tag on the synthea repo.
 
 ### Scripted Execution
 Use the bulk-load script (Linux), R package (within an R session), or WindowsLoader.r (Windows command line).
