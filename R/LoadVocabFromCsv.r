@@ -27,7 +27,7 @@ LoadVocabFromCsv <- function (connectionDetails, vocabDatabaseSchema, vocabFileL
 
     for (csv in csvList) {
 
-    	if (base::identical(csv,"concept_synonym.csv") {
+    	if (base::identical(csv,"concept_synonym.csv")) {
     		naString <- "NA"
     	} else {
     		naString <- ""
