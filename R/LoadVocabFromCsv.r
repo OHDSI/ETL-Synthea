@@ -26,9 +26,10 @@ LoadVocabFromCsv <- function (connectionDetails, vocabDatabaseSchema, vocabFileL
     conn <- DatabaseConnector::connect(connectionDetails)
 
     for (csv in csvList) {
+    	writeLines(paste0("Opening: ",csv))
 
     	if (base::identical(csv,"concept_synonym.csv")) {
-    		naString <- "NA"
+    		naString <- NULL
     	} else {
     		naString <- ""
     	}
