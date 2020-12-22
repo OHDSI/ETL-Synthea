@@ -66,7 +66,7 @@ select
   cast(null as varchar) sig,
   0 route_concept_id,
   0 lot_number,
-  0 provider_id,
+  cast(null as bigint) provider_id,
   fv.visit_occurrence_id_new visit_occurrence_id,
   0 visit_detail_id,
   c.code drug_source_value,
@@ -74,13 +74,12 @@ select
   cast(null as varchar) route_source_value,
   cast(null as varchar) dose_unit_source_value
 from @synthea_schema.conditions c
-  left join @vocab_schema.source_to_standard_vocab_map   srctostdvm
+ join @vocab_schema.source_to_standard_vocab_map   srctostdvm
 on srctostdvm.source_code             = c.code
  and srctostdvm.target_domain_id        = 'Drug'
- and srctostdvm.target_vocabulary_id    = 'RxNorm'
  and srctostdvm.source_vocabulary_id    = 'RxNorm'
  and srctostdvm.target_standard_concept = 'S'
- and srctostdvm.target_invalid_reason IS NULL
+ and (srctostdvm.target_invalid_reason IS NULL OR srctostdvm.target_invalid_reason = '')
 left join @vocab_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = c.code
  and srctosrcvm.source_vocabulary_id    = 'RxNorm'
@@ -105,7 +104,7 @@ select
   cast(null as varchar),
   0,
   0,
-  0,
+  cast(null as bigint),
   fv.visit_occurrence_id_new visit_occurrence_id,
   0,
   m.code,
@@ -113,13 +112,12 @@ select
   cast(null as varchar),
   cast(null as varchar)
 from @synthea_schema.medications m
-  left join @vocab_schema.source_to_standard_vocab_map   srctostdvm
+  join @vocab_schema.source_to_standard_vocab_map   srctostdvm
 on srctostdvm.source_code             = m.code
  and srctostdvm.target_domain_id        = 'Drug'
- and srctostdvm.target_vocabulary_id    = 'RxNorm'
  and srctostdvm.source_vocabulary_id    = 'RxNorm'
  and srctostdvm.target_standard_concept = 'S'
- and srctostdvm.target_invalid_reason IS NULL
+ and (srctostdvm.target_invalid_reason IS  NULL OR srctostdvm.target_invalid_reason = '')
 left join @vocab_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = m.code
  and srctosrcvm.source_vocabulary_id    = 'RxNorm'
@@ -144,7 +142,7 @@ select
   cast(null as varchar),
   0,
   0,
-  0,
+  cast(null as bigint),
   fv.visit_occurrence_id_new visit_occurrence_id,
   0,
   i.code,
@@ -155,10 +153,9 @@ from @synthea_schema.immunizations i
   left join @vocab_schema.source_to_standard_vocab_map   srctostdvm
 on srctostdvm.source_code             = i.code
  and srctostdvm.target_domain_id        = 'Drug'
- and srctostdvm.target_vocabulary_id    = 'CVX'
  and srctostdvm.source_vocabulary_id    = 'CVX'
  and srctostdvm.target_standard_concept = 'S'
- and srctostdvm.target_invalid_reason IS NULL
+ and (srctostdvm.target_invalid_reason IS NULL OR srctostdvm.target_invalid_reason = '')
 left join @vocab_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = i.code
  and srctosrcvm.source_vocabulary_id    = 'CVX'

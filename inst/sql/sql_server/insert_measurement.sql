@@ -57,7 +57,7 @@ select
   0 unit_concept_id,
   cast(null as float) range_low,
   cast(null as float) range_high,
-  NULL provider_id,
+  cast(null as bigint) provider_id,
   fv.visit_occurrence_id_new visit_occurrence_id,
   0 visit_detail_id,
   pr.code measurement_source_value,
@@ -65,13 +65,12 @@ select
   cast(null as varchar) unit_source_value,
   cast(null as varchar) value_source_value
 from @synthea_schema.procedures pr
-left join @vocab_schema.source_to_standard_vocab_map  srctostdvm
+join @vocab_schema.source_to_standard_vocab_map  srctostdvm
   on srctostdvm.source_code             = pr.code
  and srctostdvm.target_domain_id        = 'Measurement'
- and srctostdvm.target_vocabulary_id    = 'SNOMED'
  and srctostdvm.source_vocabulary_id    = 'SNOMED'
  and srctostdvm.target_standard_concept = 'S'
- and srctostdvm.target_invalid_reason IS NULL
+ and (srctostdvm.target_invalid_reason IS NULL or srctostdvm.target_invalid_reason = '')
 left join @vocab_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = pr.code
  and srctosrcvm.source_vocabulary_id    = 'SNOMED'
@@ -93,7 +92,7 @@ select
   coalesce(srcmap1.target_concept_id,0) unit_concept_id,
   cast(null as float),
   cast(null as float),
-  NULL provider_id,
+  cast(null as bigint) provider_id,
   fv.visit_occurrence_id_new visit_occurrence_id,
   0 visit_detail_id,
   o.code measurement_source_value,
@@ -101,19 +100,22 @@ select
   o.units unit_source_value,
   o.value value_source_value
 from @synthea_schema.observations o
-left join @vocab_schema.source_to_standard_vocab_map  srctostdvm
+join @vocab_schema.source_to_standard_vocab_map  srctostdvm
   on srctostdvm.source_code             = o.code
  and srctostdvm.target_domain_id        = 'Measurement'
- and srctostdvm.target_vocabulary_id    = 'LOINC'
  and srctostdvm.source_vocabulary_id    = 'LOINC'
  and srctostdvm.target_standard_concept = 'S'
- and srctostdvm.target_invalid_reason IS NULL
-left join @vocab_schema.source_to_source_vocab_map  srcmap1
+ and (srctostdvm.target_invalid_reason IS NULL OR srctostdvm.target_invalid_reason = '')
+left join @vocab_schema.source_to_standard_vocab_map  srcmap1
   on srcmap1.source_code                = o.units
  and srcmap1.target_vocabulary_id       = 'UCUM'
-left join @vocab_schema.source_to_source_vocab_map  srcmap2
+ and srcmap1.target_standard_concept    = 'S'
+ and (srcmap1.target_invalid_reason IS NULL OR srcmap1.target_invalid_reason = '')
+left join @vocab_schema.source_to_standard_vocab_map  srcmap2
   on srcmap2.source_code                = o.value
- and srcmap2.target_domain_id           = 'Measurement'
+ and srcmap2.target_domain_id           = 'Meas value'
+ and srcmap2.target_standard_concept    = 'S'
+ and (srcmap2.target_invalid_reason IS NULL OR srcmap2.target_invalid_reason = '')
 left join @vocab_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = o.code
  and srctosrcvm.source_vocabulary_id    = 'LOINC'

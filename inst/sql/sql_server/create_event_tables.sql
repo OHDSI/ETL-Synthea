@@ -1,8 +1,8 @@
 /*********************************************************************************
-# Copyright 2017-11 Observational Health Data Sciences and Informatics
+# Copyright 2018-08 Observational Health Data Sciences and Informatics
 #
 #
-# Licensed under the Apache License, Version 2.0 (the "License")
+# Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
@@ -17,23 +17,24 @@
 
 /************************
 
- ####### #     # ####### ######      #####  ######  #     #           #######      #####
- #     # ##   ## #     # #     #    #     # #     # ##   ##    #    # #           #     #
- #     # # # # # #     # #     #    #       #     # # # # #    #    # #                 #
- #     # #  #  # #     # ######     #       #     # #  #  #    #    # ######       #####
- #     # #     # #     # #          #       #     # #     #    #    #       # ###       #
- #     # #     # #     # #          #     # #     # #     #     #  #  #     # ### #     #
- ####### #     # ####### #           #####  ######  #     #      ##    #####  ###  #####
+ ####### #     # ####### ######      #####  ######  #     #            #####        ###
+ #     # ##   ## #     # #     #    #     # #     # ##   ##    #    # #     #      #   #
+ #     # # # # # #     # #     #    #       #     # # # # #    #    # #           #     #
+ #     # #  #  # #     # ######     #       #     # #  #  #    #    # ######      #     #
+ #     # #     # #     # #          #       #     # #     #    #    # #     # ### #     #
+ #     # #     # #     # #          #     # #     # #     #     #  #  #     # ###  #   #
+ ####### #     # ####### #           #####  ######  #     #      ##    #####  ###   ###
 
+postgresql script to create OMOP common data model version 6.0
 
-postgresql script to create OMOP common data model version 5.3
-
-last revised: 14-June-2018
+last revised: 27-Aug-2018
 
 Authors:  Patrick Ryan, Christian Reich, Clair Blacketer
 
 
 *************************/
+
+
 
 
 /**************************
@@ -42,34 +43,42 @@ Standardized meta-data
 
 ***************************/
 
+
+--HINT DISTRIBUTE ON RANDOM
 if object_id('@cdm_schema.cdm_source', 'U')  is not null drop table @cdm_schema.cdm_source;
 CREATE TABLE @cdm_schema.cdm_source
 (
-  cdm_source_name					        VARCHAR(255)	NOT NULL ,
-  cdm_source_abbreviation			    VARCHAR(25)		NULL ,
-  cdm_holder							        VARCHAR(255)	NULL ,
-  source_description					    VARCHAR(255)	NULL ,
+  cdm_source_name					VARCHAR(255)	NOT NULL ,
+  cdm_source_abbreviation			VARCHAR(25)		NULL ,
+  cdm_holder						VARCHAR(255)	NULL ,
+  source_description				TEXT			NULL ,
   source_documentation_reference	VARCHAR(255)	NULL ,
-  cdm_etl_reference					      VARCHAR(255)	NULL ,
-  source_release_date				      DATE			    NULL ,
-  cdm_release_date					      DATE			    NULL ,
-  cdm_version						          VARCHAR(10)		NULL ,
-  vocabulary_version					    VARCHAR(20)		NULL
+  cdm_etl_reference					VARCHAR(255)	NULL ,
+  source_release_date				DATE			NULL ,
+  cdm_release_date					DATE			NULL ,
+  cdm_version						VARCHAR(10)		NULL ,
+  vocabulary_version				VARCHAR(20)		NULL
 )
 ;
 
+
+--HINT DISTRIBUTE ON RANDOM
 if object_id('@cdm_schema.metadata', 'U')  is not null drop table @cdm_schema.metadata;
 CREATE TABLE @cdm_schema.metadata
 (
-  metadata_concept_id       INTEGER       NOT NULL ,
-  metadata_type_concept_id  INTEGER       NOT NULL ,
-  name                      VARCHAR(250)  NOT NULL ,
-  value_as_string           VARCHAR(255)  NULL ,
-  value_as_concept_id       INTEGER       NULL ,
-  metadata_date             DATE          NULL ,
-  metadata_datetime         DATE      NULL
+  metadata_concept_id       INTEGER       	NOT NULL ,
+  metadata_type_concept_id  INTEGER       	NOT NULL ,
+  name                      VARCHAR(250)  	NOT NULL ,
+  value_as_string           TEXT  			NULL ,
+  value_as_concept_id       INTEGER       	NULL ,
+  metadata_date             DATE          	NULL ,
+  metadata_datetime         TIMESTAMP      	NULL
 )
 ;
+
+--INSERT INTO metadata (metadata_concept_id, metadata_type_concept_id, name, value_as_string, value_as_concept_id, metadata_date, metadata_datetime)
+--VALUES (0, 0, 'CDM Version', '6.0', 0, NULL, NULL)
+--;
 
 
 /************************
@@ -78,11 +87,12 @@ Standardized clinical data
 
 ************************/
 
-if object_id('@cdm_schema.person', 'U')  is not null drop table @cdm_schema.person;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.person', 'U')  is not null drop table @cdm_schema.person;
 CREATE TABLE @cdm_schema.person
 (
-   person_id						BIGINT	  	NOT NULL , 
+  person_id						BIGINT	  	NOT NULL ,
   gender_concept_id				INTEGER	  	NOT NULL ,
   year_of_birth					INTEGER	  	NOT NULL ,
   month_of_birth				INTEGER	  	NULL,
@@ -104,8 +114,9 @@ CREATE TABLE @cdm_schema.person
 )
 ;
 
-if object_id('@cdm_schema.observation_period', 'U')  is not null drop table @cdm_schema.observation_period;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.observation_period', 'U')  is not null drop table @cdm_schema.observation_period;
 CREATE TABLE @cdm_schema.observation_period
 (
   observation_period_id				BIGINT		NOT NULL ,
@@ -116,8 +127,9 @@ CREATE TABLE @cdm_schema.observation_period
 )
 ;
 
-if object_id('@cdm_schema.specimen', 'U')  is not null drop table @cdm_schema.specimen;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.specimen', 'U')  is not null drop table @cdm_schema.specimen;
 CREATE TABLE @cdm_schema.specimen
 (
   specimen_id					BIGINT			NOT NULL ,
@@ -138,8 +150,9 @@ CREATE TABLE @cdm_schema.specimen
 )
 ;
 
-if object_id('@cdm_schema.death', 'U')  is not null drop table @cdm_schema.death;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.death', 'U')  is not null drop table @cdm_schema.death;
 CREATE TABLE @cdm_schema.death (
     person_id               INTEGER     NOT NULL,
     death_date              DATE        NOT NULL,
@@ -151,8 +164,9 @@ CREATE TABLE @cdm_schema.death (
 )
 ;
 
-if object_id('@cdm_schema.visit_occurrence', 'U')  is not null drop table @cdm_schema.visit_occurrence;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.visit_occurrence', 'U')  is not null drop table @cdm_schema.visit_occurrence;
 CREATE TABLE @cdm_schema.visit_occurrence
 (
   visit_occurrence_id			BIGINT			NOT NULL ,
@@ -167,16 +181,17 @@ CREATE TABLE @cdm_schema.visit_occurrence
   care_site_id					BIGINT			NULL,
   visit_source_value			VARCHAR(50)		NULL,
   visit_source_concept_id		INTEGER			NOT NULL ,
-  admitting_source_concept_id	INTEGER			NULL ,
-  admitting_source_value		VARCHAR(50)	    NULL ,
+  admitted_from_concept_id      INTEGER     	NOT NULL ,
+  admitted_from_source_value    VARCHAR(50) 	NULL ,
   discharge_to_source_value		VARCHAR(50)		NULL ,
   discharge_to_concept_id		INTEGER   		NOT NULL ,
   preceding_visit_occurrence_id	BIGINT 			NULL
 )
 ;
 
-if object_id('@cdm_schema.visit_detail', 'U')  is not null drop table @cdm_schema.visit_detail;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.visit_detail', 'U')  is not null drop table @cdm_schema.visit_detail;
 CREATE TABLE @cdm_schema.visit_detail
 (
   visit_detail_id                    BIGINT      NOT NULL ,
@@ -190,7 +205,7 @@ CREATE TABLE @cdm_schema.visit_detail
   provider_id                        BIGINT      NULL ,
   care_site_id                       BIGINT      NULL ,
   discharge_to_concept_id            INTEGER     NOT NULL ,
-  admitted_from_concept_id           INTEGER     NOT NULL , 
+  admitted_from_concept_id           INTEGER     NOT NULL ,
   admitted_from_source_value         VARCHAR(50) NULL ,
   visit_detail_source_value          VARCHAR(50) NULL ,
   visit_detail_source_concept_id     INTEGER     NOT NULL ,
@@ -201,8 +216,9 @@ CREATE TABLE @cdm_schema.visit_detail
 )
 ;
 
-if object_id('@cdm_schema.procedure_occurrence', 'U')  is not null drop table @cdm_schema.procedure_occurrence;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.procedure_occurrence', 'U')  is not null drop table @cdm_schema.procedure_occurrence;
 CREATE TABLE @cdm_schema.procedure_occurrence
 (
   procedure_occurrence_id		BIGINT			NOT NULL ,
@@ -218,12 +234,13 @@ CREATE TABLE @cdm_schema.procedure_occurrence
   visit_detail_id             	BIGINT      	NULL ,
   procedure_source_value		VARCHAR(50)		NULL ,
   procedure_source_concept_id	INTEGER			NOT NULL ,
-  modifier_source_value		    VARCHAR(50)		NULL 
+  modifier_source_value		    VARCHAR(50)		NULL
 )
 ;
 
-if object_id('@cdm_schema.drug_exposure', 'U')  is not null drop table @cdm_schema.drug_exposure;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.drug_exposure', 'U')  is not null drop table @cdm_schema.drug_exposure;
 CREATE TABLE @cdm_schema.drug_exposure
 (
   drug_exposure_id				BIGINT			 	NOT NULL ,
@@ -252,8 +269,9 @@ CREATE TABLE @cdm_schema.drug_exposure
 )
 ;
 
-if object_id('@cdm_schema.device_exposure', 'U')  is not null drop table @cdm_schema.device_exposure;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.device_exposure', 'U')  is not null drop table @cdm_schema.device_exposure;
 CREATE TABLE @cdm_schema.device_exposure
 (
   device_exposure_id			    BIGINT		  	NOT NULL ,
@@ -274,8 +292,9 @@ CREATE TABLE @cdm_schema.device_exposure
 )
 ;
 
-if object_id('@cdm_schema.condition_occurrence', 'U')  is not null drop table @cdm_schema.condition_occurrence;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.condition_occurrence', 'U')  is not null drop table @cdm_schema.condition_occurrence;
 CREATE TABLE @cdm_schema.condition_occurrence
 (
   condition_occurrence_id		BIGINT			NOT NULL ,
@@ -297,8 +316,9 @@ CREATE TABLE @cdm_schema.condition_occurrence
 )
 ;
 
-if object_id('@cdm_schema.measurement', 'U')  is not null drop table @cdm_schema.measurement;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.measurement', 'U')  is not null drop table @cdm_schema.measurement;
 CREATE TABLE @cdm_schema.measurement
 (
   measurement_id				BIGINT			NOT NULL ,
@@ -320,18 +340,19 @@ CREATE TABLE @cdm_schema.measurement
   measurement_source_value		VARCHAR(50)		NULL ,
   measurement_source_concept_id	INTEGER			NOT NULL ,
   unit_source_value				VARCHAR(50)		NULL ,
-  value_source_value			VARCHAR(100)	NULL
+  value_source_value			VARCHAR(50)		NULL
 )
 ;
 
-if object_id('@cdm_schema.note', 'U')  is not null drop table @cdm_schema.note;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.note', 'U')  is not null drop table @cdm_schema.note;
 CREATE TABLE @cdm_schema.note
 (
   note_id						BIGINT			NOT NULL ,
   person_id						BIGINT			NOT NULL ,
-  note_event_id         		BIGINT      	NULL , 
-  note_event_field_concept_id	INTEGER 		NOT NULL , 
+  note_event_id         		BIGINT      	NULL ,
+  note_event_field_concept_id	INTEGER 		NOT NULL ,
   note_date						DATE			NULL ,
   note_datetime					TIMESTAMP		NOT NULL ,
   note_type_concept_id			INTEGER			NOT NULL ,
@@ -348,6 +369,7 @@ CREATE TABLE @cdm_schema.note
 ;
 
 
+--HINT DISTRIBUTE ON RANDOM
 if object_id('@cdm_schema.note_nlp', 'U')  is not null drop table @cdm_schema.note_nlp;
 CREATE TABLE @cdm_schema.note_nlp
 (
@@ -368,35 +390,39 @@ CREATE TABLE @cdm_schema.note_nlp
 )
 ;
 
-if object_id('@cdm_schema.observation', 'U')  is not null drop table @cdm_schema.observation;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.observation', 'U')  is not null drop table @cdm_schema.observation;
 CREATE TABLE @cdm_schema.observation
 (
-  observation_id				INTEGER			NOT NULL ,
-  person_id						INTEGER			NOT NULL ,
-  observation_concept_id		INTEGER			NOT NULL ,
-  observation_date				DATE			NOT NULL ,
-  observation_datetime			TIMESTAMP		NULL ,
-  observation_type_concept_id	INTEGER			NOT NULL ,
-  value_as_number				NUMERIC			NULL ,
-  value_as_string				VARCHAR(60)	    NULL ,
-  value_as_concept_id			INTEGER			NULL ,
-  qualifier_concept_id			INTEGER			NULL ,
-  unit_concept_id				INTEGER			NULL ,
-  provider_id					INTEGER			NULL ,
-  visit_occurrence_id			INTEGER			NULL ,
-  visit_detail_id               INTEGER         NULL ,
-  observation_source_value		VARCHAR(50)	    NULL ,
-  observation_source_concept_id	INTEGER			NULL ,
-  unit_source_value				VARCHAR(50)	    NULL ,
-  qualifier_source_value		VARCHAR(50)	    NULL
+  observation_id					BIGINT			NOT NULL ,
+  person_id						    BIGINT			NOT NULL ,
+  observation_concept_id			INTEGER			NOT NULL ,
+  observation_date				    DATE			NULL ,
+  observation_datetime				TIMESTAMP		NOT NULL ,
+  observation_type_concept_id	    INTEGER			NOT NULL ,
+  value_as_number				    NUMERIC			NULL ,
+  value_as_string				    VARCHAR(60)		NULL ,
+  value_as_concept_id			    INTEGER			NULL ,
+  qualifier_concept_id			    INTEGER			NULL ,
+  unit_concept_id				    INTEGER			NULL ,
+  provider_id					    BIGINT			NULL ,
+  visit_occurrence_id			    BIGINT			NULL ,
+  visit_detail_id               	BIGINT      	NULL ,
+  observation_source_value		  	VARCHAR(50)		NULL ,
+  observation_source_concept_id		INTEGER			NOT NULL ,
+  unit_source_value				    VARCHAR(50)		NULL ,
+  qualifier_source_value			VARCHAR(50)		NULL ,
+  observation_event_id				BIGINT			NULL ,
+  obs_event_field_concept_id		INTEGER			NOT NULL ,
+  value_as_datetime					TIMESTAMP		NULL
 )
 ;
 
 
-if object_id('@cdm_schema.survey_conduct', 'U')  is not null drop table @cdm_schema.survey_conduct;
 --HINT DISTRIBUTE ON KEY(person_id)
-CREATE TABLE @cdm_schema.survey_conduct 
+if object_id('@cdm_schema.survey_conduct', 'U')  is not null drop table @cdm_schema.survey_conduct;
+CREATE TABLE @cdm_schema.survey_conduct
 (
   survey_conduct_id					BIGINT			NOT NULL ,
   person_id						    BIGINT			NOT NULL ,
@@ -426,13 +452,15 @@ CREATE TABLE @cdm_schema.survey_conduct
 )
 ;
 
+
+--HINT DISTRIBUTE ON RANDOM
 if object_id('@cdm_schema.fact_relationship', 'U')  is not null drop table @cdm_schema.fact_relationship;
 CREATE TABLE @cdm_schema.fact_relationship
 (
-  domain_concept_id_1			INTEGER			NOT NULL ,
-  fact_id_1						    INTEGER			NOT NULL ,
-  domain_concept_id_2			INTEGER			NOT NULL ,
-  fact_id_2						    INTEGER			NOT NULL ,
+  domain_concept_id_1		INTEGER			NOT NULL ,
+  fact_id_1					BIGINT			NOT NULL ,
+  domain_concept_id_2		INTEGER			NOT NULL ,
+  fact_id_2					BIGINT			NOT NULL ,
   relationship_concept_id	INTEGER			NOT NULL
 )
 ;
@@ -445,6 +473,8 @@ Standardized health system data
 
 ************************/
 
+
+--HINT DISTRIBUTE ON RANDOM
 if object_id('@cdm_schema.location', 'U')  is not null drop table @cdm_schema.location;
 CREATE TABLE @cdm_schema.location
 (
@@ -462,13 +492,14 @@ CREATE TABLE @cdm_schema.location
 )
 ;
 
-if object_id('@cdm_schema.location_history', 'U')  is not null drop table @cdm_schema.location_history;
+
 --HINT DISTRIBUTE ON RANDOM
+if object_id('@cdm_schema.location_history', 'U')  is not null drop table @cdm_schema.location_history;
 CREATE TABLE @cdm_schema.location_history --Table added
 (
   location_history_id           BIGINT      NOT NULL ,
   location_id			        BIGINT		NOT NULL ,
-  relationship_type_concept_id	INTEGER		NOT NULL , 
+  relationship_type_concept_id	INTEGER		NOT NULL ,
   domain_id				        VARCHAR(50)	NOT NULL ,
   entity_id				        BIGINT		NOT NULL ,
   start_date			        DATE		NOT NULL ,
@@ -477,6 +508,7 @@ CREATE TABLE @cdm_schema.location_history --Table added
 ;
 
 
+--HINT DISTRIBUTE ON RANDOM
 if object_id('@cdm_schema.care_site', 'U')  is not null drop table @cdm_schema.care_site;
 CREATE TABLE @cdm_schema.care_site
 (
@@ -489,6 +521,8 @@ CREATE TABLE @cdm_schema.care_site
 )
 ;
 
+
+--HINT DISTRIBUTE ON RANDOM
 if object_id('@cdm_schema.provider', 'U')  is not null drop table @cdm_schema.provider;
 CREATE TABLE @cdm_schema.provider
 (
@@ -515,8 +549,9 @@ Standardized health economics
 
 ************************/
 
-if object_id('@cdm_schema.payer_plan_period', 'U')  is not null drop table @cdm_schema.payer_plan_period;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.payer_plan_period', 'U')  is not null drop table @cdm_schema.payer_plan_period;
 CREATE TABLE @cdm_schema.payer_plan_period
 (
   payer_plan_period_id			BIGINT			NOT NULL ,
@@ -543,13 +578,15 @@ CREATE TABLE @cdm_schema.payer_plan_period
 )
 ;
 
+
+--HINT DISTRIBUTE ON KEY(person_id)
 if object_id('@cdm_schema.cost', 'U')  is not null drop table @cdm_schema.cost;
 CREATE TABLE @cdm_schema.cost
 (
   cost_id						BIGINT		NOT NULL ,
   person_id						BIGINT		NOT NULL,
   cost_event_id					BIGINT      NOT NULL ,
-  cost_event_field_concept_id	INTEGER		NOT NULL , 
+  cost_event_field_concept_id	INTEGER		NOT NULL ,
   cost_concept_id				INTEGER		NOT NULL ,
   cost_type_concept_id		  	INTEGER     NOT NULL ,
   currency_concept_id			INTEGER		NOT NULL ,
@@ -574,43 +611,46 @@ Standardized derived elements
 
 ************************/
 
-if object_id('@cdm_schema.drug_era', 'U')  is not null drop table @cdm_schema.drug_era;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.drug_era', 'U')  is not null drop table @cdm_schema.drug_era;
 CREATE TABLE @cdm_schema.drug_era
 (
-  drug_era_id					INTEGER			NOT NULL ,
-  person_id						INTEGER			NOT NULL ,
-  drug_concept_id			INTEGER			NOT NULL ,
-  drug_era_start_date	DATE			  NOT NULL ,
-  drug_era_end_date		DATE			  NOT NULL ,
-  drug_exposure_count	INTEGER			NULL ,
-  gap_days						INTEGER			NULL
+  drug_era_id				BIGINT		NOT NULL ,
+  person_id					BIGINT		NOT NULL ,
+  drug_concept_id			INTEGER		NOT NULL ,
+  drug_era_start_datetime	TIMESTAMP		NOT NULL ,
+  drug_era_end_datetime		TIMESTAMP		NOT NULL ,
+  drug_exposure_count		INTEGER		NULL ,
+  gap_days					INTEGER		NULL
 )
 ;
 
-if object_id('@cdm_schema.dose_era', 'U')  is not null drop table @cdm_schema.dose_era;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.dose_era', 'U')  is not null drop table @cdm_schema.dose_era;
 CREATE TABLE @cdm_schema.dose_era
 (
-  dose_era_id					  INTEGER			NOT NULL ,
-  person_id						  INTEGER			NOT NULL ,
-  drug_concept_id				INTEGER			NOT NULL ,
-  unit_concept_id				INTEGER			NOT NULL ,
-  dose_value						NUMERIC			  NOT NULL ,
-  dose_era_start_date		DATE			  NOT NULL ,
-  dose_era_end_date	    DATE			  NOT NULL
+  dose_era_id				BIGINT			NOT NULL ,
+  person_id					BIGINT			NOT NULL ,
+  drug_concept_id			INTEGER			NOT NULL ,
+  unit_concept_id			INTEGER			NOT NULL ,
+  dose_value				NUMERIC			NOT NULL ,
+  dose_era_start_datetime	TIMESTAMP		NOT NULL ,
+  dose_era_end_datetime		TIMESTAMP		NOT NULL
 )
 ;
 
-if object_id('@cdm_schema.condition_era', 'U')  is not null drop table @cdm_schema.condition_era;
+
 --HINT DISTRIBUTE_ON_KEY(person_id)
+if object_id('@cdm_schema.condition_era', 'U')  is not null drop table @cdm_schema.condition_era;
 CREATE TABLE @cdm_schema.condition_era
 (
-  condition_era_id				    INTEGER			NOT NULL ,
-  person_id						        INTEGER			NOT NULL ,
-  condition_concept_id			  INTEGER			NOT NULL ,
-  condition_era_start_date		DATE			  NOT NULL ,
-  condition_era_end_date			DATE			  NOT NULL ,
-  condition_occurrence_count	INTEGER			NULL
+  condition_era_id					BIGINT			NOT NULL ,
+  person_id							BIGINT			NOT NULL ,
+  condition_concept_id				INTEGER			NOT NULL ,
+  condition_era_start_datetime		TIMESTAMP		NOT NULL ,
+  condition_era_end_datetime		TIMESTAMP		NOT NULL ,
+  condition_occurrence_count		INTEGER			NULL
 )
 ;
