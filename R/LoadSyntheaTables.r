@@ -55,7 +55,7 @@ LoadSyntheaTables <- function (connectionDetails, syntheaDatabaseSchema, synthea
         if("UTILIZATION" %in% colnames(syntheaTable))  syntheaTable$UTILIZATION  <- as.numeric(syntheaTable$UTILIZATION)
 
 		
-	    DatabaseConnector::insertTable(conn,paste0(syntheaDatabaseSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(syntheaTable), dropTableIfExists = FALSE, createTable = FALSE, progressBar = TRUE)
+	    DatabaseConnector::insertTable(conn,paste0(syntheaDatabaseSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(syntheaTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = TRUE, progressBar = TRUE)
 	}
 
     on.exit(DatabaseConnector::disconnect(conn)) 

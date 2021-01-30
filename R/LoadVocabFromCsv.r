@@ -39,7 +39,7 @@ LoadVocabFromCsv <- function (connectionDetails, vocabDatabaseSchema, vocabFileL
 
         writeLines(paste0("Loading: ",csv))
 
-	    DatabaseConnector::insertTable(conn,paste0(vocabDatabaseSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, progressBar = TRUE)
+	    DatabaseConnector::insertTable(conn,paste0(vocabDatabaseSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = TRUE, progressBar = TRUE)
 	}
 
     on.exit(DatabaseConnector::disconnect(conn))

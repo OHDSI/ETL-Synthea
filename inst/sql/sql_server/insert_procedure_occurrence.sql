@@ -24,7 +24,7 @@ select
   38000275,
   0,
   cast(null as integer),
-  cast(null as integer),
+  0,
   fv.visit_occurrence_id_new visit_occurrence_id,
   0,
   pr.code,

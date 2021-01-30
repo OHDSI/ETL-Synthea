@@ -42,7 +42,7 @@ select
 		then 38003563 else 0
 	end,
 	NULL,
-	NULL,
+	0,
 	NULL,
 	p.id,
 	p.gender,

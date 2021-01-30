@@ -55,7 +55,7 @@ select
   0 value_as_concept_id,
   0 qualifier_concept_id,
   0 unit_concept_id,
-  cast(null as bigint) provider_id,
+  0 provider_id,
   fv.visit_occurrence_id_new visit_occurrence_id,
   0 visit_detail_id,
   a.code observation_source_value,
@@ -64,7 +64,7 @@ select
   cast(null as varchar) qualifier_source_value,
   cast(null as bigint) observation_event_id,
   0 obs_event_field_concept_id,
-  cast(null as timestamp) value_as_datetime
+  cast(null as datetime) value_as_datetime
 from @synthea_schema.allergies a
   join @vocab_schema.source_to_standard_vocab_map   srctostdvm
 on srctostdvm.source_code             = a.code
@@ -91,7 +91,7 @@ select
   0 value_as_concept_id,
   0 qualifier_concept_id,
   0 unit_concept_id,
-  cast(null as bigint) provider_id,
+  0 provider_id,
   fv.visit_occurrence_id_new visit_occurrence_id,
   0 visit_detail_id,
   c.code observation_source_value,
@@ -100,7 +100,7 @@ select
   cast(null as varchar) qualifier_source_value,
   cast(null as bigint) observation_event_id,
   0 obs_event_field_concept_id,
-  cast(null as timestamp) value_as_datetime
+  cast(null as datetime) value_as_datetime
 from @synthea_schema.conditions c
   left join @vocab_schema.source_to_standard_vocab_map   srctostdvm
 on srctostdvm.source_code             = c.code

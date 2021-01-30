@@ -5,8 +5,6 @@
 
 if object_id('tempdb..#tmp_de', 'U') is not null drop table #tmp_de;
 
-CREATE TEMP TABLE #tmp_de AS
-
 WITH
 ctePreDrugTarget(drug_exposure_id, person_id, ingredient_concept_id, drug_exposure_start_datetime, days_supply, drug_exposure_end_datetime) AS
 (-- Normalize DRUG_EXPOSURE_END_DATE to either the existing drug exposure end date, or add days supply, or add 1 day to the start date
@@ -157,6 +155,7 @@ SELECT
 	, drug_era_end_datetime
 	, SUM(drug_exposure_count) AS drug_exposure_count
 	, datediff(d,'1970-01-01',dateadd(day,-(datediff(day,MIN(drug_sub_exposure_start_datetime),drug_era_end_datetime)-SUM(days_exposed)),drug_era_end_datetime)) as gap_days
+INTO #tmp_de
 FROM cteDrugEraEnds dee
 GROUP BY person_id, drug_concept_id, drug_era_end_datetime;
 

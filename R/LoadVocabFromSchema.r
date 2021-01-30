@@ -29,7 +29,7 @@ LoadVocabFromSchema <- function (connectionDetails, vocabSourceSchema, vocabTarg
 	conn <- DatabaseConnector::connect(connectionDetails)
 
   for (tableName in vocabTableList) {
-	  sql <- paste0("create table ",vocabTargetSchema,".",tableName," as select * from ",vocabSourceSchema,".",tableName)
+	  sql <- paste0("create table ",vocabTargetSchema,".",tableName," WITH (DISTRIBUTION = REPLICATE) as select * from ",vocabSourceSchema,".",tableName)
     writeLines(paste0("Copying: ",tableName))
     DatabaseConnector::executeSql(conn, sql, profile = FALSE, progressBar = TRUE, reportOverallTime = TRUE)
 	}

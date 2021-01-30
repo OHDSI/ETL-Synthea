@@ -6,7 +6,7 @@ stop          date,
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
-description   varchar(100)
+description   varchar(255)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
@@ -17,9 +17,9 @@ stop          date,
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
-description   varchar(100),
-reasoncode   varchar(100),
-reasondescription   varchar(100)
+description   varchar(255),
+reasoncode   varchar(255),
+reasondescription   varchar(255)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
@@ -29,40 +29,26 @@ stop          date,
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
-description   varchar(100)
+description   varchar(255)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.encounters (
 id            		varchar(1000),
 start         		date,
-stop			    date,
+stop							date,
 patient       		varchar(1000),
 organization   		varchar(1000),
 provider			varchar(1000),
 payer			varchar(1000),
 encounterclass		varchar(1000),
 code          		varchar(100),
-description   		varchar(100),
-base_encounter_cost				numeric,
-total_claim_cost				numeric,
-payer_coverage				numeric,
-reasoncode   		varchar(100),
-reasondescription   varchar(100)
-);
-
---HINT DISTRIBUTE_ON_RANDOM
-create table @synthea_schema.imaging_studies (
-id			            varchar(1000),
-"date"                  date,
-patient					varchar(1000),
-encounter				varchar(1000),
-bodysite_code			varchar(100),
-bodysite_description	varchar(100),
-modality_code			varchar(100),
-modality_description	varchar(100),
-SOP_code				varchar(100),
-SOP_description			varchar(100)
+description   		varchar(255),
+base_encounter_cost numeric,
+total_claim_cost		numeric,
+payer_coverage		numeric,
+reasoncode   			varchar(100),
+reasondescription varchar(255)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
@@ -71,37 +57,54 @@ create table @synthea_schema.immunizations (
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
-description   varchar(100),
-base_cost		  numeric
+description   varchar(255),
+base_cost	numeric
+);
+
+--HINT DISTRIBUTE_ON_RANDOM
+create table @synthea_schema.imaging_studies (
+id			  varchar(1000),
+"date"        date,
+patient					varchar(1000),
+encounter				varchar(1000),
+series_uid			varchar(1000),
+bodysite_code			varchar(100),
+bodysite_description		varchar(255),
+modality_code			varchar(100),
+modality_description		varchar(255),
+instance_uid			varchar(1000),
+SOP_code					varchar(100),
+SOP_description			varchar(255),
+procedure_code			varchar(255)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.medications (
-start               date,
-stop                date,
-patient             varchar(1000),
-payer               varchar(1000),
-encounter           varchar(1000),
-code                varchar(100),
-description         varchar(1000),
-base_cost		        numeric,
-payer_coverage		  numeric,
-dispenses	        int,
-totalcost	        numeric,
-reasoncode   	    varchar(100),
-reasondescription   varchar(100)
+start         date,
+stop          date,
+patient       varchar(1000),
+payer		varchar(1000),
+encounter     varchar(1000),
+code          varchar(100),
+description   varchar(1000),
+base_cost	  numeric,
+payer_coverage		numeric,
+dispenses			int,
+totalcost			numeric,
+reasoncode   	varchar(100),
+reasondescription   varchar(255)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.observations (
-"date"        date,
+"date"         date,
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),
-description   varchar(100),
-value     	  varchar(1000),
+description   varchar(255),
+value     		varchar(1000),
 units         varchar(100),
-type		  varchar(100)
+type					varchar(100)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
@@ -112,10 +115,10 @@ address       varchar(1000),
 city		  varchar(100),
 state     	  varchar(100),
 zip           varchar(100),
-lat	        numeric,
-lon	        numeric,
+lat		numeric,
+lon 		numeric,
 phone		  varchar(100),
-revenue	        numeric,
+revenue		numeric,
 utilization	  varchar(100)
 );
 
@@ -138,40 +141,42 @@ ethnicity     varchar(100),
 gender        varchar(100),
 birthplace    varchar(100),
 address       varchar(100),
-city		  varchar(100),
-state		  varchar(100),
-county		  varchar(100),
-zip			  varchar(100),
-lat	        numeric,
-lon	        numeric,
-healthcare_expenses	        numeric,
-healthcare_coverage	        numeric
+city					varchar(100),
+state					varchar(100),
+county		varchar(100),
+zip						varchar(100),
+lat		numeric,
+lon		numeric,
+healthcare_expenses	numeric,
+healthcare_coverage	numeric
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.procedures (
-"date"              date,
-patient             varchar(1000),
-encounter           varchar(1000),
-code                varchar(1000),
-description         varchar(1000),
-base_cost			    numeric,
-reasoncode          varchar(1000),
-reasondescription   varchar(1000)
+"date"         date,
+patient       varchar(1000),
+encounter     varchar(1000),
+code          varchar(100),
+description   varchar(255),
+base_cost		numeric,
+reasoncode	varchar(1000),
+reasondescription	varchar(1000)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.providers (
-id            varchar(1000),
-organization  varchar(100),
-name          varchar(100),
-gender        varchar(1),
-speciality    varchar(1000),
-address       varchar(100),
-city          varchar(100),
-state         varchar(100),
-zip           varchar(100),
-lat	        numeric,
-lon	        numeric,
-utilization   numeric
+id varchar(1000),
+organization varchar(1000),
+name varchar(100),
+gender varchar(100),
+speciality varchar(100),
+address varchar(255),
+city varchar(100),
+state varchar(100),
+zip varchar(100),
+lat numeric,
+lon numeric,
+utilization numeric
 );
+
+

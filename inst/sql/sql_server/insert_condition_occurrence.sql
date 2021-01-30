@@ -27,7 +27,7 @@ select
   c.stop,
   32020,
   cast(null as varchar),
-  cast(null as integer),
+  0,
   fv.visit_occurrence_id_new visit_occurrence_id,
   0,
   c.code,

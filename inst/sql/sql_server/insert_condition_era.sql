@@ -5,8 +5,6 @@
 
 if object_id('tempdb..#tmp_ce', 'U') is not null drop table #tmp_ce;
 
-CREATE TEMP TABLE #tmp_ce AS
-
 WITH cteConditionTarget (condition_occurrence_id, person_id, condition_concept_id, condition_start_datetime, condition_end_datetime) AS
 (
 	SELECT
@@ -87,6 +85,7 @@ SELECT
 	, MIN(condition_start_datetime) AS condition_era_start_datetime
 	, era_end_datetime AS condition_era_end_datetime
 	, COUNT(*) AS condition_occurrence_count
+INTO #tmp_ce
 FROM cteConditionEnds
 GROUP BY person_id, condition_concept_id, era_end_datetime
 ;

@@ -36,7 +36,7 @@ select
 	av.visit_end_date,
 	av.visit_end_date,
 	44818517,
-	null,
+	0,
 	null,
 	av.encounter_id,
 	0,
