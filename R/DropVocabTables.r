@@ -1,33 +1,28 @@
 #' @title Drop Vocabulary Tables.
 #'
-#' @description This function drops Vocabulary tables. 
+#' @description This function drops Vocabulary tables in a CDM.
 #'
-#' @usage DropVocabTables(connectionDetails,vocabDatabaseSchema)
+#' @usage DropVocabTables(connectionDetails,cdmSchema)
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
-#' @param vocabDatabaseSchema  The name of the database schema that contains the Vocabulary
-#'                                     instance.  Requires read and write permissions to this database. On SQL
-#'                                     Server, this should specifiy both the database and the schema,
-#'                                     so for example 'vocab_instance.dbo'.
-#'
+#' @param cdmSchema  The name of the CDM schema that contains the Vocabulary.  
+#'                   Requires read and write permissions to this database. On SQL
+#'                   Server, this should specifiy both the database and the schema,
+#'                   so for example 'vocab_instance.dbo'.
 #'@export
 
 
-DropVocabTables <- function (connectionDetails, vocabDatabaseSchema)
+DropVocabTables <- function (connectionDetails, cdmSchema)
 {
 
-
-    pathToSql <- base::system.file("sql/sql_server", package = "ETLSyntheaBuilder")
-
-    sqlFile <- base::paste0(pathToSql, "/", "drop_vocab_tables.sql")
-
-    sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
-
-    renderedSql <- SqlRender::render(sqlQuery, vocab_schema = vocabDatabaseSchema)
-
-    translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
+    translatedSql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = "drop_vocab_tables.sql",
+		packageName = "ETLSyntheaBuilder",
+		dbms        = connectionDetails$dbms,
+		cdm_schema  = cdmSchema
+	)
 
     writeLines("Running drop_vocab_tables.sql")
 	
