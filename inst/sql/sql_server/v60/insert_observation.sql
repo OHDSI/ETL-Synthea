@@ -1,3 +1,4 @@
+
 insert into @cdm_schema.observation
 (
 observation_id,
@@ -66,13 +67,13 @@ select
   0 obs_event_field_concept_id,
   cast(null as datetime) value_as_datetime
 from @synthea_schema.allergies a
-  join @vocab_schema.source_to_standard_vocab_map   srctostdvm
+  join @cdm_schema.source_to_standard_vocab_map   srctostdvm
 on srctostdvm.source_code             = a.code
  and srctostdvm.target_domain_id        not in ('Condition', 'Procedure', 'Device', 'Drug', 'Measurement')
  and srctostdvm.source_vocabulary_id    = 'SNOMED'
  and srctostdvm.target_standard_concept = 'S'
  and (srctostdvm.target_invalid_reason IS NULL OR srctostdvm.target_invalid_reason = '')
-left join @vocab_schema.source_to_source_vocab_map srctosrcvm
+left join @cdm_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = a.code
  and srctosrcvm.source_vocabulary_id    = 'SNOMED'
 left join @cdm_schema.final_visit_ids fv
@@ -102,13 +103,13 @@ select
   0 obs_event_field_concept_id,
   cast(null as datetime) value_as_datetime
 from @synthea_schema.conditions c
-  left join @vocab_schema.source_to_standard_vocab_map   srctostdvm
+  left join @cdm_schema.source_to_standard_vocab_map   srctostdvm
 on srctostdvm.source_code             = c.code
  and srctostdvm.target_domain_id        not in ('Condition', 'Procedure', 'Device', 'Drug', 'Measurement')
  and srctostdvm.source_vocabulary_id    = 'SNOMED'
  and srctostdvm.target_standard_concept = 'S'
  and (srctostdvm.target_invalid_reason IS NULL OR srctostdvm.target_invalid_reason = '')
-left join @vocab_schema.source_to_source_vocab_map srctosrcvm
+left join @cdm_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code              = c.code
  and srctosrcvm.source_vocabulary_id     = 'SNOMED'
 left join @cdm_schema.final_visit_ids fv

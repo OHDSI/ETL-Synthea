@@ -26,26 +26,20 @@ Follow the steps on the [synthea wiki](https://github.com/synthetichealth/synthe
                                                                                 
 ETLSyntheaBuilder::CreateCDMTables(connectionDetails = cd, cdmSchema = "cdm_synthea10", cdmVersion = "5.3")
                                      
-ETLSyntheaBuilder::CreateSyntheaTables(connectionDetails = cd, syntheaDatabaseSchema = "native")
+ETLSyntheaBuilder::CreateSyntheaTables(connectionDetails = cd, syntheaSchema = "native", cdmVersion = "5.3")
                                        
 ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails = cd, 
-                                     syntheaDatabaseSchema = "native", 
-									 syntheaFileLoc = "/tmp/synthea/output/csv")
+                                     syntheaSchema = "native", 
+									                   syntheaFileLoc = "/tmp/synthea/output/csv")
                                      
 ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails = cd, 
-                                    vocabDatabaseSchema = "cdm_synthea10", 
-									vocabFileLoc = "/tmp/Vocabulary_20181119")
+                                    cdmSchema = "cdm_synthea10", 
+									                  vocabFileLoc = "/tmp/Vocabulary_20181119")
                                     
-ETLSyntheaBuilder::CreateVocabMapTables(connectionDetails = cd, cdmDatabaseSchema = "cdm_synthea10")
-                                        
-ETLSyntheaBuilder::CreateVisitRollupTables(connectionDetails = cd, 
-                                           cdmDatabaseSchema = "cdm_synthea10", 
-										   syntheaDatabaseSchema = "native")
-
 ETLSyntheaBuilder::LoadEventTables(connectionDetails = cd, 
                                    cdmDatabaseSchema = "cdm_synthea10", 
                                    syntheaDatabaseSchema = "native",
-								   cdmVersion = "5.3")
+								                   cdmVersion = "5.3")
 ```
 
 ### Simulating Data with Synthea

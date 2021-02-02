@@ -4,12 +4,14 @@
 \alias{DropSyntheaTables}
 \title{Drop Synthea Tables.}
 \usage{
-DropSyntheaTables(connectionDetails, syntheaDatabaseSchema)
+DropSyntheaTables(connectionDetails, syntheaSchema, cdmVersion)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
+
+\item{cdmVersion}{The version of the CDM into which the synthea will be loaded.  Currently "5.3" and "6.0" are supported.}
 
 \item{syntheaDatabaseSchema}{The name of the database schema that contains the Synthea
 instance.  Requires read and write permissions to this database. On SQL

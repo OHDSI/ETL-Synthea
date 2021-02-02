@@ -74,13 +74,13 @@ select
   cast(null as varchar) route_source_value,
   cast(null as varchar) dose_unit_source_value
 from @synthea_schema.conditions c
- join @vocab_schema.source_to_standard_vocab_map   srctostdvm
+ join @cdm_schema.source_to_standard_vocab_map   srctostdvm
 on srctostdvm.source_code             = c.code
  and srctostdvm.target_domain_id        = 'Drug'
  and srctostdvm.source_vocabulary_id    = 'RxNorm'
  and srctostdvm.target_standard_concept = 'S'
  and (srctostdvm.target_invalid_reason IS NULL OR srctostdvm.target_invalid_reason = '')
-left join @vocab_schema.source_to_source_vocab_map srctosrcvm
+left join @cdm_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = c.code
  and srctosrcvm.source_vocabulary_id    = 'RxNorm'
 left join @cdm_schema.final_visit_ids fv
@@ -112,13 +112,13 @@ select
   cast(null as varchar),
   cast(null as varchar)
 from @synthea_schema.medications m
-  join @vocab_schema.source_to_standard_vocab_map   srctostdvm
+  join @cdm_schema.source_to_standard_vocab_map   srctostdvm
 on srctostdvm.source_code             = m.code
  and srctostdvm.target_domain_id        = 'Drug'
  and srctostdvm.source_vocabulary_id    = 'RxNorm'
  and srctostdvm.target_standard_concept = 'S'
  and (srctostdvm.target_invalid_reason IS  NULL OR srctostdvm.target_invalid_reason = '')
-left join @vocab_schema.source_to_source_vocab_map srctosrcvm
+left join @cdm_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = m.code
  and srctosrcvm.source_vocabulary_id    = 'RxNorm'
 left join @cdm_schema.final_visit_ids fv
@@ -150,13 +150,13 @@ select
   cast(null as varchar),
   cast(null as varchar)
 from @synthea_schema.immunizations i
-  left join @vocab_schema.source_to_standard_vocab_map   srctostdvm
+  left join @cdm_schema.source_to_standard_vocab_map   srctostdvm
 on srctostdvm.source_code             = i.code
  and srctostdvm.target_domain_id        = 'Drug'
  and srctostdvm.source_vocabulary_id    = 'CVX'
  and srctostdvm.target_standard_concept = 'S'
  and (srctostdvm.target_invalid_reason IS NULL OR srctostdvm.target_invalid_reason = '')
-left join @vocab_schema.source_to_source_vocab_map srctosrcvm
+left join @cdm_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = i.code
  and srctosrcvm.source_vocabulary_id    = 'CVX'
 left join @cdm_schema.final_visit_ids fv

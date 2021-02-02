@@ -4,17 +4,19 @@
 \alias{CreateSyntheaTables}
 \title{Create Synthea Tables.}
 \usage{
-CreateSyntheaTables(connectionDetails, syntheaDatabaseSchema)
+CreateSyntheaTables(connectionDetails, syntheaSchema, cdmVersion)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
-\item{syntheaDatabaseSchema}{The name of the database schema that will contain the Synthea
+\item{syntheaSchema}{The name of the database schema that will contain the Synthea
 instance.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
+
+\item{cdmVersion}{The version of the CDM into which the synthea will be loaded.  Currently "5.3" and "6.0" are supported.}
 }
 \description{
 This function creates all Synthea tables.

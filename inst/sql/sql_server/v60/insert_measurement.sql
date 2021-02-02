@@ -65,13 +65,13 @@ select
   cast(null as varchar) unit_source_value,
   cast(null as varchar) value_source_value
 from @synthea_schema.procedures pr
-join @vocab_schema.source_to_standard_vocab_map  srctostdvm
+join @cdm_schema.source_to_standard_vocab_map  srctostdvm
   on srctostdvm.source_code             = pr.code
  and srctostdvm.target_domain_id        = 'Measurement'
  and srctostdvm.source_vocabulary_id    = 'SNOMED'
  and srctostdvm.target_standard_concept = 'S'
  and (srctostdvm.target_invalid_reason IS NULL or srctostdvm.target_invalid_reason = '')
-left join @vocab_schema.source_to_source_vocab_map srctosrcvm
+left join @cdm_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = pr.code
  and srctosrcvm.source_vocabulary_id    = 'SNOMED'
 left join @cdm_schema.final_visit_ids fv
@@ -100,23 +100,23 @@ select
   o.units unit_source_value,
   o.value value_source_value
 from @synthea_schema.observations o
-join @vocab_schema.source_to_standard_vocab_map  srctostdvm
+join @cdm_schema.source_to_standard_vocab_map  srctostdvm
   on srctostdvm.source_code             = o.code
  and srctostdvm.target_domain_id        = 'Measurement'
  and srctostdvm.source_vocabulary_id    = 'LOINC'
  and srctostdvm.target_standard_concept = 'S'
  and (srctostdvm.target_invalid_reason IS NULL OR srctostdvm.target_invalid_reason = '')
-left join @vocab_schema.source_to_standard_vocab_map  srcmap1
+left join @cdm_schema.source_to_standard_vocab_map  srcmap1
   on srcmap1.source_code                = o.units
  and srcmap1.target_vocabulary_id       = 'UCUM'
  and srcmap1.target_standard_concept    = 'S'
  and (srcmap1.target_invalid_reason IS NULL OR srcmap1.target_invalid_reason = '')
-left join @vocab_schema.source_to_standard_vocab_map  srcmap2
+left join @cdm_schema.source_to_standard_vocab_map  srcmap2
   on srcmap2.source_code                = o.value
  and srcmap2.target_domain_id           = 'Meas value'
  and srcmap2.target_standard_concept    = 'S'
  and (srcmap2.target_invalid_reason IS NULL OR srcmap2.target_invalid_reason = '')
-left join @vocab_schema.source_to_source_vocab_map srctosrcvm
+left join @cdm_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = o.code
  and srctosrcvm.source_vocabulary_id    = 'LOINC'
 left join @cdm_schema.final_visit_ids fv

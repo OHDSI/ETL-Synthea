@@ -1,5 +1,6 @@
 .DS_Store
 .Rproj.user
 errorReport.txt
+errorReportSql.txt
 .RData
 .RHistory

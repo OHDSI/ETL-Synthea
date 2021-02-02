@@ -89,7 +89,6 @@ CreateCDMTables <- function (connectionDetails,cdmSchema,cdmVersion)
 	# use of parameterized sql to write to the correct schema.
 	
 	tableDDL <- httr::content(webResponse)
-	tableDDL <- gsub("[\r\n]", "", tableDDL)
 	tableDDL <- toupper(tableDDL)	
 	tableDDL <- gsub("CREATE TABLE  \n", "CREATE TABLE ", tableDDL)
 	tableDDL <- gsub("CREATE TABLE ", "CREATE TABLE @CDM_SCHEMA.", tableDDL)
@@ -99,11 +98,15 @@ CreateCDMTables <- function (connectionDetails,cdmSchema,cdmVersion)
 	tableDDL <- SqlRender::render(sql = tableDDL, CDM_SCHEMA = cdmSchema)
 	tableDDL <- SqlRender::translate(sql = tableDDL, targetDialect = rdbms)
 			
+	# Save the translated sql ddl for review purposes.
+	
+	SqlRender::writeSql(tableDDL,paste0("output/",rdbms,"_",cdmVersion,"_ddl.sql"))
+
     writeLines(paste0("Executing DDL from: ",webResponse$url))
 
 	conn <- DatabaseConnector::connect(connectionDetails)
 
-    DatabaseConnector::dbExecute(conn, tableDDL, progressBar = TRUE, reportOverallTime = TRUE)
+    DatabaseConnector::executeSql(conn, tableDDL)
 
     on.exit(DatabaseConnector::disconnect(conn))
 

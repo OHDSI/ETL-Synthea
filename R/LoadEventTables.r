@@ -1,50 +1,61 @@
 #' @title Load CDM Non-Vocabulary Tables.
 #'
-#' @description This function loads the CDM Event tables with Synthea data.  The tables that comprise the Vocabulary are
-#'               loaded via \cr\code{LoadVocabTables()}.
+#' @description This function loads the CDM Event tables with Synthea data.  
 #'
-#' @usage LoadEventTables (connectionDetails, cdmDatabaseSchema, syntheaDatabaseSchema)
+#' @usage LoadEventTables (connectionDetails, cdmSchema, syntheaSchema, cdmVersion)
 #'
-#' @details This function assumes \cr\code{createEventTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()},
+#' @details This function assumes \cr\code{createCDMTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()},
 #'              and \cr\code{LoadVocabTables()} have all been run.
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
-#' @param cdmDatabaseSchema  The name of the database schema that will contain the different VISIT
+#' @param cdmSchema  The name of the database schema that will contain the different VISIT
 #'                                     tables.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
-#' @param syntheaDatabaseSchema  The name of the database schema that contain the Synthea
+#' @param syntheaSchema  The name of the database schema that contain the Synthea
 #'                                     instance.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
-#' @param vocabDatabaseSchema  The name of the database schema that contains the OMOP Vocabulary tables. Requires
-#'                                     read permissions to this database. By default this is set to cdmDatabaseSchema.
+#' @param cdmVersion The version of your CDM.  Currently "5.3" and "6.0".
 #'
 #'@export
 
 
-LoadEventTables <- function (connectionDetails, cdmDatabaseSchema, syntheaDatabaseSchema, vocabDatabaseSchema = cdmDatabaseSchema)
+LoadEventTables <- function (connectionDetails, cdmSchema, syntheaSchema, cdmVersion)
 {
 
+	# Create Vocabulary mapping tables
+	CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion)
+	
+	# Perform visit rollup logic and create auxiliary tables
+	CreateVisitRollupTables(connectionDetails, cdmSchema, syntheaSchema, cdmVersion)
+	
+	# The sql scripts to insert into each CDM event table rely on the vocab mapping tables and the visit auxiliary tables
     queries <- c("insert_person.sql", "insert_observation_period.sql", "insert_visit_occurrence.sql", "insert_condition_occurrence.sql",
                  "insert_observation.sql", "insert_measurement.sql", "insert_procedure_occurrence.sql", "insert_drug_exposure.sql",
 				 "insert_condition_era.sql", "insert_drug_era.sql", "insert_cdm_source.sql")
 
 	conn <- DatabaseConnector::connect(connectionDetails)
 
+	# Determine which sql scripts to run based on the given version.
+	# The path is relative to inst/sql/sql_server.
+	
+	if (cdmVersion == "5.3")
+		sqlFilePath <- "v53"
+	else if (cdmVersion == "6.0")
+		sqlFilePath <- "v60"
+	
 	for (query in queries) {
 
-        pathToSql <- base::system.file("sql/sql_server", package = "ETLSyntheaBuilder")
-
-        sqlFile <- base::paste0(pathToSql, "/", query)
-
-        sqlQuery <- base::readChar(sqlFile, base::file.info(sqlFile)$size)
-
-        renderedSql <- SqlRender::render(sqlQuery, cdm_schema = cdmDatabaseSchema, synthea_schema = syntheaDatabaseSchema, vocab_schema = vocabDatabaseSchema)
-
-        translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
+		translatedSql <- SqlRender::loadRenderTranslateSql(
+			sqlFilename    = paste0(sqlFilePath,"/",query),
+			packageName    = "ETLSyntheaBuilder",
+			dbms           = connectionDetails$dbms,
+			cdm_schema     = cdmSchema,
+			synthea_schema = syntheaSchema 
+		)
 
         writeLines(paste0("Running: ",query))
 
