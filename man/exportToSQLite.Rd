@@ -4,25 +4,20 @@
 \alias{exportToSQLite}
 \title{Export a CDM (Vocabulary and Event tables) into a SQLite Database.}
 \usage{
-exportToSQLite(connectionDetails,cdmDatabaseSchema,vocabDatabaseSchema,SQLiteDbName = "cdm.sqlite")
+exportToSQLite(connectionDetails,cdmSchema,SQLiteDbName = "cdm.sqlite")
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
-\item{cdmDatabaseSchema}{The name of the database schema that contains the CDM
-instance.  Requires read and write permissions to this database. On SQL
+\item{cdmSchema}{The name of the database schema that contains the CDM.
+Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
-
-\item{vocabDatabaseSchema}{The name of the database schema that contains the Vocabulary
-instance.  Requires read and write permissions to this database. On SQL
-Server, this should specifiy both the database and the schema,
-so for example 'vocab_instance.dbo'.}
 
 \item{SQLiteDbName}{The name of the SQLite Database File.}
 }
 \description{
-This function fetches (pruned) table data into R dataframes and writes them to a SQLite DB.
+This function fetches (pruned) table data into R dataframes and writes them to a SQLite DB. (Eunomia support)
 }

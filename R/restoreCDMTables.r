@@ -2,28 +2,36 @@
 #'
 #' @description This function undoes the pruning by renaming (the *_orig tables are given their names back).
 #'
-#' @usage restoreCDMTables(connectionDetails,cdmDatabaseSchema,vocabDatabaseSchema)
+#' @usage restoreCDMTables(connectionDetails,cdmSchema,cdmVersion)
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
-#' @param cdmDatabaseSchema  The name of the database schema that contains the CDM
+#' @param cdmSchema  The name of the database schema that contains the CDM
 #'                                     instance.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
-#' @param vocabDatabaseSchema  The name of the database schema that contains the Vocabulary
-#'                                     instance.  Requires read and write permissions to this database. On SQL
-#'                                     Server, this should specifiy both the database and the schema,
-#'                                     so for example 'vocab_instance.dbo'.
+#' @param cdmVersion The version of your CDM.  Currently "5.3" and "6.0" are supported.
 #'@export
 
 
-restoreCDMTables <- function (connectionDetails, vocabDatabaseSchema)
+restoreCDMTables <- function (connectionDetails, cdmSchema, cdmVersion)
 {
-	sql <- SqlRender::loadRenderTranslateSql("restore_cdm_tables.sql", "ETLSyntheaBuilder", dbms = connectionDetails$dbms, vocab_schema = vocabDatabaseSchema)
-  writeLines("Running restore_cdm_tables.sql")
+
+	if (cdmVersion == "5.3")
+		sqlFilePath <- "v53"
+	else if (cdmVersion == "6.0")
+		sqlFilePath <- "v60"
+
+	sql <- SqlRender::loadRenderTranslateSql(
+			sqlFileName = paste0(sqlFilePath,"/restore_cdm_tables.sql"), 
+			packageName = "ETLSyntheaBuilder", 
+			dbms        = connectionDetails$dbms, 
+			cdm_schema  = cdmSchema
+			)
+	writeLines("Running restore_cdm_tables.sql")
 	conn <- DatabaseConnector::connect(connectionDetails)
-  DatabaseConnector::dbExecute(conn, sql, progressBar = TRUE, reportOverallTime = TRUE)
-  on.exit(DatabaseConnector::disconnect(conn))
+	DatabaseConnector::executeSql(conn, sql)
+	on.exit(DatabaseConnector::disconnect(conn))
 }
 
