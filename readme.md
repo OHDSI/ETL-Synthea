@@ -28,18 +28,18 @@ ETLSyntheaBuilder::CreateCDMTables(connectionDetails = cd, cdmSchema = "cdm_synt
                                      
 ETLSyntheaBuilder::CreateSyntheaTables(connectionDetails = cd, syntheaSchema = "native", cdmVersion = "5.3")
                                        
-ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails = cd, 
-                                     syntheaSchema = "native", 
-									                   syntheaFileLoc = "/tmp/synthea/output/csv")
+ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails = cd,
+									 syntheaSchema = "native",
+									 syntheaFileLoc = "/tmp/synthea/output/csv")
                                      
 ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails = cd, 
-                                    cdmSchema = "cdm_synthea10", 
-									                  vocabFileLoc = "/tmp/Vocabulary_20181119")
+                                    cdmSchema = "cdm_synthea10",
+									vocabFileLoc = "/tmp/Vocabulary_20181119")
                                     
 ETLSyntheaBuilder::LoadEventTables(connectionDetails = cd, 
                                    cdmDatabaseSchema = "cdm_synthea10", 
                                    syntheaDatabaseSchema = "native",
-								                   cdmVersion = "5.3")
+								   cdmVersion = "5.3")
 ```
 
 ### Simulating Data with Synthea
