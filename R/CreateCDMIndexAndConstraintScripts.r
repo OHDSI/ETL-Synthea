@@ -79,7 +79,7 @@ CreateCDMIndexAndConstraintScripts <- function (connectionDetails,cdmSchema,cdmV
 	indexDDL      <- toupper(indexDDL)
 	constraintDDL <- toupper(constraintDDL)
 
-	indexDDL <- gsub("INDEX", "INDEX @CDM_SCHEMA.",indexDDL)
+	indexDDL <- gsub(" ON ", " ON @CDM_SCHEMA.",indexDDL)
 	indexDDL <- gsub("ALTER TABLE", "ALTER TABLE @CDM_SCHEMA.",indexDDL)
 	indexDDL <- gsub("@CDM_SCHEMA. ","@CDM_SCHEMA.",indexDDL)
 	indexDDL <- SqlRender::render(indexDDL, CDM_SCHEMA = cdmSchema)
