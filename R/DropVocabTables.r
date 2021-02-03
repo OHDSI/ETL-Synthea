@@ -11,7 +11,7 @@
 #'                   Requires read and write permissions to this database. On SQL
 #'                   Server, this should specifiy both the database and the schema,
 #'                   so for example 'cdm_instance.dbo'.
-#' @param cdmVersion The version of your CDM.  Currently "5.3" and "6.0" are supported.
+#' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.
 #'
 #'@export
 
@@ -19,10 +19,12 @@
 DropVocabTables <- function (connectionDetails, cdmSchema, cdmVersion)
 {
 
-	if (cdmVersion == "5.3")
-		sqlFilePath <- "v53"
-	else if (cdmVersion == "6.0")
-		sqlFilePath <- "v60"
+	if (cdmVersion == "5.3.1")
+		sqlFilePath <- "cdm_version/v531"
+	else if (cdmVersion == "6.0.0")
+		sqlFilePath <- "cdm_version/v600"
+	else
+		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
 		
     translatedSql <- SqlRender::loadRenderTranslateSql(
 		sqlFilename = paste0(sqlFilePath,"/","drop_vocab_tables.sql"),
@@ -35,7 +37,7 @@ DropVocabTables <- function (connectionDetails, cdmSchema, cdmVersion)
 	
 	conn <- DatabaseConnector::connect(connectionDetails) 
 	
-    DatabaseConnector::dbExecute(conn, translatedSql, progressBar = TRUE, reportOverallTime = TRUE)
+    DatabaseConnector::executeSql(conn, translatedSql)
 
     on.exit(DatabaseConnector::disconnect(conn)) 
 	

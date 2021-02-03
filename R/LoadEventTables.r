@@ -18,7 +18,7 @@
 #'                                     instance.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
-#' @param cdmVersion The version of your CDM.  Currently "5.3" and "6.0".
+#' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0".
 #'
 #'@export
 
@@ -42,10 +42,12 @@ LoadEventTables <- function (connectionDetails, cdmSchema, syntheaSchema, cdmVer
 	# Determine which sql scripts to run based on the given version.
 	# The path is relative to inst/sql/sql_server.
 	
-	if (cdmVersion == "5.3")
-		sqlFilePath <- "v53"
-	else if (cdmVersion == "6.0")
-		sqlFilePath <- "v60"
+	if (cdmVersion == "5.3.1")
+		sqlFilePath <- "cdm_version/v531"
+	else if (cdmVersion == "6.0.0")
+		sqlFilePath <- "cdm_version/v600"
+	else
+		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
 	
 	for (query in queries) {
 
@@ -59,7 +61,7 @@ LoadEventTables <- function (connectionDetails, cdmSchema, syntheaSchema, cdmVer
 
         writeLines(paste0("Running: ",query))
 
-        DatabaseConnector::executeSql(conn, translatedSql, progressBar = TRUE, reportOverallTime = TRUE)
+        DatabaseConnector::executeSql(conn, translatedSql)
 
     }
 

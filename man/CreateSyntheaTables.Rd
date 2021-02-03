@@ -16,7 +16,7 @@ instance.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
-\item{cdmVersion}{The version of the CDM into which the synthea will be loaded.  Currently "5.3" and "6.0" are supported.}
+\item{syntheaVersion}{The version of Synthea used to generate the csv files.  Currently "2.6.1" is supported.}
 }
 \description{
 This function creates all Synthea tables.

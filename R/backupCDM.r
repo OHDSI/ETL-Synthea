@@ -11,17 +11,20 @@
 #'                           Requires read and write permissions to this database. On SQL
 #'                           Server, this should specifiy both the database and the schema,
 #'                           so for example 'cdm_instance.dbo'.
-#' @param cdmVersion The version of your CDM.  Currently "5.3" and "6.0".
+#' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.1".
 #'
 #'@export
 
 
 backupCDM <- function (connectionDetails, cdmSchema, cdmVersion)
 {
-	if (cdmVersion == "5.3")
-		sqlFilePath <- "v53"
-	else if (cdmVersion == "6.0")
-		sqlFilePath <- "v60"
+	if (cdmVersion == "5.3.1")
+		sqlFilePath <- "cdm_version/v531"
+	else if (cdmVersion == "6.0.0")
+		sqlFilePath <- "cdm_version/v600"
+	else
+		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
+
 
     sql <- SqlRender::loadRenderTranslateSql(
 			sqlFileName = paste0(sqlFilePath,"/backup_cdm.sql"), 

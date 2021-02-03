@@ -11,14 +11,14 @@ createPrunedTables(connectionDetails,cdmSchema,eventConceptId,cdmVersion)
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
-\item{eventConceptId}{A vector of concept_ids returned from \code{getEventConceptId}.}
-
-\item{cdmVersion}{The version of your CDM.  Currently "5.3" and "6.0".}
-
-\item{cdmDatabaseSchema}{The name of the database schema that contains the CDM.
+\item{cdmSchema}{The name of the database schema that contains the CDM.
 Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
+
+\item{eventConceptId}{A vector of concept_ids returned from \code{getEventConceptId}.}
+
+\item{cdmVersion}{The version of your CDM.  Currently "5.3.1" and "6.0.0".}
 }
 \description{
 This function creates the pruned cdm and vocab tables by keeping only those rows from

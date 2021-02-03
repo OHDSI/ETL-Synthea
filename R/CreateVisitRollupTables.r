@@ -18,7 +18,7 @@
 #'                                     instance.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'synthea_instance.dbo'.
-#' @param cdmVersion The version of your CDM.  Currently "5.3" and "6.0" are supported.
+#' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.
 #'
 #'@export
 
@@ -26,10 +26,12 @@
 CreateVisitRollupTables <- function (connectionDetails, cdmSchema, syntheaSchema, cdmVersion)
 {
 
-	if (cdmVersion == "5.3")
-		sqlFilePath <- "v53"
-	else if (cdmVersion == "6.0")
-		sqlFilePath <- "v60"
+	if (cdmVersion == "5.3.1")
+		sqlFilePath <- "cdm_version/v531"
+	else if (cdmVersion == "6.0.0")
+		sqlFilePath <- "cdm_version/v600"
+	else
+		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
 
     queries <- c("AllVisitTable.sql", "AAVITable.sql", "final_visit_ids.sql")
     

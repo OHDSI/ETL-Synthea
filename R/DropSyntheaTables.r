@@ -2,28 +2,28 @@
 #'
 #' @description This function drops all Synthea tables.
 #'
-#' @usage DropSyntheaTables(connectionDetails, syntheaSchema, cdmVersion)
+#' @usage DropSyntheaTables(connectionDetails, syntheaSchema, syntheaVersion)
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
 #'
-#' @param syntheaDatabaseSchema  The name of the database schema that contains the Synthea
+#' @param syntheaSchema  The name of the database schema that contains the Synthea
 #'                                     instance.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
-#'                                     so for example 'cdm_instance.dbo'.
-#' @param cdmVersion The version of the CDM into which the synthea will be loaded.  Currently "5.3" and "6.0" are supported.
+#'                                     so for example 'synthea_instance.dbo'.
+#' @param syntheaVersion The version of Synthea used to generate the csv files.  Currently "2.6.1" is supported.
 #'
 #'@export
 
 
-DropSyntheaTables <- function (connectionDetails, syntheaSchema, cdmVersion)
+DropSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaVersion)
 {
 
-	if (cdmVersion == "5.3")
-		sqlFilePath <- "v53"
-	else if (cdmVersion == "6.0")
-		sqlFilePath <- "v60"
+	if (syntheaVersion == "2.6.1")
+		sqlFilePath <- "synthea_version/v261"
+	else 
+		stop("Invalid synthea version specified.  Version 2.6.1 is currenty supported")
 
     translatedSql <- SqlRender::loadRenderTranslateSql(
 		sqlFilename     = paste0(sqlFilePath,"/","drop_synthea_tables.sql"),

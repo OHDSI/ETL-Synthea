@@ -11,18 +11,18 @@
 #'                                     instance.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
-#' @param cdmVersion The version of the CDM into which the synthea will be loaded.  Currently "5.3" and "6.0" are supported.
+#' @param syntheaVersion The version of Synthea used to generate the csv files.  Currently "2.6.1" is supported.
 #'
 #'@export
 
 
-CreateSyntheaTables <- function (connectionDetails, syntheaSchema, cdmVersion)
+CreateSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaVersion)
 {
 
-	if (cdmVersion == "5.3")
-		sqlFilePath <- "v53"
-	else if (cdmVersion == "6.0")
-		sqlFilePath <- "v60"
+	if (syntheaVersion == "2.6.1")
+		sqlFilePath <- "synthea_version/v261"
+	else 
+		stop("Invalid synthea version specified.  Version 2.6.1 is currenty supported")
 
     translatedSql <- SqlRender::loadRenderTranslateSql(
 		sqlFilename     = paste0(sqlFilePath,"/","create_synthea_tables.sql"),

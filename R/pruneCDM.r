@@ -11,7 +11,7 @@
 #'                   Requires read and write permissions to this database. On SQL
 #'                   Server, this should specifiy both the database and the schema,
 #'                   so for example 'cdm_instance.dbo'.
-#' @param cdmVersion The version of your CDM.  Currently "5.3" and "6.0".
+#' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0".
 #'
 #'@export
 

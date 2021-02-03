@@ -16,7 +16,7 @@ Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
-\item{cdmVersion}{The version of your CDM.  Currently "5.3" and "6.0".}
+\item{cdmVersion}{The version of your CDM.  Currently "5.3.1" and "6.0.1".}
 }
 \description{
 This function performs a "back up" of the original tables by renaming them. (Eunomia support)

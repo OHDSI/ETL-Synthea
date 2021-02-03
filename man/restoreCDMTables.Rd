@@ -16,7 +16,7 @@ instance.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
-\item{cdmVersion}{The version of your CDM.  Currently "5.3" and "6.0" are supported.}
+\item{cdmVersion}{The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.}
 }
 \description{
 This function undoes the pruning by renaming (the *_orig tables are given their names back).

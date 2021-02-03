@@ -21,7 +21,7 @@ instance.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'synthea_instance.dbo'.}
 
-\item{cdmVersion}{The version of your CDM.  Currently "5.3" and "6.0" are supported.}
+\item{cdmVersion}{The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.}
 }
 \description{
 This function creates tables ALL_VISITS, ASSIGN_ALL_VISIT_IDS, and FINAL_VISIT_IDS.
