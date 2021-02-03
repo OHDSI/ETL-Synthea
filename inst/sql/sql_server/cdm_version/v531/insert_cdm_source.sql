@@ -19,7 +19,7 @@ select
 'https://github.com/OHDSI/ETL-Synthea',
 getdate(), -- NB: Set this value to the day the source data was pulled
 getdate(), 
-'v6.0',
+'v5.3',
 vocabulary_version
 from @cdm_schema.vocabulary 
 where vocabulary_id = 'None';

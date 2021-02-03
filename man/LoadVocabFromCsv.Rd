@@ -4,14 +4,14 @@
 \alias{LoadVocabFromCsv}
 \title{Load Vocabulary Tables From CSV Files.}
 \usage{
-LoadVocabFromCsv(connectionDetails, vocabDatabaseSchema, vocabFileLoc)
+LoadVocabFromCsv(connectionDetails, cdmSchema, vocabFileLoc)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
-\item{vocabDatabaseSchema}{The name of the database schema that will contain the Vocabulary
+\item{cdmSchema}{The name of the database schema that will contain the Vocabulary (and CDM)
 tables.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}

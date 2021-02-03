@@ -4,21 +4,23 @@
 \alias{CreateVocabMapTables}
 \title{Create Vocabulary Mapping Tables.}
 \usage{
-CreateVocabMapTables (connectionDetails, cdmDatabaseSchema)
+CreateVocabMapTables (connectionDetails, cdmSchema, cdmVersion)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
-\item{cdmDatabaseSchema}{The name of the database schema that will contain the Vocab mapping 
+\item{cdmSchema}{The name of the database schema that will contain the Vocab mapping 
 tables.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
+
+\item{cdmVersion}{The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.}
 }
 \description{
 This function creates source to source and source to standard vocab mapping tables.
 }
 \details{
-This function assumes \cr\code{createCDMTables()} and \cr\code{LoadVocabTables()} has already been run.
+This function assumes \cr\code{createCDMTables()} has already been run and the Vocabulary tables have been loaded.
 }
