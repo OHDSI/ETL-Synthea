@@ -1,4 +1,4 @@
-output/
+output/*.sql
 .DS_Store
 .Rproj.user
 errorReport.txt
