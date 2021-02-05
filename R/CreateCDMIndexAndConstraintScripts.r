@@ -91,7 +91,10 @@ CreateCDMIndexAndConstraintScripts <- function (connectionDetails,cdmSchema,cdmV
 	constraintDDL <- SqlRender::translate(constraintDDL, targetDialect = rdbms)
 
 	# Save the translated sql ddl to be run at a later time
-
+	if (!dir.exists("output")) {
+		dir.create("output")
+	}
+	
 	# Constraint DDL
 	writeLines(paste0("Pulling constraint DDL from: ",webResponseCon$url))
 	writeLines(paste0("Saving constraint DDL in: output/",rdbms,"_",cdmVersion,"_constraint_ddl.sql"))

@@ -98,6 +98,9 @@ CreateCDMTables <- function (connectionDetails,cdmSchema,cdmVersion)
 	tableDDL <- SqlRender::translate(sql = tableDDL, targetDialect = rdbms)
 			
 	# Save the translated sql ddl for review purposes.
+	if (!dir.exists("output")) {
+		dir.create("output")
+	}
 	
     writeLines(paste0("Executing DDL from: ",webResponse$url))
     writeLines(paste0("Saving DDL in: output/",rdbms,"_",cdmVersion,"_ddl.sql"))
