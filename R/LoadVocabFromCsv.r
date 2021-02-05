@@ -27,7 +27,7 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc)
 
     for (csv in csvList) {
 
-	    vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = "\t")
+	    vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = "\t", na.strings = "")
 		vocabTable <- as.data.frame(vocabTable)
 		
 		# Missing string fields are being created as "" which carry over to SQL instead of NULL.
