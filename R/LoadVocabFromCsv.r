@@ -29,12 +29,6 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc)
 
 	    vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = "\t", na.strings = "")
 		vocabTable <- as.data.frame(vocabTable)
-		
-		# Missing string fields are being created as "" which carry over to SQL instead of NULL.
-		# Convert these fields to NA which will then be created as NULL in SQL.
-		# Fixes issue #73.
-		vocabTable <- vocabTable %>% dplyr::mutate_if(is.character, list(~na_if(.,""))) 
-
 
 	    # Format Dates for tables that need it
         if (base::identical(csv,"concept.csv") || base::identical(csv,"concept_relationship.csv") || base::identical(csv,"drug_strength.csv")) {
