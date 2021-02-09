@@ -27,7 +27,7 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc)
 
     for (csv in csvList) {
 
-	    vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = "\t", na.strings = "")
+	    vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = "\t", na.strings = c(""," "))
 		vocabTable <- as.data.frame(vocabTable)
 
 	    # Format Dates for tables that need it

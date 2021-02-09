@@ -38,7 +38,7 @@ LoadSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaFileLoc)
 	
     for (csv in csvList) {
 
-	    syntheaTable <- data.table::fread(file = paste0(syntheaFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = ",")    
+	    syntheaTable <- data.table::fread(file = paste0(syntheaFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = ",", na.strings = c(""," "))    
 		
 		writeLines(paste0("Loading: ",csv))
 	
