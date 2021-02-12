@@ -1,7 +1,6 @@
 
 
-insert into @cdm_schema.measurement
-(
+insert into @cdm_schema.measurement (
 measurement_id,
 person_id,
 measurement_concept_id,
