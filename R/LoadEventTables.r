@@ -35,7 +35,7 @@ LoadEventTables <- function (connectionDetails, cdmSchema, syntheaSchema, cdmVer
 	# The sql scripts to insert into each CDM event table rely on the vocab mapping tables and the visit auxiliary tables
     queries <- c("insert_person.sql", "insert_observation_period.sql", "insert_visit_occurrence.sql", "insert_condition_occurrence.sql",
                  "insert_observation.sql", "insert_measurement.sql", "insert_procedure_occurrence.sql", "insert_drug_exposure.sql",
-				 "insert_condition_era.sql", "insert_drug_era.sql", "insert_cdm_source.sql")
+				 "insert_condition_era.sql", "insert_drug_era.sql", "insert_cdm_source.sql", "insert_visit_detail.sql")
 
 	conn <- DatabaseConnector::connect(connectionDetails)
 

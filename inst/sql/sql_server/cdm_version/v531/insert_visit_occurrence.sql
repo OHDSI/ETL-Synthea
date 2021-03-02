@@ -41,10 +41,10 @@ select
 	av.encounter_id,
 	0,                                       
 	0,
-	NULL,
+	null,
 	0,                                
-	NULL,   
-	lag(visit_occurrence_id) 
+	null,   
+	lag(av.visit_occurrence_id) 
 	 over(partition by p.person_id
 			  order by av.visit_start_date)
 from @cdm_schema.all_visits av
