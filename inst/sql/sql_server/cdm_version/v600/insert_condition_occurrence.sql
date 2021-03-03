@@ -29,7 +29,7 @@ select
   cast(null as varchar),
   0,
   fv.visit_occurrence_id_new visit_occurrence_id,
-  0,
+  fv.visit_occurrence_id_new + 1000000 visit_detail_id,
   c.code,
   coalesce(srctosrcvm.source_concept_id,0),
   NULL,

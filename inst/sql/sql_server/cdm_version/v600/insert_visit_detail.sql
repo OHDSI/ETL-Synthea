@@ -22,8 +22,8 @@ insert into @cdm_schema.visit_detail (
   discharge_to_source_value,
   visit_detail_parent_id,
   visit_occurrence_id
-
 )
+
 select
   	av.visit_occurrence_id + 1000000     visit_detail_id,
 	p.person_id                          person_id,                          

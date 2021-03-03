@@ -179,4 +179,14 @@ lon numeric,
 utilization numeric
 );
 
+--HINT DISTRIBUTE_ON_RANDOM
+create table @synthea_schema.devices (
+start         date,
+stop          date,
+patient       varchar(1000),
+encounter     varchar(1000),
+code          varchar(100),
+description   varchar(255),
+udi           varchar(255)
+);
 

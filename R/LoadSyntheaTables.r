@@ -32,7 +32,7 @@ LoadSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaFileLoc)
 {
 
     csvList <- c("allergies.csv","conditions.csv","imaging_studies.csv","medications.csv","organizations.csv","procedures.csv",
-	             "careplans.csv","encounters.csv","immunizations.csv","observations.csv","patients.csv","providers.csv")
+	             "careplans.csv","encounters.csv","immunizations.csv","observations.csv","patients.csv","providers.csv","devices.csv")
 	
 	conn <- DatabaseConnector::connect(connectionDetails) 
 	

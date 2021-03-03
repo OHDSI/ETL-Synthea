@@ -4,7 +4,7 @@
 \alias{CreateCDMTables}
 \title{Create Common Data Model Tables.}
 \usage{
-CreateCDMTables(connectionDetails,cdmSchema,cdmVersion)
+CreateCDMTables(connectionDetails,cdmSchema,cdmVersion,githubTag)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
@@ -16,6 +16,9 @@ Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
 \item{cdmVersion}{Your CDM version.  Currently "5.3.1" and "6.0.0" are supported.}
+
+\item{githubTag}{An optional github tag from which to pull the DDL script. 
+Currently "v5.3.1", "v5.3.1_fixes", "v6.0.0", and "v6.0.0_fixes" are supported.  The default is NULL.}
 }
 \description{
 This function creates the all the required tables for the CDM.
@@ -24,5 +27,5 @@ This function creates the all the required tables for the CDM.
 This function creates all the tables in a CDM by referring to the
          correct SQL DDL script in the OHDSI CommonDataModel repo. The database platform is 
          determined by \code{connectionDetails$dbms}.  Currently "oracle", "postgresql", "pdw", 
-         "impala", "netezza", "bigquery", and "redshift" are supported.
+         "impala", "netezza", "bigquery", "redshift", and "sql server" are supported.
 }
