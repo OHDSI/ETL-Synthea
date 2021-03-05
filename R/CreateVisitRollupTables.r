@@ -42,7 +42,8 @@ CreateVisitRollupTables <- function (connectionDetails, cdmSchema, syntheaSchema
 			sqlFilename    = paste0(sqlFilePath,"/",query),
 			packageName    = "ETLSyntheaBuilder",
 			dbms           = connectionDetails$dbms,
-			cdm_schema     = cdmSchema
+			cdm_schema     = cdmSchema,
+			synthea_schema = syntheaSchema
 		)
 
 		if (sqlOnly) {
