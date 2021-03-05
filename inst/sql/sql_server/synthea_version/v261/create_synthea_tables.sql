@@ -153,7 +153,8 @@ healthcare_coverage	numeric
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.procedures (
-"date"         date,
+start         date,
+stop          date,
 patient       varchar(1000),
 encounter     varchar(1000),
 code          varchar(100),

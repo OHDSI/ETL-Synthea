@@ -25,8 +25,13 @@ TruncateEventTables <- function (connectionDetails, cdmSchema, cdmVersion)
 	else
 		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
 
+	if (connectionDetails$dbms == "postgresql")	
+		sqlFilename <- paste0(sqlFilePath,"/truncate_pg_event_tables.sql")
+	else 
+		sqlFilename <- paste0(sqlFilePath,"/truncate_event_tables.sql")
+	
 	sql <- SqlRender::loadRenderTranslateSql(
-			sqlFilename = paste0(sqlFilePath,"/truncate_event_tables.sql"), 
+			sqlFilename = sqlFilename, 
 			packageName = "ETLSyntheaBuilder", 
 			dbms        = connectionDetails$dbms, 
 			cdm_schema  = cdmSchema
