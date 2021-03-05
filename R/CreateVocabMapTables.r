@@ -2,7 +2,7 @@
 #'
 #' @description This function creates source to source and source to standard vocab mapping tables.
 #'
-#' @usage CreateVocabMapTables (connectionDetails, cdmSchema, cdmVersion)
+#' @usage CreateVocabMapTables (connectionDetails, cdmSchema, cdmVersion, sqlOnly)
 #'
 #' @details This function assumes \cr\code{createCDMTables()} has already been run and the Vocabulary tables have been loaded.  
 #'
@@ -14,11 +14,12 @@
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.
+#' @param sqlOnly A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.
 #'
 #'@export
 
 
-CreateVocabMapTables <- function (connectionDetails, cdmSchema, cdmVersion)
+CreateVocabMapTables <- function (connectionDetails, cdmSchema, cdmVersion, sqlOnly = FALSE)
 {
 
 	if (cdmVersion == "5.3.1")
@@ -30,8 +31,6 @@ CreateVocabMapTables <- function (connectionDetails, cdmSchema, cdmVersion)
 
     queries <- c("create_source_to_standard_vocab_map.sql", "create_source_to_source_vocab_map.sql")
     
-	conn <- DatabaseConnector::connect(connectionDetails) 
-	
 	for (query in queries) {
 	
 		translatedSql <- SqlRender::loadRenderTranslateSql(
@@ -41,12 +40,18 @@ CreateVocabMapTables <- function (connectionDetails, cdmSchema, cdmVersion)
 			cdm_schema     = cdmSchema
 		)
 
-        writeLines(paste0("Running: ",query))
-	
-        DatabaseConnector::executeSql(conn, translatedSql)
+		if (sqlOnly) {
+			if (!dir.exists("output"))
+				dir.create("output")
+				
+			writeLines(paste0("Saving to output/", query))
+			SqlRender::writeSql(translatedSql,paste0("output/",query))
 
+        } else {
+			conn <- DatabaseConnector::connect(connectionDetails) 
+			writeLines(paste0("Running: ",query))		
+			DatabaseConnector::executeSql(conn, translatedSql)
+			DatabaseConnector::disconnect(conn)
+		}
     }
-	
-    on.exit(DatabaseConnector::disconnect(conn)) 
-	
 }

@@ -4,7 +4,7 @@
 \alias{CreateVisitRollupTables}
 \title{Create Tables for Visit Rollup Logic.}
 \usage{
-CreateVisitRollupTables (connectionDetails, cdmSchema, syntheaSchema, cdmVersion)
+CreateVisitRollupTables (connectionDetails, cdmSchema, syntheaSchema, cdmVersion, sqlOnly)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
@@ -22,6 +22,8 @@ Server, this should specifiy both the database and the schema,
 so for example 'synthea_instance.dbo'.}
 
 \item{cdmVersion}{The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.}
+
+\item{sqlOnly}{A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.}
 }
 \description{
 This function creates tables ALL_VISITS, ASSIGN_ALL_VISIT_IDS, and FINAL_VISIT_IDS.

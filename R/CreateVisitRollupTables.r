@@ -2,7 +2,7 @@
 #'
 #' @description This function creates tables ALL_VISITS, ASSIGN_ALL_VISIT_IDS, and FINAL_VISIT_IDS.
 #'
-#' @usage CreateVisitRollupTables (connectionDetails, cdmSchema, syntheaSchema, cdmVersion)
+#' @usage CreateVisitRollupTables (connectionDetails, cdmSchema, syntheaSchema, cdmVersion, sqlOnly)
 #'
 #' @details This function assumes \cr\code{createCDMTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()}, 
 #'          have all been run and the Vocabulary has been loaded.  
@@ -19,11 +19,12 @@
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'synthea_instance.dbo'.
 #' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.
+#' @param sqlOnly A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.
 #'
 #'@export
 
 
-CreateVisitRollupTables <- function (connectionDetails, cdmSchema, syntheaSchema, cdmVersion)
+CreateVisitRollupTables <- function (connectionDetails, cdmSchema, syntheaSchema, cdmVersion, sqlOnly = FALSE)
 {
 
 	if (cdmVersion == "5.3.1")
@@ -35,24 +36,28 @@ CreateVisitRollupTables <- function (connectionDetails, cdmSchema, syntheaSchema
 
     queries <- c("AllVisitTable.sql", "AAVITable.sql", "final_visit_ids.sql")
     
-	conn <- DatabaseConnector::connect(connectionDetails) 
-	
 	for (query in queries) {
 	
 		translatedSql <- SqlRender::loadRenderTranslateSql(
 			sqlFilename    = paste0(sqlFilePath,"/",query),
 			packageName    = "ETLSyntheaBuilder",
 			dbms           = connectionDetails$dbms,
-			cdm_schema     = cdmSchema,
-			synthea_schema = syntheaSchema
+			cdm_schema     = cdmSchema
 		)
 
-        writeLines(paste0("Running: ",query))
-	
-        DatabaseConnector::executeSql(conn, translatedSql)
+		if (sqlOnly) {
+			if (!dir.exists("output"))
+				dir.create("output")
+				
+			writeLines(paste0("Saving to output/", query))
+			SqlRender::writeSql(translatedSql,paste0("output/",query))
 
+        } else {
+			conn <- DatabaseConnector::connect(connectionDetails) 
+			writeLines(paste0("Running: ",query))		
+			DatabaseConnector::executeSql(conn, translatedSql)
+			DatabaseConnector::disconnect(conn)
+		}
     }
-	
-    on.exit(DatabaseConnector::disconnect(conn)) 
 	
 }

@@ -4,7 +4,7 @@
 \alias{CreateVocabMapTables}
 \title{Create Vocabulary Mapping Tables.}
 \usage{
-CreateVocabMapTables (connectionDetails, cdmSchema, cdmVersion)
+CreateVocabMapTables (connectionDetails, cdmSchema, cdmVersion, sqlOnly)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
@@ -17,6 +17,8 @@ Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
 \item{cdmVersion}{The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.}
+
+\item{sqlOnly}{A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.}
 }
 \description{
 This function creates source to source and source to standard vocab mapping tables.
