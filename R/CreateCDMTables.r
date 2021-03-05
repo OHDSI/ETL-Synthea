@@ -46,11 +46,11 @@ CreateCDMTables <- function (connectionDetails,cdmSchema,cdmVersion,githubTag = 
 		stop("Unrecognized github tag.  Supported values are \"v5.3.1\", \"v6.0.0\", \"v5.3.1_fixes\", and \"v6.0.0_fixes\"")
 	}
 	
-	if (cdmVersion == "5.3.1" && !(githubTag %in% c("v5.3.1","v5.3.1_fixes"))) {
+	if (cdmVersion == "5.3.1" && !is.null(githubTag) && !(githubTag %in% c("v5.3.1","v5.3.1_fixes"))) {
 		stop("cdmVersion and githubTag mismatch.")
 	}
 	
-	if (cdmVersion == "6.0.0" && !(githubTag %in% c("v6.0.0","v6.0.0_fixes"))) {
+	if (cdmVersion == "6.0.0" && !is.null(githubTag) && !(githubTag %in% c("v6.0.0","v6.0.0_fixes"))) {
 		stop("cdmVersion and githubTag mismatch.")
 	}
 		
@@ -174,7 +174,7 @@ CreateCDMTables <- function (connectionDetails,cdmSchema,cdmVersion,githubTag = 
 	tableDDL <- httr::content(webResponse)
 	tableDDL <- toupper(tableDDL)
 
-	if (githubTag == "v5.3.1_fixes") {
+	if (!is.null(githubTag) && githubTag == "v5.3.1_fixes") {
 		tableDDL <- SqlRender::render(sql = tableDDL, CDMDATABASESCHEMA = cdmSchema)
 	} else {
 		tableDDL <- gsub("CREATE TABLE  \n", "CREATE TABLE ", tableDDL)
