@@ -2,7 +2,7 @@
 #'
 #' @description This function drops CDM tables, excluding Vocabulary tables. 
 #'
-#' @usage DropCDMTables(connectionDetails,cdmSchema, cdmVersion)
+#' @usage DropCDMTables(connectionDetails,cdmSchema)
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
@@ -11,34 +11,23 @@
 #'                                     instance.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
-#' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.
 #'
 #'@export
 
 
-DropEventTables <- function (connectionDetails, cdmSchema, cdmVersion)
+DropEventTables <- function (connectionDetails, cdmSchema)
 {
+	eventTables <- c(
+		"CARE_SITE","CDM_SOURCE","COHORT","COHORT_ATTRIBUTE","CONDITION_ERA","CONDITION_OCCURRENCE","COST","DEATH","DEVICE_EXPOSURE",
+		"DOSE_ERA","DRUG_ERA","DRUG_EXPOSURE","FACT_RELATIONSHIP","LOCATION","MEASUREMENT","METADATA","NOTE","NOTE_NLP","OBSERVATION",
+		"OBSERVATION_PERIOD","PAYER_PLAN_PERIOD","PERSON","PROCEDURE_OCCURRENCE","PROVIDER","SPECIMEN","VISIT_DETAIL","VISIT_OCCURRENCE")
 
-	if (cdmVersion == "5.3.1")
-		sqlFilePath <- "cdm_version/v531"
-	else if (cdmVersion == "6.0.0")
-		sqlFilePath <- "cdm_version/v600"
-	else
-		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
-
-    translatedSql <- SqlRender::loadRenderTranslateSql(
-		sqlFilename = paste0(sqlFilePath,"/","drop_event_tables.sql"),
-		packageName = "ETLSyntheaBuilder",
-		dbms        = connectionDetails$dbms,
-		cdm_schema  = cdmSchema
-	)
-
-    writeLines("Running drop_event_tables.sql")
-	
-	conn <- DatabaseConnector::connect(connectionDetails) 
-	
-    DatabaseConnector::dbExecute(conn, translatedSql, progressBar = TRUE, reportOverallTime = TRUE)
-
-    on.exit(DatabaseConnector::disconnect(conn)) 
-	
+	conn <- DatabaseConnector::connect(connectionDetails)
+	allTables <- DatabaseConnector::getTableNames(conn,cdmSchema)
+	tablesToDrop <- allTables[which(allTables %in% eventTables)]
+	sql <- paste("drop table @cdm_schema.",tablesToDrop,";",collapse = "\n", sep = "")
+	sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
+	sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
+	DatabaseConnector::executeSql(conn, sql)
+	on.exit(DatabaseConnector::disconnect(conn))	
 }

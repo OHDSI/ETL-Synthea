@@ -4,7 +4,7 @@
 \alias{TruncateEventTables}
 \title{Truncate Non-Vocabulary CDM Tables.}
 \usage{
-TruncateCDMTables(connectionDetails,cdmSchema,cdmVersion)
+TruncateCDMTables(connectionDetails,cdmSchema)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
@@ -15,8 +15,6 @@ function \code{createConnectionDetails} in the
 instance.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
-
-\item{cdmVersion}{The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.}
 }
 \description{
 This function truncates CDM tables, excluding Vocabulary tables.

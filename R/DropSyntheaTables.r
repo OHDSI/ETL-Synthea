@@ -2,7 +2,7 @@
 #'
 #' @description This function drops all Synthea tables.
 #'
-#' @usage DropSyntheaTables(connectionDetails, syntheaSchema, syntheaVersion)
+#' @usage DropSyntheaTables(connectionDetails, syntheaSchema)
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
@@ -12,32 +12,24 @@
 #'                                     instance.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'synthea_instance.dbo'.
-#' @param syntheaVersion The version of Synthea used to generate the csv files.  Currently "2.6.1" is supported.
 #'
 #'@export
 
 
-DropSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaVersion)
+DropSyntheaTables <- function (connectionDetails, syntheaSchema)
 {
 
-	if (syntheaVersion == "2.6.1")
-		sqlFilePath <- "synthea_version/v261"
-	else 
-		stop("Invalid synthea version specified.  Version 2.6.1 is currenty supported")
+	syntheaTables <- c( 
+		"ALLERGIES","CAREPLANS","CONDITIONS","DEVICES","ENCOUNTERS","IMAGING_STUDIES","IMMUNIZATIONS",
+		"MEDICATIONS","OBSERVATIONS","ORGANIZATIONS","PATIENTS","PROCEDURES","PROVIDERS")
 
-    translatedSql <- SqlRender::loadRenderTranslateSql(
-		sqlFilename     = paste0(sqlFilePath,"/","drop_synthea_tables.sql"),
-		packageName     = "ETLSyntheaBuilder",
-		dbms            = connectionDetails$dbms,
-		synthea_schema  = syntheaSchema
-	)
-
-    writeLines("Running drop_synthea_tables.sql")
-
-	conn <- DatabaseConnector::connect(connectionDetails)
-
-    DatabaseConnector::dbExecute(conn, translatedSql, progressBar = TRUE, reportOverallTime = TRUE)
-
-    on.exit(DatabaseConnector::disconnect(conn))
-
+	conn <- DatabaseConnector::connect(connectionDetails) 
+	allTables <- DatabaseConnector::getTableNames(conn,cdmSchema)
+	writeLines("Dropping Synthea tables...")		
+	tablesToDrop <- allTables[which(allTables %in% syntheaTables)]
+	sql <- paste("drop table @synthea_schema.",tablesToDrop,";",collapse = "\n", sep = "")
+	sql <- SqlRender::render(sql, synthea_schema = syntheaSchema)
+	sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
+	DatabaseConnector::executeSql(conn, sql)
+	on.exit(DatabaseConnector::disconnect(conn))
 }

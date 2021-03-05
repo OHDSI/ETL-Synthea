@@ -2,7 +2,7 @@
 #'
 #' @description This function drops Vocabulary tables in a CDM.
 #'
-#' @usage DropVocabTables(connectionDetails, cdmSchema, cdmVersion)
+#' @usage DropVocabTables(connectionDetails, cdmSchema)
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
@@ -11,34 +11,24 @@
 #'                   Requires read and write permissions to this database. On SQL
 #'                   Server, this should specifiy both the database and the schema,
 #'                   so for example 'cdm_instance.dbo'.
-#' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.
 #'
 #'@export
 
 
-DropVocabTables <- function (connectionDetails, cdmSchema, cdmVersion)
+DropVocabTables <- function (connectionDetails, cdmSchema)
 {
 
-	if (cdmVersion == "5.3.1")
-		sqlFilePath <- "cdm_version/v531"
-	else if (cdmVersion == "6.0.0")
-		sqlFilePath <- "cdm_version/v600"
-	else
-		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
-		
-    translatedSql <- SqlRender::loadRenderTranslateSql(
-		sqlFilename = paste0(sqlFilePath,"/","drop_vocab_tables.sql"),
-		packageName = "ETLSyntheaBuilder",
-		dbms        = connectionDetails$dbms,
-		cdm_schema  = cdmSchema
-	)
+	vocabTables <- c( 
+		'ATTRIBUTE_DEFINITION','COHORT_DEFINITION','CONCEPT','CONCEPT_ANCESTOR','CONCEPT_CLASS','CONCEPT_RELATIONSHIP', 
+		'CONCEPT_SYNONYM','DOMAIN','DRUG_STRENGTH','RELATIONSHIP','SOURCE_TO_CONCEPT_MAP','VOCABULARY' )
 
-    writeLines("Running drop_vocab_tables.sql")
-	
 	conn <- DatabaseConnector::connect(connectionDetails) 
-	
-    DatabaseConnector::executeSql(conn, translatedSql)
-
-    on.exit(DatabaseConnector::disconnect(conn)) 
-	
+	allTables <- DatabaseConnector::getTableNames(conn,cdmSchema)
+	writeLines("Dropping vocabulary tables...")		
+	tablesToDrop <- allTables[which(allTables %in% vocabTables)]
+	sql <- paste("drop table @cdm_schema.",tablesToDrop,";",collapse = "\n", sep = "")
+	sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
+	sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
+	DatabaseConnector::executeSql(conn, sql)
+	on.exit(DatabaseConnector::disconnect(conn))		
 }

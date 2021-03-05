@@ -4,7 +4,7 @@
 \alias{DropSyntheaTables}
 \title{Drop Synthea Tables.}
 \usage{
-DropSyntheaTables(connectionDetails, syntheaSchema, syntheaVersion)
+DropSyntheaTables(connectionDetails, syntheaSchema)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
@@ -15,8 +15,6 @@ function \code{createConnectionDetails} in the
 instance.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'synthea_instance.dbo'.}
-
-\item{syntheaVersion}{The version of Synthea used to generate the csv files.  Currently "2.6.1" is supported.}
 }
 \description{
 This function drops all Synthea tables.

@@ -18,20 +18,17 @@
 TruncateVocabTables <- function (connectionDetails, cdmSchema)
 {
 
-  vocabTables <- c( 'attribute_definition', 'cohort_definition', 'concept', 'concept_ancestor', 'concept_class', 'concept_relationship', 
-                    'concept_synonym', 'domain', 'drug_strength', 'relationship', 'source_to_concept_map', 'vocabulary' )
+	vocabTables <- c( 
+		'ATTRIBUTE_DEFINITION','COHORT_DEFINITION','CONCEPT','CONCEPT_ANCESTOR','CONCEPT_CLASS','CONCEPT_RELATIONSHIP', 
+		'CONCEPT_SYNONYM','DOMAIN','DRUG_STRENGTH','RELATIONSHIP','SOURCE_TO_CONCEPT_MAP','VOCABULARY' )
 
-  conn <- DatabaseConnector::connect(connectionDetails) 
-
-  writeLines("Truncating vocabulary tables...")
-	
-    for (tableName in vocabTables) {
-	  if (DatabaseConnector::dbExistsTable(conn = conn, name = tableName, schema = vocabDatabaseSchema)) { 
-	    writeLines(paste0("Truncating ",tableName))
-        DatabaseConnector::executeSql(conn, paste0("truncate table ",cdmSchema,".",tableName,";"))
-      }
-	}
-	
-    on.exit(DatabaseConnector::disconnect(conn)) 
-	
+	conn <- DatabaseConnector::connect(connectionDetails) 
+	allTables <- DatabaseConnector::getTableNames(conn,cdmSchema)
+	writeLines("Truncating vocabulary tables...")		
+	tablesToTruncate <- allTables[which(allTables %in% vocabTables)]
+	sql <- paste("truncate table @cdm_schema.",tablesToTruncate,";",collapse = "\n", sep = "")
+	sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
+	sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
+	DatabaseConnector::executeSql(conn, sql)
+	on.exit(DatabaseConnector::disconnect(conn))	
 }
