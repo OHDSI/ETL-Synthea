@@ -25,19 +25,34 @@ TruncateEventTables <- function (connectionDetails, cdmSchema, cdmVersion)
 	else
 		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
 
-	if (connectionDetails$dbms == "postgresql")	
-		sqlFilename <- paste0(sqlFilePath,"/truncate_pg_event_tables.sql")
-	else 
+	if (connectionDetails$dbms == "postgresql")	{
+	
+		conn <- DatabaseConnector::connect(connectionDetails)
+		allTables <- DatabaseConnector::getTableNames(conn,cdmSchema)
+		eventTables <- c(
+			"CARE_SITE","CDM_SOURCE","COHORT","COHORT_ATTRIBUTE","CONDITION_ERA","CONDITION_OCCURRENCE","COST","DEATH","DEVICE_EXPOSURE",
+			"DOSE_ERA","DRUG_ERA","DRUG_EXPOSURE","FACT_RELATIONSHIP","LOCATION","MEASUREMENT","METADATA","NOTE","NOTE_NLP","OBSERVATION",
+			"OBSERVATION_PERIOD","PAYER_PLAN_PERIOD","PERSON","PROCEDURE_OCCURRENCE","PROVIDER","SPECIMEN","VISIT_DETAIL","VISIT_OCCURRENCE")
+		tablesToTruncate <- allTables[which(allTables %in% eventTables)]
+		sql <- paste0("truncate table @cdm_schema.",tablesToTruncate,";")
+		sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
+		sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
+		DatabaseConnector::executeSql(conn, sql)
+		on.exit(DatabaseConnector::disconnect(conn))
+		
+	} else {
+	
 		sqlFilename <- paste0(sqlFilePath,"/truncate_event_tables.sql")
 	
-	sql <- SqlRender::loadRenderTranslateSql(
+		sql <- SqlRender::loadRenderTranslateSql(
 			sqlFilename = sqlFilename, 
 			packageName = "ETLSyntheaBuilder", 
 			dbms        = connectionDetails$dbms, 
 			cdm_schema  = cdmSchema
 			)
 			
-	conn <- DatabaseConnector::connect(connectionDetails)
-	DatabaseConnector::executeSql(conn, sql)
-	on.exit(DatabaseConnector::disconnect(conn))
+		conn <- DatabaseConnector::connect(connectionDetails)
+		DatabaseConnector::executeSql(conn, sql)
+		on.exit(DatabaseConnector::disconnect(conn))
+	}
 }
