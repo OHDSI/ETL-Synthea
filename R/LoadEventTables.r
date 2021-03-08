@@ -1,6 +1,6 @@
 #' @title Load CDM Non-Vocabulary Tables.
 #'
-#' @description This function loads the CDM Event tables with Synthea data.  
+#' @description This function loads the CDM Event tables with Synthea data.
 #'
 #' @usage LoadEventTables (connectionDetails, cdmSchema, syntheaSchema, cdmVersion, sqlOnly)
 #'
@@ -24,63 +24,201 @@
 #'@export
 
 
-LoadEventTables <- function (connectionDetails, cdmSchema, syntheaSchema, cdmVersion, sqlOnly = FALSE)
+LoadEventTables <- function (connectionDetails,
+														 cdmSchema,
+														 syntheaSchema,
+														 cdmVersion,
+														 sqlOnly = FALSE)
 {
-
 	# Create Vocabulary mapping tables
 	CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion, sqlOnly)
-	
+
 	# Perform visit rollup logic and create auxiliary tables
-	CreateVisitRollupTables(connectionDetails, cdmSchema, syntheaSchema, cdmVersion, sqlOnly)
-	
-	# The sql scripts to insert into each CDM event table rely on the vocab mapping tables and the visit auxiliary tables
-    queries <- c("insert_person.sql",     
-	             "insert_observation_period.sql", 
-				 "insert_visit_occurrence.sql", 
-				 "insert_condition_occurrence.sql",
-                 "insert_observation.sql", 
-				 "insert_measurement.sql", 
-				 "insert_procedure_occurrence.sql", 
-				 "insert_drug_exposure.sql",
-				 "insert_condition_era.sql", 
-				 "insert_drug_era.sql", 
-				 "insert_cdm_source.sql", 
-				 "insert_visit_detail.sql",
-				 "insert_device_exposure.sql",
-				 "insert_death.sql")
+	CreateVisitRollupTables(connectionDetails,
+													cdmSchema,
+													syntheaSchema,
+													cdmVersion,
+													sqlOnly)
 
 	# Determine which sql scripts to run based on the given version.
 	# The path is relative to inst/sql/sql_server.
-	
-	if (cdmVersion == "5.3.1")
+
+	if (cdmVersion == "5.3.1") {
 		sqlFilePath <- "cdm_version/v531"
-	else if (cdmVersion == "6.0.0")
+	} else if (cdmVersion == "6.0.0") {
 		sqlFilePath <- "cdm_version/v600"
-	else
+	} else {
 		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
-	
-	for (query in queries) {
-	
-		translatedSql <- SqlRender::loadRenderTranslateSql(
-			sqlFilename    = paste0(sqlFilePath,"/",query),
-			packageName    = "ETLSyntheaBuilder",
-			dbms           = connectionDetails$dbms,
-			cdm_schema     = cdmSchema,
-			synthea_schema = syntheaSchema
-		)
+	}
 
-		if (sqlOnly) {
-			if (!dir.exists("output"))
-				dir.create("output")
-				
-			writeLines(paste0("Saving to output/", query))
-			SqlRender::writeSql(translatedSql,paste0("output/",query))
-
-        } else {
-			conn <- DatabaseConnector::connect(connectionDetails) 
-			writeLines(paste0("Running: ",query))		
-			DatabaseConnector::executeSql(conn, translatedSql)
-			DatabaseConnector::disconnect(conn)
+	if (!sqlOnly) {
+		conn <- DatabaseConnector::connect(connectionDetails)
+	} else {
+		if (!dir.exists("output")) {
+			dir.create("output")
 		}
-    }
+	}
+
+	runStep <- function(sql, fileQuery) {
+		if (sqlOnly) {
+			writeLines(paste0("Saving to output/", sql))
+			SqlRender::writeSql(sql, paste0("output/", fileQuery))
+		} else {
+			writeLines(paste0("Running: ", fileQuery))
+			DatabaseConnector::executeSql(conn, sql)
+		}
+	}
+
+	# person
+	fileQuery <- "insert_person.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema
+	)
+	runStep(sql,fileQuery)
+
+	# observation period
+	fileQuery <- "insert_observation_period.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema
+	)
+	runStep(sql,fileQuery)
+
+	# visit occurrence
+	fileQuery <- "insert_visit_occurrence.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema
+	)
+	runStep(sql,fileQuery)
+
+	# condition occurrence
+	fileQuery <- "insert_condition_occurrence.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema
+	)
+	runStep(sql,fileQuery)
+
+	# observation
+	fileQuery <- "insert_observation.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema
+	)
+	runStep(sql,fileQuery)
+
+	# measurement
+	fileQuery <- "insert_measurement.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema
+	)
+	runStep(sql,fileQuery)
+
+	# procedure occurrence
+	fileQuery <- "insert_procedure_occurrence.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema
+	)
+	runStep(sql,fileQuery)
+
+	# drug exposure
+	fileQuery <- "insert_drug_exposure.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema
+	)
+	runStep(sql,fileQuery)
+
+	# condition era
+	fileQuery <- "insert_condition_era.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema
+	)
+	runStep(sql,fileQuery)
+
+	# drug era
+	fileQuery <- "insert_drug_era.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema
+	)
+	runStep(sql,fileQuery)
+
+	# cdm source
+	fileQuery <- "insert_cdm_source.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema
+	)
+	runStep(sql,fileQuery)
+
+	# visit detail
+	fileQuery <- "insert_visit_detail.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema
+	)
+	runStep(sql,fileQuery)
+
+	# device exposure
+	fileQuery <- "insert_device_exposure.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema
+	)
+	runStep(sql,fileQuery)
+
+	# death
+	fileQuery <- "insert_death.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema
+	)
+	runStep(sql,fileQuery)
+
+	if (!sqlOnly) {
+		DatabaseConnector::disconnect(conn)
+	}
 }
