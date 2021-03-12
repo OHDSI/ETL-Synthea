@@ -40,7 +40,7 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc)
 
         writeLines(paste0("Loading: ",csv))
 
-	    DatabaseConnector::insertTable(conn,paste0(cdmSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = TRUE, progressBar = TRUE)
+	    DatabaseConnector::insertTable(conn,tableName=paste0(cdmSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = TRUE, progressBar = TRUE)
 	}
 
     on.exit(DatabaseConnector::disconnect(conn))
