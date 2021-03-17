@@ -11,7 +11,7 @@ Follow the steps on the [synthea wiki](https://github.com/synthetichealth/synthe
  library(ETLSyntheaBuilder)
 
  # We are loading a version 5.3.1 CDM into a local PostgreSQL database called "synthea10".  
- # The supported Synthea version is 2.6.1
+ # The supported Synthea version is 2.7.0 or master
  # The schema to load the Synthea tables is called "native".
  # The schema to load the Vocabulary and CDM tables is "cdm_synthea10".  
  # The username and pw are "postgres" and "lollipop".
@@ -27,7 +27,7 @@ Follow the steps on the [synthea wiki](https://github.com/synthetichealth/synthe
 
 cdmSchema      <- "cdm_synthea10"
 cdmVersion     <- "5.3.1"
-syntheaVersion <- "2.6.1"
+syntheaVersion <- "2.7.0"
 syntheaSchema  <- "native"
 syntheaFileLoc <- "/tmp/synthea/output/csv"
 vocabFileLoc   <- "/tmp/Vocabulary_20181119"
@@ -40,7 +40,7 @@ ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails = cd, syntheaSchema = syn
                                      
 ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails = cd, cdmSchema = cdmSchema, vocabFileLoc = vocabFileLoc)
                                     
-ETLSyntheaBuilder::LoadEventTables(connectionDetails = cd, cdmSchema = cdmSchema, syntheaSchema = syntheaSchema, cdmVersion = cdmVersion)
+ETLSyntheaBuilder::LoadEventTables(connectionDetails = cd, cdmSchema = cdmSchema, syntheaSchema = syntheaSchema, cdmVersion = cdmVersion, syntheaVersion = syntheaVersion)
 
 # Optional: Create index and constraint DDL scripts for the rdbms that support them.  Scripts will be written to the "output" directory.
 # ETLSyntheaBuilder::CreateCDMIndexAndConstraintScripts(connectionDetails = cd, cdmSchema = cdmSchema, cdmVersion = cdmVersion)

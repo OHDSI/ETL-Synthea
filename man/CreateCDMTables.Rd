@@ -19,6 +19,8 @@ so for example 'cdm_instance.dbo'.}
 
 \item{githubTag}{An optional github tag from which to pull the DDL script. 
 Currently "v5.3.1", "v5.3.1_fixes", "v6.0.0", and "v6.0.0_fixes" are supported.  The default is NULL.}
+
+\item{sqlOnly}{A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.}
 }
 \description{
 This function creates the all the required tables for the CDM.

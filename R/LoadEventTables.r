@@ -19,30 +19,23 @@
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0".
+#' @param syntheaVersion The version of Synthea used to generate the csv files.  
+#'                       Currently "master" and "2.7.0" are supported.  The default is "2.7.0".
 #' @param sqlOnly A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.
 #'
 #'@export
 
 
 LoadEventTables <- function (connectionDetails,
-														 cdmSchema,
-														 syntheaSchema,
-														 cdmVersion,
-														 sqlOnly = FALSE)
+                             cdmSchema,
+							 syntheaSchema,
+							 cdmVersion,
+							 syntheaVersion = "2.7.0",
+							 sqlOnly = FALSE)
 {
-	# Create Vocabulary mapping tables
-	CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion, sqlOnly)
-
-	# Perform visit rollup logic and create auxiliary tables
-	CreateVisitRollupTables(connectionDetails,
-													cdmSchema,
-													syntheaSchema,
-													cdmVersion,
-													sqlOnly)
 
 	# Determine which sql scripts to run based on the given version.
 	# The path is relative to inst/sql/sql_server.
-
 	if (cdmVersion == "5.3.1") {
 		sqlFilePath <- "cdm_version/v531"
 	} else if (cdmVersion == "6.0.0") {
@@ -50,6 +43,18 @@ LoadEventTables <- function (connectionDetails,
 	} else {
 		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
 	}
+
+    supportedSyntheaVersions <- c("2.7.0","master")
+
+	if (!(syntheaVersion %in% supportedSyntheaVersions))
+		stop("Invalid synthea version specified.  Currently \"master\" and \"2.7.0\" are supported")
+
+	# Create Vocabulary mapping tables
+	CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion, sqlOnly)
+
+	# Perform visit rollup logic and create auxiliary tables
+	CreateVisitRollupTables(connectionDetails,cdmSchema,syntheaSchema,cdmVersion,sqlOnly)
+
 
 	if (!sqlOnly) {
 		conn <- DatabaseConnector::connect(connectionDetails)
@@ -141,7 +146,8 @@ LoadEventTables <- function (connectionDetails,
 		packageName = "ETLSyntheaBuilder",
 		dbms = connectionDetails$dbms,
 		cdm_schema = cdmSchema,
-		synthea_schema = syntheaSchema
+		synthea_schema = syntheaSchema,
+		synthea_version = syntheaVersion
 	)
 	runStep(sql,fileQuery)
 

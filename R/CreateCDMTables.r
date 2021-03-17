@@ -13,6 +13,7 @@
 #' @param cdmVersion Your CDM version.  Currently "5.3.1" and "6.0.0" are supported.
 #' @param githubTag  An optional github tag from which to pull the DDL script. 
 #'                   Currently "v5.3.1", "v5.3.1_fixes", "v6.0.0", and "v6.0.0_fixes" are supported.  The default is NULL.
+#' @param sqlOnly A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.
 #'
 #' @details This function creates all the tables in a CDM by referring to the
 #'          correct SQL DDL script in the OHDSI CommonDataModel repo. The database platform is 
@@ -22,7 +23,7 @@
 #'@export
 
 
-CreateCDMTables <- function (connectionDetails,cdmSchema,cdmVersion,githubTag = NULL)
+CreateCDMTables <- function (connectionDetails,cdmSchema,cdmVersion,githubTag = NULL,sqlOnly = FALSE)
 {
 
 	supportedDbs      <- c("oracle", "postgresql", "pdw", "impala", "netezza", "bigquery", "redshift", "sql server")
@@ -195,10 +196,9 @@ CreateCDMTables <- function (connectionDetails,cdmSchema,cdmVersion,githubTag = 
     writeLines(paste0("Saving DDL in: output/",rdbms,"_",cdmVersion,"_ddl.sql"))
 	SqlRender::writeSql(tableDDL,paste0("output/",rdbms,"_",cdmVersion,"_ddl.sql"))
 
-	conn <- DatabaseConnector::connect(connectionDetails)
-
-    DatabaseConnector::executeSql(conn, tableDDL)
-
-    on.exit(DatabaseConnector::disconnect(conn))
-
+	if (!sqlOnly) {
+		conn <- DatabaseConnector::connect(connectionDetails)
+		DatabaseConnector::executeSql(conn, tableDDL)
+		on.exit(DatabaseConnector::disconnect(conn))
+	}
 }

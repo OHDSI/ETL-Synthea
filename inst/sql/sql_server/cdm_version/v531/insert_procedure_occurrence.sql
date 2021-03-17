@@ -19,8 +19,17 @@ select
 row_number()over(order by p.person_id)   procedure_occurrence_id,
 p.person_id                              person_id,
 srctostdvm.target_concept_id             procedure_concept_id,
+
+{@synthea_version == "master"} ? {
 pr.start                                 procedure_date,
 pr.start                                 procedure_datetime,
+} 
+
+{@synthea_version == "2.7.0"} ? {
+pr.date                                  procedure_date,
+pr.date                                  procedure_datetime,
+} 
+
 38000267                                 procedure_type_concept_id,
 0                                        modifier_concept_id,
 cast(null as integer)                    quantity,
