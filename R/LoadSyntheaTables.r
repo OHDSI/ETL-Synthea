@@ -24,11 +24,12 @@
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param syntheaFileLoc     The location of the Synthea csv files created by running the executable run_synthea.
+#' @param bulkLoad       Boolean flag indicating whether or not to use bulk loading (if possible).  Default is FALSE.
 #'
 #'@export
 
 
-LoadSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaFileLoc)
+LoadSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaFileLoc, bulkLoad = FALSE)
 {
 
     csvList <- c("allergies.csv","conditions.csv","imaging_studies.csv","medications.csv","organizations.csv","procedures.csv",
@@ -55,7 +56,7 @@ LoadSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaFileLoc)
         if("UTILIZATION" %in% colnames(syntheaTable))  syntheaTable$UTILIZATION  <- as.numeric(syntheaTable$UTILIZATION)
 
 		
-	    DatabaseConnector::insertTable(conn,tableName=paste0(syntheaSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(syntheaTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = TRUE, progressBar = TRUE)
+	    DatabaseConnector::insertTable(conn,tableName=paste0(syntheaSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(syntheaTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = bulkLoad, progressBar = TRUE)
 	}
 
     on.exit(DatabaseConnector::disconnect(conn)) 

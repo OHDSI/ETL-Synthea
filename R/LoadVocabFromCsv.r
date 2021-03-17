@@ -14,11 +14,12 @@
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param vocabFileLoc     The location of the vocabulary csv files.
+#' @param bulkLoad       Boolean flag indicating whether or not to use bulk loading (if possible).  Default is FALSE.
 #'
 #'@export
 
 
-LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc)
+LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLoad = FALSE)
 {
 
     csvList <- c("concept.csv","vocabulary.csv","concept_ancestor.csv","concept_relationship.csv","relationship.csv","concept_synonym.csv","domain.csv","concept_class.csv", "drug_strength.csv")
@@ -40,7 +41,7 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc)
 
         writeLines(paste0("Loading: ",csv))
 
-	    DatabaseConnector::insertTable(conn,tableName=paste0(cdmSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = TRUE, progressBar = TRUE)
+	    DatabaseConnector::insertTable(conn,tableName=paste0(cdmSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = bulkLoad, progressBar = TRUE)
 	}
 
     on.exit(DatabaseConnector::disconnect(conn))

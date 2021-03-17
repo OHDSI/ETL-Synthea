@@ -17,6 +17,8 @@ Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
 \item{syntheaFileLoc}{The location of the Synthea csv files created by running the executable run_synthea.}
+
+\item{bulkLoad}{Boolean flag indicating whether or not to use bulk loading (if possible).  Default is FALSE.}
 }
 \description{
 This function populates all Synthea tables.
