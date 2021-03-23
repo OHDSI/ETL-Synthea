@@ -39,7 +39,7 @@ LoadSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaFileLoc,
 	
     for (csv in csvList) {
 
-	    syntheaTable <- data.table::fread(file = paste0(syntheaFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = ",", na.strings = c(""," "))    
+	    syntheaTable <- data.table::fread(file = paste0(syntheaFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = ",",na.strings = "")    
 		
 		writeLines(paste0("Loading: ",csv))
 	
@@ -55,8 +55,9 @@ LoadSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaFileLoc,
         if("PHONE"       %in% colnames(syntheaTable))  syntheaTable$PHONE        <- as.character(syntheaTable$PHONE)
         if("UTILIZATION" %in% colnames(syntheaTable))  syntheaTable$UTILIZATION  <- as.numeric(syntheaTable$UTILIZATION)
 
-		
-	    DatabaseConnector::insertTable(conn,tableName=paste0(syntheaSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(syntheaTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = bulkLoad, progressBar = TRUE)
+		suppressWarnings({
+	      DatabaseConnector::insertTable(conn,tableName=paste0(syntheaSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(syntheaTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = bulkLoad, progressBar = TRUE)
+		})
 	}
 
     on.exit(DatabaseConnector::disconnect(conn)) 

@@ -28,7 +28,7 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLo
 
     for (csv in csvList) {
 
-	    vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = "\t", na.strings = c(""," "))
+	    vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = "\t", na.strings = "")
 		vocabTable <- as.data.frame(vocabTable)
 
 	    # Format Dates for tables that need it
@@ -38,12 +38,12 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLo
             vocabTable$valid_end_date   <- as.Date(as.character(vocabTable$valid_end_date),"%Y%m%d")
         }
 
-
         writeLines(paste0("Loading: ",csv))
 
-	    DatabaseConnector::insertTable(conn,tableName=paste0(cdmSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = bulkLoad, progressBar = TRUE)
+		suppressWarnings({
+	      DatabaseConnector::insertTable(conn,tableName=paste0(cdmSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = bulkLoad, progressBar = TRUE)
+		})
 	}
 
     on.exit(DatabaseConnector::disconnect(conn))
-
 }

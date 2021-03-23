@@ -43,7 +43,8 @@ CreateVisitRollupTables <- function (connectionDetails, cdmSchema, syntheaSchema
 			packageName    = "ETLSyntheaBuilder",
 			dbms           = connectionDetails$dbms,
 			cdm_schema     = cdmSchema,
-			synthea_schema = syntheaSchema
+			synthea_schema = syntheaSchema,
+			warnOnMissingParameters = FALSE
 		)
 
 		if (sqlOnly) {
