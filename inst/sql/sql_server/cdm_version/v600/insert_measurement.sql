@@ -46,9 +46,19 @@ from (
 select
   p.person_id                              person_id,
   srctostdvm.target_concept_id             measurement_concept_id,
+  
+{@synthea_version == "master"} ? {
   pr.start                                 measurement_date,
   pr.start                                 measurement_datetime,
   pr.start                                 measurement_time,
+} 
+
+{@synthea_version == "2.7.0"} ? {
+  pr.date                                  measurement_date,
+  pr.date                                  measurement_datetime,
+  pr.date                                  measurement_time,
+} 
+  
   38000267                                 measurement_type_concept_id,
   0                                        operator_concept_id,
   cast(null as float)                      value_as_number,

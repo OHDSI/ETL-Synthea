@@ -135,7 +135,8 @@ LoadEventTables <- function (connectionDetails,
 		packageName = "ETLSyntheaBuilder",
 		dbms = connectionDetails$dbms,
 		cdm_schema = cdmSchema,
-		synthea_schema = syntheaSchema
+		synthea_schema = syntheaSchema,
+		synthea_version = syntheaVersion
 	)
 	runStep(sql,fileQuery)
 
