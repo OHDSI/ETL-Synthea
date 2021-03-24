@@ -185,6 +185,13 @@ CreateCDMTables <- function (connectionDetails,cdmSchema,cdmVersion,githubTag = 
 		tableDDL <- SqlRender::render(sql = tableDDL, CDM_SCHEMA = cdmSchema)
 	}
 	
+	# Temporary hack to make vocabulary_version null in 5.3.1
+	# This is not necessary in v6.0.0 or using branch 5.3.1_fixes
+	if (cdmVersion == "5.3.1" || githubTag == "v5.3.1")
+		tableDDL <- gsub("VOCABULARY_VERSION\t\\s\\sVARCHAR\\(\\d{2,5}\\)\\sNOT NULL", 
+			             "VOCABULARY_VERSION VARCHAR(255) NULL",
+			              tableDDL)
+
 	tableDDL <- SqlRender::translate(sql = tableDDL, targetDialect = rdbms)
 			
 	# Save the translated sql ddl for review purposes.
