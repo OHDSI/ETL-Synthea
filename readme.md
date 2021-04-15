@@ -5,7 +5,7 @@ Follow the steps on the [synthea wiki](https://github.com/synthetichealth/synthe
 
 ### Step by Step Example
 
-```
+```r
  devtools::install_github("OHDSI/ETL-Synthea")
 
  library(ETLSyntheaBuilder)
