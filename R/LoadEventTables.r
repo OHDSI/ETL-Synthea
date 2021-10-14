@@ -18,9 +18,9 @@
 #'                                     instance.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
-#' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0".
+#' @param cdmVersion The version of your CDM.  Currently "5.3" and "5.4".
 #' @param syntheaVersion The version of Synthea used to generate the csv files.  
-#'                       Currently "master" and "2.7.0" are supported.  The default is "2.7.0".
+#'                       Currently "2.7.0" is supported.
 #' @param sqlOnly A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.
 #'
 #'@export
@@ -36,18 +36,18 @@ LoadEventTables <- function (connectionDetails,
 
 	# Determine which sql scripts to run based on the given version.
 	# The path is relative to inst/sql/sql_server.
-	if (cdmVersion == "5.3.1") {
+	if (cdmVersion == "5.3") {
 		sqlFilePath <- "cdm_version/v531"
-	} else if (cdmVersion == "6.0.0") {
-		sqlFilePath <- "cdm_version/v600"
+	} else if (cdmVersion == "5.4") {
+		sqlFilePath <- "cdm_version/v540"
 	} else {
-		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
+		stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\"")
 	}
 
-    supportedSyntheaVersions <- c("2.7.0","master")
+    supportedSyntheaVersions <- c("2.7.0")
 
 	if (!(syntheaVersion %in% supportedSyntheaVersions))
-		stop("Invalid synthea version specified.  Currently \"master\" and \"2.7.0\" are supported")
+		stop("Invalid synthea version specified.  Currently \"2.7.0\" is supported")
 
 	# Create Vocabulary mapping tables
 	CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion, sqlOnly)

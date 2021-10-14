@@ -13,7 +13,7 @@
 #'                                     tables.  Requires read and write permissions to this database. On SQL
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
-#' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0" are supported.
+#' @param cdmVersion The version of your CDM.  Currently "5.3" and "5.4" are supported.
 #' @param sqlOnly A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.
 #'
 #'@export
@@ -22,23 +22,26 @@
 CreateVocabMapTables <- function (connectionDetails, cdmSchema, cdmVersion, sqlOnly = FALSE)
 {
 
-	if (cdmVersion == "5.3.1")
+	if (cdmVersion == "5.3")
 		sqlFilePath <- "cdm_version/v531"
-	else if (cdmVersion == "6.0.0")
-		sqlFilePath <- "cdm_version/v600"
+	else if (cdmVersion == "5.4")
+		sqlFilePath <- "cdm_version/v540"
 	else
-		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
+		stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\"")
 
     queries <- c("create_source_to_standard_vocab_map.sql", "create_source_to_source_vocab_map.sql")
     
+	if (!sqlOnly) {
+		conn <- DatabaseConnector::connect(connectionDetails) 
+	}
+	
 	for (query in queries) {
 	
 		translatedSql <- SqlRender::loadRenderTranslateSql(
 			sqlFilename    = paste0(sqlFilePath,"/",query),
 			packageName    = "ETLSyntheaBuilder",
 			dbms           = connectionDetails$dbms,
-			cdm_schema     = cdmSchema
-		)
+			cdm_schema     = cdmSchema)
 
 		if (sqlOnly) {
 			if (!dir.exists("output"))
@@ -48,10 +51,11 @@ CreateVocabMapTables <- function (connectionDetails, cdmSchema, cdmVersion, sqlO
 			SqlRender::writeSql(translatedSql,paste0("output/",query))
 
         } else {
-			conn <- DatabaseConnector::connect(connectionDetails) 
 			writeLines(paste0("Running: ",query))		
 			DatabaseConnector::executeSql(conn, translatedSql)
-			DatabaseConnector::disconnect(conn)
 		}
     }
+	if (!sqlOnly) {
+		DatabaseConnector::disconnect(conn)
+	}
 }

@@ -21,10 +21,10 @@ instance.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
-\item{cdmVersion}{The version of your CDM.  Currently "5.3.1" and "6.0.0".}
+\item{cdmVersion}{The version of your CDM.  Currently "5.3" and "5.4".}
 
 \item{syntheaVersion}{The version of Synthea used to generate the csv files.
-Currently "master" and "2.7.0" are supported.  The default is "master".}
+Currently "2.7.0" is supported.}
 
 \item{sqlOnly}{A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.}
 }

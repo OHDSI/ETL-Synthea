@@ -12,7 +12,7 @@
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param syntheaVersion The version of Synthea used to generate the csv files.  
-#'                       Currently "master" and "2.7.0" are supported.  The default is "2.7.0".
+#'                       Currently "2.7.0" only is supported.
 #'
 #'@export
 
@@ -22,10 +22,8 @@ CreateSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaVersio
 
 	if (syntheaVersion == "2.7.0")
 		sqlFilePath <- "synthea_version/v270"
-	else if (tolower(syntheaVersion) == "master")
-		sqlFilePath <- "synthea_version/master"
 	else
-		stop("Invalid synthea version specified.  Currently \"master\" and \"2.7.0\" are supported")
+		stop("Invalid synthea version specified.  Currently \"2.7.0\" is supported")
 
     translatedSql <- SqlRender::loadRenderTranslateSql(
 		sqlFilename     = paste0(sqlFilePath,"/","create_synthea_tables.sql"),
