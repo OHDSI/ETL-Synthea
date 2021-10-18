@@ -2,7 +2,7 @@
 #'
 #' @description This function creates the all the required tables for the CDM.
 #'
-#' @usage CreateCDMTables(connectionDetails,cdmSchema,cdmVersion)
+#' @usage CreateCDMTables(connectionDetails,cdmSchema,cdmVersion,outputFolder,sqlOnly)
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the

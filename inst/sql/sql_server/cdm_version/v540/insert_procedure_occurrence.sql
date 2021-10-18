@@ -15,7 +15,7 @@ visit_occurrence_id,
 visit_detail_id,
 procedure_source_value,
 procedure_source_concept_id,
-modifier_source_value,
+modifier_source_value
 )
 select
 row_number()over(order by p.person_id)   procedure_occurrence_id,

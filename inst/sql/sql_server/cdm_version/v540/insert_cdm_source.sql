@@ -1,11 +1,4 @@
 
-Cdm_source_name -> Mandatory field
-Cdm_source_abbreviation -> Mandatory field
-Cdm_holder -> Mandatory field
-Source_release_date -> Mandatory field
-Cdm_release_date -> Mandatory field
-+ Cdm_version_concept_id
-
 insert into @cdm_schema.cdm_source (
 cdm_source_name,
 cdm_source_abbreviation,
@@ -17,7 +10,7 @@ source_release_date,
 cdm_release_date,
 cdm_version,
 vocabulary_version,
-cdm_version_concept_id,
+cdm_version_concept_id
 ) 
 select
 'Synthea synthetic health database',
