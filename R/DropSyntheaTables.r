@@ -24,7 +24,7 @@ DropSyntheaTables <- function (connectionDetails, syntheaSchema)
 		"MEDICATIONS","OBSERVATIONS","ORGANIZATIONS","PATIENTS","PROCEDURES","PROVIDERS")
 
 	conn <- DatabaseConnector::connect(connectionDetails) 
-	allTables <- DatabaseConnector::getTableNames(conn,cdmSchema)
+	allTables <- DatabaseConnector::getTableNames(conn,syntheaSchema)
 	writeLines("Dropping Synthea tables...")		
 	tablesToDrop <- allTables[which(allTables %in% syntheaTables)]
 	sql <- paste("drop table @synthea_schema.",tablesToDrop,";",collapse = "\n", sep = "")
