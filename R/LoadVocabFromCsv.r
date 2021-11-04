@@ -2,7 +2,7 @@
 #'
 #' @description This function populates all Vocabulary tables with data in csv files.
 #'
-#' @usage LoadVocabFromCsv(connectionDetails, cdmSchema, vocabFileLoc)
+#' @usage LoadVocabFromCsv(connectionDetails, cdmSchema, vocabFileLoc, bulkLoad)
 #'
 #' @details This function assumes \cr\code{createCDMTables()} has already been run.
 #'

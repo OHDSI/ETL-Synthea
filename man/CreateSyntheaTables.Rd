@@ -17,7 +17,7 @@ Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
 \item{syntheaVersion}{The version of Synthea used to generate the csv files.
-Currently "master" and "2.7.0" are supported.  The default is "master".}
+Currently "2.7.0" only is supported.}
 }
 \description{
 This function creates all Synthea tables.
