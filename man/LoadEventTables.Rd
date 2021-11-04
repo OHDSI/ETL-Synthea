@@ -11,8 +11,8 @@ LoadEventTables (connectionDetails, cdmSchema, syntheaSchema, cdmVersion, sqlOnl
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
-\item{cdmSchema}{The name of the database schema that will contain the different VISIT
-tables.  Requires read and write permissions to this database. On SQL
+\item{cdmSchema}{The name of the database schema that will contain the CDM.
+Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 

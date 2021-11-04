@@ -6,42 +6,32 @@ library("ETLSyntheaBuilder")
 library("SqlRender")
 library("DatabaseConnector")
 
-## Create connectionDetails object to postgres (or other db)
-
-cd <- DatabaseConnector::createConnectionDetails(
-  dbms     = "postgresql",
-  server   = "localhost/synthea10", #This should be your server location. If it is on your local machine, change 'cdm_v6_testing' with the name of the database you chose
-  user     = "postgres", #Your user name. If you are the owner this will most likely be 'postgres'
-  password = "lollipop", #Your password
-  port     = 5432 #The port number. You can find this by right-clicking on the server and choosing properties
+connectionDetails <- DatabaseConnector::createConnectionDetails(
+  dbms     = "your dbms",
+  server   = "your server", 
+  user     = "your user name",
+  password = "your pw", 
+  port     = 9999 # port to connect to your db 
+  pathToDriver = "path to jdbc driver for db connector" 
 )
 
-cdmSchema      <- "cdm_synthea10"
-cdmVersion     <- "5.3.1"
-syntheaVersion <- "2.6.1"
-syntheaSchema  <- "native"
-syntheaFileLoc <- "/tmp/synthea/output/csv"
-vocabFileLoc   <- "/tmp/Vocabulary_20181119"
+# Create a v5.4 CDM and a v2.7.0 synthea database, in specified locations using specified files.
+# Update accordingly.
 
-## Create all CDM tables (version 5.3.1)
+cdmVersion        <- "5.4"  
+cdmDatabaseSchema <- "cdm_synthea_v540"
+syntheaSchema     <- "synthea_v270"
+syntheaFileLoc    <- "D:/Apps/Git/synthea/output/csv"
+vocabFileLoc      <- "D:/Apps/Git/vocab/csv"
+syntheaVersion    <- "2.7.0"
 
-ETLSyntheaBuilder::CreateCDMTables(connectionDetails = cd, cdmSchema = cdmSchema, cdmVersion = cdmVersion)
-
-## Create all synthea tables
-
-ETLSyntheaBuilder::CreateSyntheaTables(connectionDetails = cd, syntheaSchema = syntheaSchema, syntheaVersion = syntheaVersion)
-
-## Load Synthea tables from a local file system
-
-ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails = cd,syntheaSchema = syntheaSchema,syntheaFileLoc = syntheaFileLoc)
-
-## Load the Vocabulary from a local file system
-
-ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails = cd,cdmSchema = cdmSchema,vocabFileLoc = vocabFileLoc)
-
-## Alternatively, load the Vocabulary from another schema that already has a Vocabulary loaded
-# ETLSyntheaBuilder::LoadVocabFromSchema(connectionDetails = cd,cdmSourceSchema = "some_other_cdm_schema",cdmTargetSchema = cdmSchema)
-
-## Assuming the raw data and vocabulary has been loaded, this will run the synthea cdm sql builder
-
-ETLSyntheaBuilder::LoadEventTables(connectionDetails = cd,cdmSchema = cdmSchema,syntheaSchema = syntheaSchema,cdmVersion = cdmVersion)
+# Create CDM tables
+ETLSyntheaBuilder::CreateCDMTables(connectionDetails,cdmDatabaseSchema,cdmVersion)
+# Create synthea tables
+ETLSyntheaBuilder::CreateSyntheaTables(connectionDetails,syntheaSchema)
+# Populate synthea tables
+ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails,syntheaSchema,syntheaFileLoc)
+# Populate vocabulary tables
+ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails,cdmDatabaseSchema,vocabFileLoc)
+# Populate event tables
+ETLSyntheaBuilder::LoadEventTables(connectionDetails,cdmDatabaseSchema,syntheaSchema,cdmVersion)

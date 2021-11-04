@@ -4,7 +4,7 @@
 \alias{CreateCDMTables}
 \title{Create Common Data Model Tables.}
 \usage{
-CreateCDMTables(connectionDetails,cdmSchema,cdmVersion)
+CreateCDMTables(connectionDetails,cdmSchema,cdmVersion,outputFolder,sqlOnly)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the

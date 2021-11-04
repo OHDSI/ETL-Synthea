@@ -4,7 +4,7 @@
 \alias{LoadVocabFromCsv}
 \title{Load Vocabulary Tables From CSV Files.}
 \usage{
-LoadVocabFromCsv(connectionDetails, cdmSchema, vocabFileLoc)
+LoadVocabFromCsv(connectionDetails, cdmSchema, vocabFileLoc, bulkLoad)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
