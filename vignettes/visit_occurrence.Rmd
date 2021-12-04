@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Visit_occurrence
+title: Visit Occurrence
 nav_order: 4
 description: "Visit_occurrence mapping from encounters.csv"
 
@@ -32,8 +32,6 @@ For claim type in ('ambulatory', 'wellness', 'outpatient') (OP)
 
 Use logic found here:
 https://github.com/OHDSI/ETL-Synthea/blob/master/ETL/SQL/AllVisitTable.sql
-
-![](syntheaETL_files/image13.png)
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |

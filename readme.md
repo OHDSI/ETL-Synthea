@@ -1,5 +1,5 @@
 # Utility to Load Synthea CSV data to OMOP CDM
-## Currently supports CDM v5.3.1 and v5.4.0 
+## Currently supports CDM v5.3 and v5.4 
 
 Follow the steps on the [synthea wiki](https://github.com/synthetichealth/synthea/wiki) to run the program and generate the files. This builder works off of the csv files, not the fhir files. To do this the `exporter.csv.export` option in the `./src/main/resources/synthea.properties` file needs to be set to TRUE.
 
@@ -28,7 +28,8 @@ cd <- DatabaseConnector::createConnectionDetails(
   server   = "localhost/synthea10", 
   user     = "postgres", 
   password = "lollipop", 
-  port     = 5432
+  port     = 5432, 
+  pathToDriver = "d:/drivers"  
 )
 
 cdmSchema      <- "cdm_synthea10"

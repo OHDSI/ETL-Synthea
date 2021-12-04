@@ -10,8 +10,6 @@ description: "Person mapping from patients.csv"
 
 ## Reading from Synthea table patients.csv
 
-![](syntheaETL_files/image11.png)
-
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
 | person_id |  |  |  |

@@ -10,8 +10,6 @@ description: "Measurement mapping from procedures.csv and observations.csv"
 
 ## Reading from procedures.csv
 
-![](syntheaETL_files/image6.png)
-
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
 | measurement_id |  |  |  |
@@ -36,8 +34,6 @@ description: "Measurement mapping from procedures.csv and observations.csv"
 | value_source_value |  |  |  |
 
 ## Reading from observations.csv
-
-![](syntheaETL_files/image7.png)
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |

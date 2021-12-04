@@ -10,8 +10,6 @@ description: "Procedure_occurrence mapping from procedures.csv"
 
 ## Reading from Synthea table procedures.csv
 
-![](syntheaETL_files/image12.png)
-
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
 | procedure_occurrence_id |  |  |  |

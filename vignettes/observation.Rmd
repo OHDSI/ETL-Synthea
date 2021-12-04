@@ -10,8 +10,6 @@ description: "Observation mapping from allergies.csv and conditions.csv"
 
 ## Reading from Synthea tables allergies.csv 
 
-![](syntheaETL_files/image8.png)
-
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
 | observation_id |  |  |  |
@@ -37,8 +35,6 @@ description: "Observation mapping from allergies.csv and conditions.csv"
 | value_as_datetime |  |  |  |
 
 ## Reading from Synthea table conditions.csv
-
-![](syntheaETL_files/image9.png)
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |

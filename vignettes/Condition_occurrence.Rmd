@@ -9,8 +9,6 @@ description: "Condition_occurrence mapping from conditions.csv"
 
 ## Reading from Synthea table conditions.csv
 
-![](syntheaETL_files/image2.png)
-
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
 | condition_occurrence_id |  | Autogenerate |  |

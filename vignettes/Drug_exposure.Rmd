@@ -9,8 +9,6 @@ description: "Drug_exposure mapping from conditions.csv, medications.csv, and im
 
 ## Reading from Synthea medications.csv
 
-![](syntheaETL_files/image4.png)
-
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
 | drug_exposure_id |  |  |  |
@@ -39,8 +37,6 @@ description: "Drug_exposure mapping from conditions.csv, medications.csv, and im
 
 ## Reading from Synthea.immunizations.csv
 
-![](syntheaETL_files/image5.png)
-
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
 | drug_exposure_id |  |  |  |
@@ -68,8 +64,6 @@ description: "Drug_exposure mapping from conditions.csv, medications.csv, and im
 | dose_unit_source_value |  |  |  |
 
 ## Reading from Synthea table conditions.csv
-
-![](syntheaETL_files/image3.png)
 
 | Destination Field | Source field | Logic | Comment field |
 | --- | --- | --- | --- |
