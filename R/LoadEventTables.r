@@ -19,21 +19,28 @@
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param cdmVersion The version of your CDM.  Currently "5.3" and "5.4".
-#' @param syntheaVersion The version of Synthea used to generate the csv files.  
+#' @param syntheaVersion The version of Synthea used to generate the csv files.
 #'                       Currently "2.7.0" is supported.
+#' @param cdmSourceName	The source name to insert into the CDM_SOURCE table.  Default is Synthea synthentic health database.
+#' @param cdmSourceAbbreviation The source abbreviation to insert into the CDM_SOURCE table.  Default is Synthea.
+#' @param cdmHolder The holder to insert into the CDM_SOURCE table.  Default is OHDSI
+#' @param cdmSourceDescription The description of the source data.  Default is generic Synthea description.
 #' @param sqlOnly A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.
 #'
 #'@export
 
 
 LoadEventTables <- function (connectionDetails,
-                             cdmSchema,
-							 syntheaSchema,
-							 cdmVersion,
-							 syntheaVersion = "2.7.0",
-							 sqlOnly = FALSE)
+														 cdmSchema,
+														 syntheaSchema,
+														 cdmVersion,
+														 syntheaVersion = "2.7.0",
+														 cdmSourceName = "Synthea synthetic health database",
+														 cdmSourceAbbreviation = "Synthea",
+														 cdmHolder = "OHDSI",
+														 cdmSourceDescription = "SyntheaTM is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats.",
+														 sqlOnly = FALSE)
 {
-
 	# Determine which sql scripts to run based on the given version.
 	# The path is relative to inst/sql/sql_server.
 	if (cdmVersion == "5.3") {
@@ -44,7 +51,7 @@ LoadEventTables <- function (connectionDetails,
 		stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\"")
 	}
 
-    supportedSyntheaVersions <- c("2.7.0")
+	supportedSyntheaVersions <- c("2.7.0")
 
 	if (!(syntheaVersion %in% supportedSyntheaVersions))
 		stop("Invalid synthea version specified.  Currently \"2.7.0\" is supported")
@@ -53,8 +60,11 @@ LoadEventTables <- function (connectionDetails,
 	CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion, sqlOnly)
 
 	# Perform visit rollup logic and create auxiliary tables
-	CreateVisitRollupTables(connectionDetails,cdmSchema,syntheaSchema,cdmVersion,sqlOnly)
-
+	CreateVisitRollupTables(connectionDetails,
+													cdmSchema,
+													syntheaSchema,
+													cdmVersion,
+													sqlOnly)
 
 	if (!sqlOnly) {
 		conn <- DatabaseConnector::connect(connectionDetails)
@@ -83,7 +93,7 @@ LoadEventTables <- function (connectionDetails,
 		cdm_schema = cdmSchema,
 		synthea_schema = syntheaSchema
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# observation period
 	fileQuery <- "insert_observation_period.sql"
@@ -94,7 +104,7 @@ LoadEventTables <- function (connectionDetails,
 		cdm_schema = cdmSchema,
 		synthea_schema = syntheaSchema
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# visit occurrence
 	fileQuery <- "insert_visit_occurrence.sql"
@@ -104,7 +114,7 @@ LoadEventTables <- function (connectionDetails,
 		dbms = connectionDetails$dbms,
 		cdm_schema = cdmSchema
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# condition occurrence
 	fileQuery <- "insert_condition_occurrence.sql"
@@ -115,7 +125,7 @@ LoadEventTables <- function (connectionDetails,
 		cdm_schema = cdmSchema,
 		synthea_schema = syntheaSchema
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# observation
 	fileQuery <- "insert_observation.sql"
@@ -126,7 +136,7 @@ LoadEventTables <- function (connectionDetails,
 		cdm_schema = cdmSchema,
 		synthea_schema = syntheaSchema
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# measurement
 	fileQuery <- "insert_measurement.sql"
@@ -138,7 +148,7 @@ LoadEventTables <- function (connectionDetails,
 		synthea_schema = syntheaSchema,
 		synthea_version = syntheaVersion
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# procedure occurrence
 	fileQuery <- "insert_procedure_occurrence.sql"
@@ -150,7 +160,7 @@ LoadEventTables <- function (connectionDetails,
 		synthea_schema = syntheaSchema,
 		synthea_version = syntheaVersion
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# drug exposure
 	fileQuery <- "insert_drug_exposure.sql"
@@ -161,7 +171,7 @@ LoadEventTables <- function (connectionDetails,
 		cdm_schema = cdmSchema,
 		synthea_schema = syntheaSchema
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# condition era
 	fileQuery <- "insert_condition_era.sql"
@@ -171,7 +181,7 @@ LoadEventTables <- function (connectionDetails,
 		dbms = connectionDetails$dbms,
 		cdm_schema = cdmSchema
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# drug era
 	fileQuery <- "insert_drug_era.sql"
@@ -181,7 +191,7 @@ LoadEventTables <- function (connectionDetails,
 		dbms = connectionDetails$dbms,
 		cdm_schema = cdmSchema
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# cdm source
 	fileQuery <- "insert_cdm_source.sql"
@@ -190,9 +200,13 @@ LoadEventTables <- function (connectionDetails,
 		packageName = "ETLSyntheaBuilder",
 		dbms = connectionDetails$dbms,
 		cdm_schema = cdmSchema,
-		cdm_version = cdmVersion
+		cdm_version = cdmVersion,
+		cdm_source_name = cdmSourceName,
+		cdm_source_abbreviation = cdmSourceAbbreviation,
+		cdm_holder = cdmHolder,
+		source_description = cdmSourceDescription
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# visit detail
 	fileQuery <- "insert_visit_detail.sql"
@@ -202,7 +216,7 @@ LoadEventTables <- function (connectionDetails,
 		dbms = connectionDetails$dbms,
 		cdm_schema = cdmSchema
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# device exposure
 	fileQuery <- "insert_device_exposure.sql"
@@ -213,7 +227,7 @@ LoadEventTables <- function (connectionDetails,
 		cdm_schema = cdmSchema,
 		synthea_schema = syntheaSchema
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	# death
 	fileQuery <- "insert_death.sql"
@@ -224,7 +238,7 @@ LoadEventTables <- function (connectionDetails,
 		cdm_schema = cdmSchema,
 		synthea_schema = syntheaSchema
 	)
-	runStep(sql,fileQuery)
+	runStep(sql, fileQuery)
 
 	if (!sqlOnly) {
 		DatabaseConnector::disconnect(conn)
