@@ -43,7 +43,7 @@ select
 	av.visit_end_date                    visit_detail_end_date,
 	av.visit_end_date                    visit_detail_end_datetime,
 	44818517                             visit_detail_type_concept_id,                             
-	null                                 provider_id,                                 
+	pr.provider_id                       provider_id,                                 
 	null                                 care_site_id,                                 
 	0                                    admitted_from_source_concept_id,
 	0                                    discharged_to_concept_id,                                       
@@ -59,6 +59,11 @@ select
 from @cdm_schema.all_visits av
 join @cdm_schema.person p
   on av.patient = p.person_source_value
+join @synthea_schema.encounters e
+  on av.encounter_id = e.id
+ and av.patient = e.patient
+join @cdm_schema.provider pr 
+  on e.provider = pr.provider_source_value
 where av.visit_occurrence_id in (
 		select distinct visit_occurrence_id_new
 		from @cdm_schema.final_visit_ids);

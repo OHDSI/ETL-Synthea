@@ -60,11 +60,7 @@ LoadEventTables <- function (connectionDetails,
 	CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion, sqlOnly)
 
 	# Perform visit rollup logic and create auxiliary tables
-	CreateVisitRollupTables(connectionDetails,
-													cdmSchema,
-													syntheaSchema,
-													cdmVersion,
-													sqlOnly)
+	CreateVisitRollupTables(connectionDetails,cdmSchema,syntheaSchema,cdmVersion,sqlOnly)
 
 	if (!sqlOnly) {
 		conn <- DatabaseConnector::connect(connectionDetails)
@@ -106,13 +102,25 @@ LoadEventTables <- function (connectionDetails,
 	)
 	runStep(sql, fileQuery)
 
+	# provider
+	fileQuery <- "insert_provider.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema
+	)
+	runStep(sql, fileQuery)
+	
 	# visit occurrence
 	fileQuery <- "insert_visit_occurrence.sql"
 	sql <- SqlRender::loadRenderTranslateSql(
 		sqlFilename = file.path(sqlFilePath, fileQuery),
 		packageName = "ETLSyntheaBuilder",
 		dbms = connectionDetails$dbms,
-		cdm_schema = cdmSchema
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema
 	)
 	runStep(sql, fileQuery)
 
@@ -214,7 +222,8 @@ LoadEventTables <- function (connectionDetails,
 		sqlFilename = file.path(sqlFilePath, fileQuery),
 		packageName = "ETLSyntheaBuilder",
 		dbms = connectionDetails$dbms,
-		cdm_schema = cdmSchema
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema		
 	)
 	runStep(sql, fileQuery)
 
