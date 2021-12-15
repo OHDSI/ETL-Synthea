@@ -50,7 +50,7 @@ cast(null as varchar)                       value_as_string,
 0                                           value_as_concept_id,
 0                                           qualifier_concept_id,
 0                                           unit_concept_id,
-cast(null as bigint)                        provider_id,
+pr.provider_id                              provider_id,
 fv.visit_occurrence_id_new                  visit_occurrence_id,
 fv.visit_occurrence_id_new + 1000000        visit_detail_id,
 a.code                                      observation_source_value,
@@ -70,6 +70,11 @@ join @cdm_schema.source_to_source_vocab_map srctosrcvm
  and srctosrcvm.source_domain_id        = 'Observation'
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id                    = a.encounter
+left join @synthea_schema.encounters e
+  on a.encounter                        = e.id
+ and a.patient                          = e.patient
+left join @cdm_schema.provider pr 
+  on e.provider                         = pr.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value              = a.patient
 
@@ -86,7 +91,7 @@ cast(null as varchar)                      value_as_string,
 0                                          value_as_concept_id,
 0                                          qualifier_concept_id,
 0                                          unit_concept_id,
-cast(null as bigint)                       provider_id,
+pr.provider_id                             provider_id,
 fv.visit_occurrence_id_new                 visit_occurrence_id,
 fv.visit_occurrence_id_new + 1000000       visit_detail_id,
 c.code                                     observation_source_value,
@@ -106,6 +111,11 @@ join @cdm_schema.source_to_source_vocab_map srctosrcvm
  and srctosrcvm.source_domain_id         = 'Observation'
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id                     = c.encounter
+left join @synthea_schema.encounters e
+  on c.encounter                         = e.id
+ and c.patient                           = e.patient
+left join @cdm_schema.provider pr 
+  on e.provider                          = pr.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value               = c.patient
   
@@ -122,7 +132,7 @@ cast(null as varchar)                      value_as_string,
 0                                          value_as_concept_id,
 0                                          qualifier_concept_id,
 0                                          unit_concept_id,
-cast(null as bigint)                       provider_id,
+pr.provider_id                             provider_id,
 fv.visit_occurrence_id_new                 visit_occurrence_id,
 fv.visit_occurrence_id_new + 1000000       visit_detail_id,
 o.code                                     observation_source_value,
@@ -143,6 +153,11 @@ join @cdm_schema.source_to_source_vocab_map srctosrcvm
  and srctosrcvm.source_domain_id         = 'Observation'
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id                     = o.encounter
+left join @synthea_schema.encounters e
+  on o.encounter                         = e.id
+ and o.patient                           = e.patient
+left join @cdm_schema.provider pr 
+  on e.provider                          = pr.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value               = o.patient
 
