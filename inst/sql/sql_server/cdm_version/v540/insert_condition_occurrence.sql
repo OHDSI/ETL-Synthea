@@ -29,7 +29,7 @@ c.stop                                     condition_end_date,
 c.stop                                     condition_end_datetime,
 38000175                                   condition_type_concept_id,
 cast(null as varchar)                      stop_reason,
-cast(null as integer)                      provider_id,
+pr.provider_id                             provider_id,
 fv.visit_occurrence_id_new                 visit_occurrence_id,
 fv.visit_occurrence_id_new + 1000000       visit_detail_id,
 c.code                                     condition_source_value,
@@ -50,7 +50,12 @@ join @cdm_schema.source_to_source_vocab_map srctosrcvm
  and srctosrcvm.source_vocabulary_id    = 'SNOMED'
  and srctosrcvm.source_domain_id        = 'Condition'
 left join @cdm_schema.final_visit_ids fv
-  on fv.encounter_id = c.encounter
+  on fv.encounter_id                    = c.encounter
+left join @synthea_schema.encounters e
+  on c.encounter                        = e.id
+ and c.patient                          = e.patient
+left join @cdm_schema.provider pr 
+  on e.provider                         = pr.provider_source_value
 join @cdm_schema.person p
-  on c.patient = p.person_source_value
+  on c.patient                          = p.person_source_value
 ;

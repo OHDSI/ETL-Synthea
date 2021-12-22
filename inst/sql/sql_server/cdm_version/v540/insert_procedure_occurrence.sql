@@ -32,7 +32,7 @@ pr.date                                  procedure_end_datetime,
 38000267                                 procedure_type_concept_id,
 0                                        modifier_concept_id,
 cast(null as integer)                    quantity,
-cast(null as integer)                    provider_id,
+prv.provider_id                          provider_id,
 fv.visit_occurrence_id_new               visit_occurrence_id,
 fv.visit_occurrence_id_new + 1000000     visit_detail_id,
 pr.code                                  procedure_source_value,
@@ -51,6 +51,11 @@ join @cdm_schema.source_to_source_vocab_map srctosrcvm
  and srctosrcvm.source_vocabulary_id    = 'SNOMED'
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id                    = pr.encounter
+left join @synthea_schema.encounters e
+  on pr.encounter                       = e.id
+ and pr.patient                         = e.patient
+left join @cdm_schema.provider prv 
+  on e.provider                         = prv.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value              = pr.patient
 ;

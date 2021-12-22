@@ -66,7 +66,7 @@ select
   0                                        unit_concept_id,
   cast(null as float)                      range_low,
   cast(null as float)                      range_high,
-  0                                        provider_id,
+  prv.provider_id                          provider_id,
   fv.visit_occurrence_id_new               visit_occurrence_id,
   fv.visit_occurrence_id_new + 1000000     visit_detail_id,
   pr.code                                  measurement_source_value,
@@ -89,6 +89,11 @@ join @cdm_schema.source_to_source_vocab_map srctosrcvm
  and srctosrcvm.source_vocabulary_id    = 'SNOMED'
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id                    = pr.encounter
+left join @synthea_schema.encounters e
+  on pr.encounter                       = e.id
+ and pr.patient                         = e.patient
+left join @cdm_schema.provider prv 
+  on e.provider                         = prv.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value              = pr.patient
   
@@ -111,7 +116,7 @@ select
   coalesce(srcmap1.target_concept_id,0)     unit_concept_id,
   cast(null as float)                       range_low,
   cast(null as float)                       range_high,
-  0                                         provider_id,
+  pr.provider_id                            provider_id,
   fv.visit_occurrence_id_new                visit_occurrence_id,
   fv.visit_occurrence_id_new + 1000000      visit_detail_id,
   o.code                                    measurement_source_value,
@@ -145,6 +150,11 @@ left join @cdm_schema.source_to_source_vocab_map srctosrcvm
  and srctosrcvm.source_vocabulary_id    = 'LOINC'
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id                    = o.encounter
+left join @synthea_schema.encounters e
+  on o.encounter                        = e.id
+ and o.patient                          = e.patient
+left join @cdm_schema.provider pr 
+  on e.provider                         = pr.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value              = o.patient
   ) tmp
