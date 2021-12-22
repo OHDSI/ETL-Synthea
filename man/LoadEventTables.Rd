@@ -26,6 +26,14 @@ so for example 'cdm_instance.dbo'.}
 \item{syntheaVersion}{The version of Synthea used to generate the csv files.
 Currently "2.7.0" is supported.}
 
+\item{cdmSourceName}{The source name to insert into the CDM_SOURCE table.  Default is Synthea synthentic health database.}
+
+\item{cdmSourceAbbreviation}{The source abbreviation to insert into the CDM_SOURCE table.  Default is Synthea.}
+
+\item{cdmHolder}{The holder to insert into the CDM_SOURCE table.  Default is OHDSI}
+
+\item{cdmSourceDescription}{The description of the source data.  Default is generic Synthea description.}
+
 \item{sqlOnly}{A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.}
 }
 \description{
