@@ -23,6 +23,6 @@ getdate(), -- NB: Set this value to the day the source data was pulled
 getdate(),
 '@cdm_version',
 vocabulary_version,
-32843
+756265
 from @cdm_schema.vocabulary
 where vocabulary_id = 'None';
