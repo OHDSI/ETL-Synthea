@@ -154,7 +154,7 @@ SELECT
 	, MIN(drug_sub_exposure_start_date) AS drug_era_start_date
 	, drug_era_end_date
 	, SUM(drug_exposure_count) AS drug_exposure_count
-	, datediff(d,'1970-01-01',dateadd(day,-(datediff(day,MIN(drug_sub_exposure_start_date),drug_era_end_date)-SUM(days_exposed)),drug_era_end_date)) as gap_days
+	, datediff(day,MIN(drug_sub_exposure_start_date),drug_era_end_date)-SUM(days_exposed) as gap_days
 INTO #tmp_de
 FROM cteDrugEraEnds dee
 GROUP BY person_id, drug_concept_id, drug_era_end_date;
