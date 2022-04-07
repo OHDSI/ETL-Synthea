@@ -35,10 +35,11 @@ select
 		when 'ASIAN' then 8515
 	else 0
 	end,
-	case
-		when upper(p.race) = 'HISPANIC'
-		then 38003563 else 0
-	end,
+    case
+      when Upper(p.ethnicity) = 'HISPANIC' then 38003563
+      when Upper(p.ethnicity) = 'NONHISPANIC' then 38003564
+      else 0
+    end,
 	NULL,
 	NULL,
 	NULL,
