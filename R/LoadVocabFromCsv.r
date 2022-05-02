@@ -32,8 +32,12 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLo
 
     for (csv in fileList) {
 
-	    vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = "\t", na.strings = "")
-		vocabTable <- as.data.frame(vocabTable)
+    	writeLines(paste0("reading file ", paste0(vocabFileLoc, "/", csv)))
+    	vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = "\t", na.strings = "")
+
+    	writeLines(" - type converting")
+    	vocabTable <- readr::type_convert(df = vocabTable, col_types = readr::cols(), na = c(NA, "")) %>%
+    		dplyr::tibble()
 
 	    # Format Dates for tables that need it
         if (tolower(csv) == "concept.csv" || tolower(csv) == "concept_relationship.csv" || tolower(csv) == "drug_strength.csv") {
@@ -44,9 +48,17 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLo
 
         writeLines(paste0("Loading: ",csv))
 
-		suppressWarnings({
-	      DatabaseConnector::insertTable(conn,tableName=paste0(cdmSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = bulkLoad, progressBar = TRUE)
-		})
+        suppressWarnings({
+        	DatabaseConnector::insertTable(
+        		conn,
+        		tableName = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1]),
+        		data = vocabTable,
+        		dropTableIfExists = FALSE,
+        		createTable = FALSE,
+        		bulkLoad = bulkLoad,
+        		progressBar = TRUE
+        	)
+        })
 	}
 
     on.exit(DatabaseConnector::disconnect(conn))

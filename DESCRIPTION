@@ -21,7 +21,8 @@ Imports:
     SqlRender,
 	data.table,
 	httr,
-	dplyr
+	dplyr,
+	readr
 Remotes:
   OHDSI/CommonDataModel
 Encoding: UTF-8
