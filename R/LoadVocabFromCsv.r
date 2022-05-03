@@ -22,44 +22,58 @@
 LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLoad = FALSE)
 {
 
-    csvList <- c("concept.csv","vocabulary.csv","concept_ancestor.csv","concept_relationship.csv","relationship.csv","concept_synonym.csv","domain.csv","concept_class.csv", "drug_strength.csv")
+	csvList <- c("concept.csv","vocabulary.csv","concept_ancestor.csv",
+							 "concept_relationship.csv","relationship.csv","concept_synonym.csv",
+							 "domain.csv","concept_class.csv", "drug_strength.csv")
 
 	fileList <- list.files(vocabFileLoc)
 
 	fileList <- fileList[which(tolower(fileList) %in% csvList)]
 
-    conn <- DatabaseConnector::connect(connectionDetails)
+	conn <- DatabaseConnector::connect(connectionDetails)
 
-    for (csv in fileList) {
+	for (csv in fileList) {
 
-    	writeLines(paste0("reading file ", paste0(vocabFileLoc, "/", csv)))
-    	vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = "\t", na.strings = "")
+		writeLines(paste0("Working on file ", paste0(vocabFileLoc, "/", csv)))
 
-    	writeLines(" - type converting")
-    	vocabTable <- readr::type_convert(df = vocabTable, col_types = readr::cols(), na = c(NA, "")) %>%
-    		dplyr::tibble()
+		writeLines(" - reading file ")
+		vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv),
+																		stringsAsFactors = FALSE,
+																		header = TRUE,
+																		sep = "\t",
+																		na.strings = "")
 
-	    # Format Dates for tables that need it
-        if (tolower(csv) == "concept.csv" || tolower(csv) == "concept_relationship.csv" || tolower(csv) == "drug_strength.csv") {
+		writeLines(" - handling dates")
+		if (tolower(csv) == "concept.csv" ||
+				tolower(csv) == "concept_relationship.csv" ||
+				tolower(csv) == "drug_strength.csv") {
+			vocabTable$valid_start_date <-
+				as.Date(as.character(vocabTable$valid_start_date), "%Y%m%d")
+			vocabTable$valid_end_date   <-
+				as.Date(as.character(vocabTable$valid_end_date), "%Y%m%d")
+			vocabTable <- dplyr::tibble(vocabTable)
+		}
 
-	        vocabTable$valid_start_date <- as.Date(as.character(vocabTable$valid_start_date),"%Y%m%d")
-            vocabTable$valid_end_date   <- as.Date(as.character(vocabTable$valid_end_date),"%Y%m%d")
-        }
+		writeLines(" - type converting")
+		vocabTable <- readr::type_convert(df = vocabTable,
+																			col_types = readr::cols(),
+																			na = c(NA, "")) %>%
+			dplyr::tibble()
 
-        writeLines(paste0("Loading: ",csv))
-
-        suppressWarnings({
-        	DatabaseConnector::insertTable(
-        		conn,
-        		tableName = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1]),
-        		data = vocabTable,
-        		dropTableIfExists = FALSE,
-        		createTable = FALSE,
-        		bulkLoad = bulkLoad,
-        		progressBar = TRUE
-        	)
-        })
+		writeLines(" - uploading")
+		suppressWarnings({
+			DatabaseConnector::insertTable(
+				connection = conn,
+				tableName = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1]),
+				data = vocabTable,
+				dropTableIfExists = FALSE,
+				createTable = FALSE,
+				bulkLoad = bulkLoad,
+				progressBar = TRUE
+			)
+		})
+		writeLines(" - Success")
 	}
 
-    on.exit(DatabaseConnector::disconnect(conn))
+	on.exit(DatabaseConnector::disconnect(conn))
 }
