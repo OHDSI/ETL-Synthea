@@ -60,18 +60,49 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLo
 																			na = c(NA, "")) %>%
 			dplyr::tibble()
 
-		writeLines(paste0(" - uploading started on ", Sys.time()))
-		suppressWarnings({
-			DatabaseConnector::insertTable(
-				connection = conn,
-				tableName = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1]),
-				data = vocabTable,
-				dropTableIfExists = FALSE,
-				createTable = FALSE,
-				bulkLoad = bulkLoad,
-				progressBar = TRUE
-			)
-		})
+		chunkSize <- 1e7
+		numberOfRowsInVocabTable <- nrow(vocabTable)
+		numberOfChunks <-
+			ceiling(x = numberOfRowsInVocabTable / chunkSize)
+
+		sql <-
+			"DELETE FROM @table_name;"
+		DatabaseConnector::renderTranslateExecuteSql(
+			connection = conn,
+			sql = sql,
+			table_name = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1])
+		)
+
+		startRow <- 1
+		for (j in (1:numberOfChunks)) {
+			if (numberOfRowsInVocabTable >= startRow) {
+				maxRows <- min(numberOfRowsInVocabTable,
+											 startRow + chunkSize)
+				chunk <- vocabTable[startRow:maxRows, ]
+				writeLines(
+					paste0(
+						" - chunk uploading started on ",
+						Sys.time(),
+						" for rows ",
+						startRow,
+						" to ",
+						maxRows
+					)
+				)
+				suppressWarnings({
+					DatabaseConnector::insertTable(
+						connection = conn,
+						tableName = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1]),
+						data = chunk,
+						dropTableIfExists = FALSE,
+						createTable = FALSE,
+						bulkLoad = bulkLoad,
+						progressBar = TRUE
+					)
+				})
+				startRow <- maxRows + 1
+			}
+		}
 		writeLines(" - Success")
 	}
 
