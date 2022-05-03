@@ -43,10 +43,10 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLo
 																		sep = "\t",
 																		na.strings = "")
 
-		writeLines(" - handling dates")
 		if (tolower(csv) == "concept.csv" ||
 				tolower(csv) == "concept_relationship.csv" ||
 				tolower(csv) == "drug_strength.csv") {
+			writeLines(" - handling dates")
 			vocabTable$valid_start_date <-
 				as.Date(as.character(vocabTable$valid_start_date), "%Y%m%d")
 			vocabTable$valid_end_date   <-
@@ -60,7 +60,7 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLo
 																			na = c(NA, "")) %>%
 			dplyr::tibble()
 
-		writeLines(" - uploading")
+		writeLines(paste0(" - uploading started on ", Sys.time()))
 		suppressWarnings({
 			DatabaseConnector::insertTable(
 				connection = conn,
