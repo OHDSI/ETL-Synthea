@@ -24,7 +24,7 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLo
 
 	csvList <- c("concept.csv","vocabulary.csv","concept_ancestor.csv",
 							 "concept_relationship.csv","relationship.csv","concept_synonym.csv",
-							 "domain.csv","concept_class.csv", "drug_strength.csv")
+							 "domain.csv","concept_class.csv","drug_strength.csv")
 
 	fileList <- list.files(vocabFileLoc)
 
@@ -64,6 +64,8 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLo
 		numberOfRowsInVocabTable <- nrow(vocabTable)
 		numberOfChunks <-
 			ceiling(x = numberOfRowsInVocabTable / chunkSize)
+
+		writeLines(paste0(" - uploading ", numberOfRowsInVocabTable, " rows of data in ", numberOfChunks, " chunks."))
 
 		sql <-
 			"DELETE FROM @table_name;"
