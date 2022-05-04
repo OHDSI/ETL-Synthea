@@ -54,11 +54,13 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLo
 			vocabTable <- dplyr::tibble(vocabTable)
 		}
 
-		writeLines(" - type converting")
-		vocabTable <- readr::type_convert(df = vocabTable,
-																			col_types = readr::cols(),
-																			na = c(NA, "")) %>%
-			dplyr::tibble()
+		if (!csv == "drug_strength.csv") {
+			writeLines(" - type converting")
+			vocabTable <- readr::type_convert(df = vocabTable,
+																				col_types = readr::cols(),
+																				na = c(NA, "")) %>%
+				dplyr::tibble()
+		}
 
 		chunkSize <- 1e7
 		numberOfRowsInVocabTable <- nrow(vocabTable)
