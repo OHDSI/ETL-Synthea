@@ -22,32 +22,96 @@
 LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLoad = FALSE)
 {
 
-    csvList <- c("concept.csv","vocabulary.csv","concept_ancestor.csv","concept_relationship.csv","relationship.csv","concept_synonym.csv","domain.csv","concept_class.csv", "drug_strength.csv")
+	csvList <- c("concept.csv","vocabulary.csv","concept_ancestor.csv",
+							 "concept_relationship.csv","relationship.csv","concept_synonym.csv",
+							 "domain.csv","concept_class.csv","drug_strength.csv")
 
 	fileList <- list.files(vocabFileLoc)
 
 	fileList <- fileList[which(tolower(fileList) %in% csvList)]
 
-    conn <- DatabaseConnector::connect(connectionDetails)
+	conn <- DatabaseConnector::connect(connectionDetails)
 
-    for (csv in fileList) {
+	for (csv in fileList) {
 
-	    vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = "\t", na.strings = "")
-		vocabTable <- as.data.frame(vocabTable)
+		writeLines(paste0("Working on file ", paste0(vocabFileLoc, "/", csv)))
 
-	    # Format Dates for tables that need it
-        if (tolower(csv) == "concept.csv" || tolower(csv) == "concept_relationship.csv" || tolower(csv) == "drug_strength.csv") {
+		writeLines(" - reading file ")
+		vocabTable <- data.table::fread(file = paste0(vocabFileLoc, "/", csv),
+																		stringsAsFactors = FALSE,
+																		header = TRUE,
+																		sep = "\t",
+																		na.strings = "")
 
-	        vocabTable$valid_start_date <- as.Date(as.character(vocabTable$valid_start_date),"%Y%m%d")
-            vocabTable$valid_end_date   <- as.Date(as.character(vocabTable$valid_end_date),"%Y%m%d")
-        }
+		if (tolower(csv) == "concept.csv" ||
+				tolower(csv) == "concept_relationship.csv" ||
+				tolower(csv) == "drug_strength.csv") {
+			writeLines(" - handling dates")
+			vocabTable$valid_start_date <-
+				as.Date(as.character(vocabTable$valid_start_date), "%Y%m%d")
+			vocabTable$valid_end_date   <-
+				as.Date(as.character(vocabTable$valid_end_date), "%Y%m%d")
+			vocabTable <- dplyr::tibble(vocabTable)
+		}
 
-        writeLines(paste0("Loading: ",csv))
+		writeLines(" - type converting")
+		vocabTable <- readr::type_convert(df = vocabTable,
+																			col_types = readr::cols(),
+																			na = c(NA, "")) %>%
+																			dplyr::tibble()
 
-		suppressWarnings({
-	      DatabaseConnector::insertTable(conn,tableName=paste0(cdmSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(vocabTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = bulkLoad, progressBar = TRUE)
-		})
+		if (tolower(csv) == "drug_strength.csv") {
+				vocabTable <- vocabTable %>%
+					mutate_at(vars('amount_value','amount_unit_concept_id','numerator_value','numerator_unit_concept_id','denominator_value','denominator_unit_concept_id', 'box_size'), ~tidyr::replace_na(., 0))
+		}
+
+		chunkSize <- 1e7
+		numberOfRowsInVocabTable <- nrow(vocabTable)
+		numberOfChunks <-
+			ceiling(x = numberOfRowsInVocabTable / chunkSize)
+
+		writeLines(paste0(" - uploading ", numberOfRowsInVocabTable, " rows of data in ", numberOfChunks, " chunks."))
+
+		sql <-
+			"DELETE FROM @table_name;"
+		DatabaseConnector::renderTranslateExecuteSql(
+			connection = conn,
+			sql = sql,
+			table_name = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1])
+		)
+
+		startRow <- 1
+		for (j in (1:numberOfChunks)) {
+			if (numberOfRowsInVocabTable >= startRow) {
+				maxRows <- min(numberOfRowsInVocabTable,
+											 startRow + chunkSize)
+				chunk <- vocabTable[startRow:maxRows, ]
+				writeLines(
+					paste0(
+						" - chunk uploading started on ",
+						Sys.time(),
+						" for rows ",
+						startRow,
+						" to ",
+						maxRows
+					)
+				)
+				suppressWarnings({
+					DatabaseConnector::insertTable(
+						connection = conn,
+						tableName = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1]),
+						data = chunk,
+						dropTableIfExists = FALSE,
+						createTable = FALSE,
+						bulkLoad = bulkLoad,
+						progressBar = TRUE
+					)
+				})
+				startRow <- maxRows + 1
+			}
+		}
+		writeLines(" - Success")
 	}
 
-    on.exit(DatabaseConnector::disconnect(conn))
+	on.exit(DatabaseConnector::disconnect(conn))
 }
