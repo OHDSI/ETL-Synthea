@@ -10,7 +10,7 @@ connectionDetails <- DatabaseConnector::createConnectionDetails(
   dbms     = "your dbms",
   server   = "your server",
   user     = "your user name",
-  password = "your pw",
+  password = Sys.getenv("DATABASE_PASSWORD"),
   port     = 9999,  # port to connect to your db
   pathToDriver = "path to jdbc driver for db connector"
 )
