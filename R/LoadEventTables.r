@@ -124,6 +124,17 @@ LoadEventTables <- function (connectionDetails,
 	)
 	runStep(sql, fileQuery)
 
+	# visit detail
+	fileQuery <- "insert_visit_detail.sql"
+	sql <- SqlRender::loadRenderTranslateSql(
+		sqlFilename = file.path(sqlFilePath, fileQuery),
+		packageName = "ETLSyntheaBuilder",
+		dbms = connectionDetails$dbms,
+		cdm_schema = cdmSchema,
+		synthea_schema = syntheaSchema		
+	)
+	runStep(sql, fileQuery)
+
 	# condition occurrence
 	fileQuery <- "insert_condition_occurrence.sql"
 	sql <- SqlRender::loadRenderTranslateSql(
@@ -213,17 +224,6 @@ LoadEventTables <- function (connectionDetails,
 		cdm_source_abbreviation = cdmSourceAbbreviation,
 		cdm_holder = cdmHolder,
 		source_description = cdmSourceDescription
-	)
-	runStep(sql, fileQuery)
-
-	# visit detail
-	fileQuery <- "insert_visit_detail.sql"
-	sql <- SqlRender::loadRenderTranslateSql(
-		sqlFilename = file.path(sqlFilePath, fileQuery),
-		packageName = "ETLSyntheaBuilder",
-		dbms = connectionDetails$dbms,
-		cdm_schema = cdmSchema,
-		synthea_schema = syntheaSchema		
 	)
 	runStep(sql, fileQuery)
 
