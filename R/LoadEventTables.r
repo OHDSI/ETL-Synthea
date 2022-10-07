@@ -20,7 +20,7 @@
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param cdmVersion The version of your CDM.  Currently "5.3" and "5.4".
 #' @param syntheaVersion The version of Synthea used to generate the csv files.
-#'                       Currently "2.7.0" is supported.
+#'                       Currently "2.7.0" and "3.0.0" are supported.
 #' @param cdmSourceName	The source name to insert into the CDM_SOURCE table.  Default is Synthea synthentic health database.
 #' @param cdmSourceAbbreviation The source abbreviation to insert into the CDM_SOURCE table.  Default is Synthea.
 #' @param cdmHolder The holder to insert into the CDM_SOURCE table.  Default is OHDSI

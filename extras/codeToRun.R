@@ -34,4 +34,4 @@ ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails,syntheaSchema,syntheaFile
 # Populate vocabulary tables
 ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails,cdmDatabaseSchema,vocabFileLoc)
 # Populate event tables
-ETLSyntheaBuilder::LoadEventTables(connectionDetails,cdmDatabaseSchema,syntheaSchema,cdmVersion)
+ETLSyntheaBuilder::LoadEventTables(connectionDetails,cdmDatabaseSchema,syntheaSchema,cdmVersion,syntheaVersion)
