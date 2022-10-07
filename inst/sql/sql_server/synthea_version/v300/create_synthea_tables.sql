@@ -100,11 +100,12 @@ create table @synthea_schema.observations (
 "date"         date,
 patient       varchar(1000),
 encounter     varchar(1000),
+category      varchar(1000),
 code          varchar(100),
 description   varchar(255),
 value     		varchar(1000),
 units         varchar(100),
-type					varchar(100)
+"type"		  	varchar(100)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM

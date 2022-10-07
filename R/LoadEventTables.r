@@ -48,13 +48,13 @@ LoadEventTables <- function (connectionDetails,
 	} else if (cdmVersion == "5.4") {
 		sqlFilePath <- "cdm_version/v540"
 	} else {
-		stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\"")
+		stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\".")
 	}
 
-	supportedSyntheaVersions <- c("2.7.0")
+	supportedSyntheaVersions <- c("2.7.0", "3.0.0")
 
 	if (!(syntheaVersion %in% supportedSyntheaVersions))
-		stop("Invalid synthea version specified.  Currently \"2.7.0\" is supported")
+		stop("Invalid Synthea version specified. Currently \"2.7.0\" and \"3.0.0\" are supported.")
 
 	# Create Vocabulary mapping tables
 	CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion, sqlOnly)
@@ -112,7 +112,7 @@ LoadEventTables <- function (connectionDetails,
 		synthea_schema = syntheaSchema
 	)
 	runStep(sql, fileQuery)
-	
+
 	# visit occurrence
 	fileQuery <- "insert_visit_occurrence.sql"
 	sql <- SqlRender::loadRenderTranslateSql(
@@ -131,7 +131,7 @@ LoadEventTables <- function (connectionDetails,
 		packageName = "ETLSyntheaBuilder",
 		dbms = connectionDetails$dbms,
 		cdm_schema = cdmSchema,
-		synthea_schema = syntheaSchema		
+		synthea_schema = syntheaSchema
 	)
 	runStep(sql, fileQuery)
 

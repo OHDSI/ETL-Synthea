@@ -27,7 +27,14 @@ pr.date                                  procedure_date,
 pr.date                                  procedure_datetime,
 pr.date                                  procedure_end_date,
 pr.date                                  procedure_end_datetime,
-} 
+}
+
+{@synthea_version == "3.0.0"} ? {
+pr.start                                 procedure_date,
+pr.start                                 procedure_datetime,
+pr.stop                                  procedure_end_date,
+pr.stop                                  procedure_end_datetime,
+}
 
 38000267                                 procedure_type_concept_id,
 0                                        modifier_concept_id,
@@ -54,7 +61,7 @@ left join @cdm_schema.final_visit_ids fv
 left join @synthea_schema.encounters e
   on pr.encounter                       = e.id
  and pr.patient                         = e.patient
-left join @cdm_schema.provider prv 
+left join @cdm_schema.provider prv
   on e.provider                         = prv.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value              = pr.patient
