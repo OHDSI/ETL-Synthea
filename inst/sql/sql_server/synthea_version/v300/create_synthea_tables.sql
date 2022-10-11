@@ -1,12 +1,21 @@
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.allergies (
-start         date,
-stop          date,
-patient       varchar(1000),
-encounter     varchar(1000),
-code          varchar(100),
-description   varchar(255)
+start        date,
+stop         date,
+patient      varchar(1000),
+encounter    varchar(1000),
+code         varchar(100),
+system       varchar(255),
+description  varchar(255),
+"type"       varchar(255),
+category     varchar(255),
+reaction1    varchar(255),
+description1 varchar(255),
+severity1    varchar(255),
+reaction2    varchar(255),
+description2 varchar(255),
+severity2    varchar(255)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
