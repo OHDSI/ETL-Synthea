@@ -28,10 +28,10 @@ syntheaVersion    <- "2.7.0"
 # Create CDM tables
 ETLSyntheaBuilder::CreateCDMTables(connectionDetails,cdmDatabaseSchema,cdmVersion)
 # Create synthea tables
-ETLSyntheaBuilder::CreateSyntheaTables(connectionDetails,syntheaSchema)
+ETLSyntheaBuilder::CreateSyntheaTables(connectionDetails,syntheaSchema, syntheaVersion)
 # Populate synthea tables
 ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails,syntheaSchema,syntheaFileLoc)
 # Populate vocabulary tables
 ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails,cdmDatabaseSchema,vocabFileLoc)
 # Populate event tables
-ETLSyntheaBuilder::LoadEventTables(connectionDetails,cdmDatabaseSchema,syntheaSchema,cdmVersion)
+ETLSyntheaBuilder::LoadEventTables(connectionDetails,cdmDatabaseSchema,syntheaSchema,cdmVersion,syntheaVersion)

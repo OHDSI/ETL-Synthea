@@ -20,7 +20,7 @@
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param cdmVersion The version of your CDM.  Currently "5.3" and "5.4".
 #' @param syntheaVersion The version of Synthea used to generate the csv files.
-#'                       Currently "2.7.0" is supported.
+#'                       Currently "2.7.0" and "3.0.0" are supported.
 #' @param cdmSourceName	The source name to insert into the CDM_SOURCE table.  Default is Synthea synthentic health database.
 #' @param cdmSourceAbbreviation The source abbreviation to insert into the CDM_SOURCE table.  Default is Synthea.
 #' @param cdmHolder The holder to insert into the CDM_SOURCE table.  Default is OHDSI
@@ -48,13 +48,13 @@ LoadEventTables <- function (connectionDetails,
 	} else if (cdmVersion == "5.4") {
 		sqlFilePath <- "cdm_version/v540"
 	} else {
-		stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\"")
+		stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\".")
 	}
 
-	supportedSyntheaVersions <- c("2.7.0")
+	supportedSyntheaVersions <- c("2.7.0", "3.0.0")
 
 	if (!(syntheaVersion %in% supportedSyntheaVersions))
-		stop("Invalid synthea version specified.  Currently \"2.7.0\" is supported")
+		stop("Invalid Synthea version specified. Currently \"2.7.0\" and \"3.0.0\" are supported.")
 
 	# Create Vocabulary mapping tables
 	CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion, sqlOnly)
@@ -112,7 +112,7 @@ LoadEventTables <- function (connectionDetails,
 		synthea_schema = syntheaSchema
 	)
 	runStep(sql, fileQuery)
-	
+
 	# visit occurrence
 	fileQuery <- "insert_visit_occurrence.sql"
 	sql <- SqlRender::loadRenderTranslateSql(
@@ -131,7 +131,7 @@ LoadEventTables <- function (connectionDetails,
 		packageName = "ETLSyntheaBuilder",
 		dbms = connectionDetails$dbms,
 		cdm_schema = cdmSchema,
-		synthea_schema = syntheaSchema		
+		synthea_schema = syntheaSchema
 	)
 	runStep(sql, fileQuery)
 
