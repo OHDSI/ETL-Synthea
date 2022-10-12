@@ -2,8 +2,6 @@
 #'
 #' @description This function gets the unique concept_ids in all event tables.
 #'
-#' @usage getEventConceptId(connectionDetails,cdmSchema,cdmVersion)
-#'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.

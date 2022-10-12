@@ -4,7 +4,7 @@
 \alias{createPrunedTables}
 \title{Create pruned CDM and Vocab tables.}
 \usage{
-createPrunedTables(connectionDetails,cdmSchema,eventConceptId,cdmVersion)
+createPrunedTables(connectionDetails, cdmSchema, eventConceptId, cdmVersion)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the

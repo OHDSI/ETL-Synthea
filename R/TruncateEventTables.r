@@ -1,8 +1,6 @@
-#' @title Truncate Non-Vocabulary CDM Tables.
+#' @title Truncate Event Tables.
 #'
 #' @description This function truncates CDM tables, excluding Vocabulary tables.
-#'
-#' @usage TruncateCDMTables(connectionDetails,cdmSchema)
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the

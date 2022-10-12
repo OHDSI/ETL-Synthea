@@ -2,8 +2,6 @@
 #'
 #' @description This function fetches (pruned) table data into R dataframes and writes them to a SQLite DB. (Eunomia support)
 #'
-#' @usage exportToSQLite(connectionDetails,cdmSchema,SQLiteDbName = "cdm.sqlite")
-#'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
@@ -36,7 +34,7 @@ exportToSQLite <- function (connectionDetails, cdmSchema, SQLiteDbName = "cdm.sq
 	)
 
 	for (tableName in c(eventTable,vocabTable)) {
-	
+
 		sqlQuery <- paste0("select * from  ",paste0(cdmSchema,".",tableName),";")
 		translatedSql <- SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
 		writeLines(paste0("Fetching: ",tableName))

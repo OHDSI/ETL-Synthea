@@ -2,8 +2,6 @@
 #'
 #' @description This function cleans up the tables created by the \cr\code{CreateVocabMapTables()} and \cr\code{CreateVisitRollupTables()}
 #'
-#' @usage DropMapAndRollupTables (connectionDetails, cdmSchema)
-#'
 #' @details This function assumes \cr\code{CreateVocabMapTables()} and \cr\code{CreateVisitRollupTables()} have already been run.
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
@@ -15,7 +13,7 @@
 #'                                     so for example 'cdm_instance.dbo'.
 #'
 #'@export
-DropMapAndRollupTables <- function (connectionDetails, cdmSchema) 
+DropMapAndRollupTables <- function (connectionDetails, cdmSchema)
 {
 	mapAndRollupTables <- c("SOURCE_TO_SOURCE_VOCAB_MAP","SOURCE_TO_STANDARD_VOCAB_MAP","ALL_VISITS","ASSIGN_ALL_VISIT_IDS","FINAL_VISIT_IDS")
 

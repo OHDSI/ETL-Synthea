@@ -2,9 +2,9 @@
 % Please edit documentation in R/DropEventTables.r
 \name{DropEventTables}
 \alias{DropEventTables}
-\title{Drop OMOP CDM Tables.}
+\title{Drop OMOP Event Tables.}
 \usage{
-DropCDMTables(connectionDetails,cdmSchema)
+DropEventTables(connectionDetails, cdmSchema)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
@@ -13,7 +13,7 @@ function \code{createConnectionDetails} in the
 
 \item{cdmSchema}{The name of the database schema that contains the OMOP CDM
 instance.  Requires read and write permissions to this database. On SQL
-Server, this should specifiy both the database and the schema,
+Server, this should specify both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 }
 \description{

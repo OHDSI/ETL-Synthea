@@ -4,7 +4,7 @@
 \alias{CreateSyntheaTables}
 \title{Create Synthea Tables.}
 \usage{
-CreateSyntheaTables(connectionDetails, syntheaSchema, cdmVersion)
+CreateSyntheaTables(connectionDetails, syntheaSchema, syntheaVersion = "2.7.0")
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the

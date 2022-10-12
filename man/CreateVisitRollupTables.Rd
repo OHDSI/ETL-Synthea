@@ -4,14 +4,20 @@
 \alias{CreateVisitRollupTables}
 \title{Create Tables for Visit Rollup Logic.}
 \usage{
-CreateVisitRollupTables (connectionDetails, cdmSchema, syntheaSchema, cdmVersion, sqlOnly)
+CreateVisitRollupTables(
+  connectionDetails,
+  cdmSchema,
+  syntheaSchema,
+  cdmVersion,
+  sqlOnly = FALSE
+)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
 function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
-\item{cdmSchema}{The name of the database schema that will contain the different VISIT 
+\item{cdmSchema}{The name of the database schema that will contain the different VISIT
 tables.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.}
@@ -29,6 +35,6 @@ so for example 'synthea_instance.dbo'.}
 This function creates tables ALL_VISITS, ASSIGN_ALL_VISIT_IDS, and FINAL_VISIT_IDS.
 }
 \details{
-This function assumes \cr\code{createCDMTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()}, 
+This function assumes \cr\code{createCDMTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()},
          have all been run and the Vocabulary has been loaded.
 }

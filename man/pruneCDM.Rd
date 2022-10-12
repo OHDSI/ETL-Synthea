@@ -4,7 +4,7 @@
 \alias{pruneCDM}
 \title{Prune a CDM.}
 \usage{
-pruneCDM(connectionDetails,cdmSchema,cdmVersion)
+pruneCDM(connectionDetails, cdmSchema, cdmVersion)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the

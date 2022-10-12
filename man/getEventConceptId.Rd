@@ -4,7 +4,7 @@
 \alias{getEventConceptId}
 \title{Get All Concept_ids In All Event Tables.}
 \usage{
-getEventConceptId(connectionDetails,cdmSchema,cdmVersion)
+getEventConceptId(connectionDetails, cdmSchema, cdmVersion)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the

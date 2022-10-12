@@ -3,8 +3,6 @@
 #' @description This function creates the pruned cdm and vocab tables by keeping only those rows from
 #'              the original tables for given concept_ids. (Eunomia support)
 #'
-#' @usage createPrunedTables(connectionDetails,cdmSchema,eventConceptId,cdmVersion)
-#'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.

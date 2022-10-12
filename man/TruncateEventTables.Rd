@@ -2,9 +2,9 @@
 % Please edit documentation in R/TruncateEventTables.r
 \name{TruncateEventTables}
 \alias{TruncateEventTables}
-\title{Truncate Non-Vocabulary CDM Tables.}
+\title{Truncate Event Tables.}
 \usage{
-TruncateCDMTables(connectionDetails,cdmSchema)
+TruncateEventTables(connectionDetails, cdmSchema)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
