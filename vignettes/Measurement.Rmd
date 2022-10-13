@@ -3,7 +3,10 @@ layout: default
 title: Measurement
 nav_order: 9
 description: "Measurement mapping from procedures.csv and observations.csv"
-
+vignette: >
+  %\VignetteIndexEntry{Measurement}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 # Measurement

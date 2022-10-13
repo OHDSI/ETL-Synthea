@@ -3,7 +3,10 @@ layout: default
 title: Person
 nav_order: 2
 description: "Person mapping from patients.csv"
-
+vignette: >
+  %\VignetteIndexEntry{Person}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 # Person

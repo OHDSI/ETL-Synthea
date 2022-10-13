@@ -3,6 +3,10 @@ layout: default
 title: Drug_exposure
 nav_order: 6
 description: "Drug_exposure mapping from medications.csv, and immunizations.csv"
+vignette: >
+  %\VignetteIndexEntry{Drug_exposure}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 # Drug_exposure

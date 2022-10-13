@@ -3,7 +3,10 @@ layout: default
 title: Observation_period
 nav_order: 3
 description: "Observation_period mapping from encounters.csv"
-
+vignette: >
+  %\VignetteIndexEntry{Observation_period}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 # Observation_period

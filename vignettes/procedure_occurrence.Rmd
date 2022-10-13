@@ -3,7 +3,10 @@ layout: default
 title: Procedure_occurrence
 nav_order: 7
 description: "Procedure_occurrence mapping from procedures.csv"
-
+vignette: >
+  %\VignetteIndexEntry{Procedure_occurrence}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 # Procedure_occurrence

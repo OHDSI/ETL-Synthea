@@ -3,7 +3,10 @@ layout: default
 title: Visit Occurrence
 nav_order: 4
 description: "Visit_occurrence mapping from encounters.csv"
-
+vignette: >
+  %\VignetteIndexEntry{Visit Occurrence}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 # Visit_occurrence
