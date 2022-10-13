@@ -28,7 +28,7 @@ CreateSyntheaTables <-
     else
       stop("Invalid synthea version specified. Currently \"2.7.0\" and \"3.0.0\" are supported.")
 
-    sqlFilename =  paste0(sqlFilePath, "/", "create_synthea_tables.sql")
+    sqlFilename <-  paste0(sqlFilePath, "/", "create_synthea_tables.sql")
 
     translatedSql <- SqlRender::loadRenderTranslateSql(
       sqlFilename     = sqlFilename,
