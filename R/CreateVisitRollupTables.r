@@ -22,45 +22,52 @@
 #'@export
 
 
-CreateVisitRollupTables <- function (connectionDetails, cdmSchema, syntheaSchema, cdmVersion, sqlOnly = FALSE)
-{
+CreateVisitRollupTables <-
+  function(connectionDetails,
+           cdmSchema,
+           syntheaSchema,
+           cdmVersion,
+           sqlOnly = FALSE)
+  {
+    if (cdmVersion == "5.3")
+      sqlFilePath <- "cdm_version/v531"
+    else if (cdmVersion == "5.4")
+      sqlFilePath <- "cdm_version/v540"
+    else
+      stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\"")
 
-	if (cdmVersion == "5.3")
-		sqlFilePath <- "cdm_version/v531"
-	else if (cdmVersion == "5.4")
-		sqlFilePath <- "cdm_version/v540"
-	else
-		stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\"")
+    queries <-
+      c("AllVisitTable.sql",
+        "AAVITable.sql",
+        "final_visit_ids.sql")
 
-    queries <- c("AllVisitTable.sql", "AAVITable.sql", "final_visit_ids.sql")
-
-	if (!sqlOnly) {
-		conn <- DatabaseConnector::connect(connectionDetails)
+    if (!sqlOnly) {
+      conn <- DatabaseConnector::connect(connectionDetails)
     }
 
-	for (query in queries) {
+    for (query in queries) {
+      translatedSql <- SqlRender::loadRenderTranslateSql(
+        sqlFilename    = paste0(sqlFilePath, "/", query),
+        packageName    = "ETLSyntheaBuilder",
+        dbms           = connectionDetails$dbms,
+        cdm_schema     = cdmSchema,
+        synthea_schema = syntheaSchema,
+        warnOnMissingParameters = FALSE
+      )
 
-		translatedSql <- SqlRender::loadRenderTranslateSql(
-			sqlFilename    = paste0(sqlFilePath,"/",query),
-			packageName    = "ETLSyntheaBuilder",
-			dbms           = connectionDetails$dbms,
-			cdm_schema     = cdmSchema,
-			synthea_schema = syntheaSchema,
-			warnOnMissingParameters = FALSE)
+      if (sqlOnly) {
+        if (!dir.exists("output"))
+          dir.create("output")
 
-		if (sqlOnly) {
-			if (!dir.exists("output"))
-				dir.create("output")
+        writeLines(paste0("Saving to output/", query))
+        SqlRender::writeSql(translatedSql, paste0("output/", query))
 
-			writeLines(paste0("Saving to output/", query))
-			SqlRender::writeSql(translatedSql,paste0("output/",query))
-
-        } else {
-			writeLines(paste0("Running: ",query))
-			DatabaseConnector::executeSql(conn, translatedSql)
-		}
+      } else {
+        writeLines(paste0("Running: ", query))
+        DatabaseConnector::executeSql(conn, translatedSql)
+      }
     }
-	if (!sqlOnly) {
-		DatabaseConnector::disconnect(conn)
-	}
-}
+    if (!sqlOnly) {
+      DatabaseConnector::disconnect(conn)
+    }
+  }

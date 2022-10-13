@@ -31,7 +31,7 @@ jobs:
       - name: Install package
         run: R CMD INSTALL .
 
-      - name: Extract and lint files changed by this PR
+      - name: Lint files
         run: |
           Sys.setenv("LINTR_ERROR_ON_LINT" = TRUE)
           lintr::lint_package()

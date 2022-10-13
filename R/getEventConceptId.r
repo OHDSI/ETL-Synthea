@@ -14,28 +14,28 @@
 #'
 #'@export
 
-getEventConceptId <- function (connectionDetails, cdmSchema, cdmVersion)
-{
+getEventConceptId <-
+  function(connectionDetails, cdmSchema, cdmVersion)
+  {
+    if (cdmVersion == "5.3.1")
+      sqlFilePath <- "cdm_version/v531"
+    else if (cdmVersion == "6.0.0")
+      sqlFilePath <- "cdm_version/v600"
+    else
+      stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
 
-	if (cdmVersion == "5.3.1")
-		sqlFilePath <- "cdm_version/v531"
-	else if (cdmVersion == "6.0.0")
-		sqlFilePath <- "cdm_version/v600"
-	else
-		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
+    sql <- SqlRender::loadRenderTranslateSql(
+      sqlFileName = paste0(sqlFilePath, "/get_event_concept_id.sql"),
+      packageName = "ETLSyntheaBuilder",
+      dbms        = connectionDetails$dbms,
+      cdm_schema  = cdmSchema
+    )
 
-	sql <- SqlRender::loadRenderTranslateSql(
-			sqlFileName = paste0(sqlFilePath,"/get_event_concept_id.sql"),
-			packageName = "ETLSyntheaBuilder",
-			dbms        = connectionDetails$dbms,
-			cdm_schema  = cdmSchema
-			)
+    conn <- DatabaseConnector::connect(connectionDetails)
 
-	conn <- DatabaseConnector::connect(connectionDetails)
+    eventConceptId <- DatabaseConnector::querySql(conn, sql)
 
-	eventConceptId <- DatabaseConnector::querySql(conn, sql)
+    on.exit(DatabaseConnector::disconnect(conn))
 
-	on.exit(DatabaseConnector::disconnect(conn))
-
-	return (eventConceptId)
-}
+    return(eventConceptId)
+  }

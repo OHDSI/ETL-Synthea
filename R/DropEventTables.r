@@ -13,19 +13,50 @@
 #'@export
 
 
-DropEventTables <- function (connectionDetails, cdmSchema)
+DropEventTables <- function(connectionDetails, cdmSchema)
 {
-	eventTables <- c(
-		"CARE_SITE","CDM_SOURCE","COHORT","COHORT_ATTRIBUTE","CONDITION_ERA","CONDITION_OCCURRENCE","COST","DEATH","DEVICE_EXPOSURE",
-		"DOSE_ERA","DRUG_ERA","DRUG_EXPOSURE","FACT_RELATIONSHIP","LOCATION","MEASUREMENT","METADATA","NOTE","NOTE_NLP","OBSERVATION",
-		"OBSERVATION_PERIOD","PAYER_PLAN_PERIOD","PERSON","PROCEDURE_OCCURRENCE","PROVIDER","SPECIMEN","VISIT_DETAIL","VISIT_OCCURRENCE")
+  eventTables <- c(
+    "CARE_SITE",
+    "CDM_SOURCE",
+    "COHORT",
+    "COHORT_ATTRIBUTE",
+    "CONDITION_ERA",
+    "CONDITION_OCCURRENCE",
+    "COST",
+    "DEATH",
+    "DEVICE_EXPOSURE",
+    "DOSE_ERA",
+    "DRUG_ERA",
+    "DRUG_EXPOSURE",
+    "FACT_RELATIONSHIP",
+    "LOCATION",
+    "MEASUREMENT",
+    "METADATA",
+    "NOTE",
+    "NOTE_NLP",
+    "OBSERVATION",
+    "OBSERVATION_PERIOD",
+    "PAYER_PLAN_PERIOD",
+    "PERSON",
+    "PROCEDURE_OCCURRENCE",
+    "PROVIDER",
+    "SPECIMEN",
+    "VISIT_DETAIL",
+    "VISIT_OCCURRENCE"
+  )
 
-	conn <- DatabaseConnector::connect(connectionDetails)
-	allTables <- DatabaseConnector::getTableNames(conn,cdmSchema)
-	tablesToDrop <- allTables[which(allTables %in% eventTables)]
-	sql <- paste("drop table @cdm_schema.",tablesToDrop,";",collapse = "\n", sep = "")
-	sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
-	sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
-	DatabaseConnector::executeSql(conn, sql)
-	on.exit(DatabaseConnector::disconnect(conn))
+  conn <- DatabaseConnector::connect(connectionDetails)
+  allTables <- DatabaseConnector::getTableNames(conn, cdmSchema)
+  tablesToDrop <- allTables[which(allTables %in% eventTables)]
+  sql <-
+    paste("drop table @cdm_schema.",
+          tablesToDrop,
+          ";",
+          collapse = "\n",
+          sep = "")
+  sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
+  sql <-
+    SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
+  DatabaseConnector::executeSql(conn, sql)
+  on.exit(DatabaseConnector::disconnect(conn))
 }

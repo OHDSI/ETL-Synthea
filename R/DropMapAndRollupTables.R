@@ -13,17 +13,29 @@
 #'                                     so for example 'cdm_instance.dbo'.
 #'
 #'@export
-DropMapAndRollupTables <- function (connectionDetails, cdmSchema)
+DropMapAndRollupTables <- function(connectionDetails, cdmSchema)
 {
-	mapAndRollupTables <- c("SOURCE_TO_SOURCE_VOCAB_MAP","SOURCE_TO_STANDARD_VOCAB_MAP","ALL_VISITS","ASSIGN_ALL_VISIT_IDS","FINAL_VISIT_IDS")
+  mapAndRollupTables <-
+    c(
+      "SOURCE_TO_SOURCE_VOCAB_MAP",
+      "SOURCE_TO_STANDARD_VOCAB_MAP",
+      "ALL_VISITS",
+      "ASSIGN_ALL_VISIT_IDS",
+      "FINAL_VISIT_IDS"
+    )
 
-	conn <- DatabaseConnector::connect(connectionDetails)
-	allTables <- DatabaseConnector::getTableNames(conn,cdmSchema)
-	tablesToDrop <- allTables[which(allTables %in% mapAndRollupTables)]
-	sql <- paste("drop table @cdm_schema.",tablesToDrop,";",collapse = "\n", sep = "")
-	sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
-	sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
-	DatabaseConnector::executeSql(conn, sql)
-	on.exit(DatabaseConnector::disconnect(conn))
+  conn <- DatabaseConnector::connect(connectionDetails)
+  allTables <- DatabaseConnector::getTableNames(conn, cdmSchema)
+  tablesToDrop <- allTables[which(allTables %in% mapAndRollupTables)]
+  sql <-
+    paste("drop table @cdm_schema.",
+          tablesToDrop,
+          ";",
+          collapse = "\n",
+          sep = "")
+  sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
+  sql <-
+    SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
+  DatabaseConnector::executeSql(conn, sql)
+  on.exit(DatabaseConnector::disconnect(conn))
 }
-
