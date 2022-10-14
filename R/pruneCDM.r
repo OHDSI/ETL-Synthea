@@ -2,8 +2,6 @@
 #'
 #' @description This function is simply a convenience wrapper for the other calls. (Eunomia support)
 #'
-#' @usage pruneCDM(connectionDetails,cdmSchema,cdmVersion)
-#'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.

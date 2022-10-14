@@ -4,7 +4,12 @@
 \alias{CreateCDMIndexAndConstraintScripts}
 \title{Create Index and Constraint DDL SQL scripts for CDM tables on rdbms that support these features.}
 \usage{
-CreateCDMIndexAndConstraintScripts(connectionDetails,cdmSchema,cdmVersion,githubTag)
+CreateCDMIndexAndConstraintScripts(
+  connectionDetails,
+  cdmSchema,
+  cdmVersion,
+  githubTag = NULL
+)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
@@ -17,7 +22,7 @@ so for example 'cdm_instance.dbo'.}
 
 \item{cdmVersion}{Your CDM version.  Currently "5.3.1" and "6.0.0" are supported.}
 
-\item{githubTag}{An optional github tag from which to pull the DDL script. 
+\item{githubTag}{An optional github tag from which to pull the DDL script.
 Currently "v5.3.1", "v5.3.1_fixes", "v6.0.0", and "v6.0.0_fixes" are supported.  The default is NULL.}
 }
 \description{
@@ -25,7 +30,7 @@ This function creates one or more SQL scripts as defined in https://github.com/O
 }
 \details{
 This function creates SQL scripts for the indices and constraints on tables in a CDM by referring to the
-         correct SQL DDL script in the OHDSI CommonDataModel repo. The database platform is 
+         correct SQL DDL script in the OHDSI CommonDataModel repo. The database platform is
          determined by \code{connectionDetails$dbms}.  Currently "oracle", "postgresql", "pdw", "netezza", and "sql server" are supported.
          The SQL DDL scripts are written to the \code{output} directory.  The SQL scripts can then be run manually in a SQL session
          or by using \code{DatabaseConnector::executeSql(connection,DDLscriptName)}

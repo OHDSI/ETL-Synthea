@@ -2,8 +2,6 @@
 #'
 #' @description This function creates the all the required tables for the CDM.
 #'
-#' @usage CreateCDMTables(connectionDetails,cdmSchema,cdmVersion,outputFolder,sqlOnly)
-#'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
@@ -17,14 +15,14 @@
 #' @details This function creates all the tables in a CDM by calling \code{CommonDataModel::executeDdl()}.
 #'          Supported CDM versions and db dialects are determined by \code{CommonDataModel::listSupportedVersions()}
 #'          and \code{CommonDataModel::listSupportedDialects()}, respectively.
-#' 
+#'
 #'@export
 
 
 CreateCDMTables <- function (connectionDetails,cdmSchema,cdmVersion,outputFolder = NULL,sqlOnly = FALSE)
 {
 
-	if (!sqlOnly) { 
+	if (!sqlOnly) {
 		CommonDataModel::executeDdl(
 		connectionDetails = connectionDetails,
 		cdmVersion        = cdmVersion,
@@ -32,9 +30,9 @@ CreateCDMTables <- function (connectionDetails,cdmSchema,cdmVersion,outputFolder
 		executeDdl        = TRUE,
 		executePrimaryKey = TRUE,
 		executeForeignKey = FALSE) # False for now due to bug: https://github.com/OHDSI/CommonDataModel/issues/452
-		
+
 	} else {
-	
+
 		if (is.null(outputFolder)) {
 			stop("Must specify an outputFolder location when using sqlOnly = TRUE")
 		}

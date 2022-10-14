@@ -4,7 +4,7 @@
 \alias{restoreCDMTables}
 \title{Restore the CDM (undo the pruning).}
 \usage{
-restoreCDMTables(connectionDetails,cdmSchema,cdmVersion)
+restoreCDMTables(connectionDetails, cdmSchema, cdmVersion)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the

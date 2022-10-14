@@ -15,20 +15,22 @@ Description: ETL and Builder to convert Synthea Data to the OMOP CDM.
 	the vocabulary from another schema that already has it loaded.
     This package assumes an RDBMS exists to which you have read/write access.
 License: Apache License 2.0
-Depends: 
-    DatabaseConnector
 Imports:
     SqlRender,
 	data.table,
 	httr,
 	dplyr (>= 1.0.0),
-	readr (>= 2.1.0)
+	readr (>= 2.1.0),
+	CommonDataModel,
+	DatabaseConnector
 Remotes:
   OHDSI/CommonDataModel
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Suggests: 
     rmarkdown,
-    knitr
+    knitr,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3

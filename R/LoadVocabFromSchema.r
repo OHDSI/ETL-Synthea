@@ -2,8 +2,6 @@
 #'
 #' @description This function populates all Vocabulary tables with data from Vocabulary tables in a specified schema.
 #'
-#' @usage LoadVocabFromSchema(connectionDetails, cdmSourceSchema, cdmTargetSchema)
-#'
 #' @details This function assumes \cr\code{createCDMTables()} has already been run and \cr\code{cdmSourceSchema} has all required Vocabulary tables.
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the

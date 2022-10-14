@@ -1,15 +1,13 @@
-#' @title Drop OMOP CDM Tables.
+#' @title Drop OMOP Event Tables.
 #'
-#' @description This function drops CDM tables, excluding Vocabulary tables. 
-#'
-#' @usage DropCDMTables(connectionDetails,cdmSchema)
+#' @description This function drops CDM tables, excluding Vocabulary tables.
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
 #' @param cdmSchema  The name of the database schema that contains the OMOP CDM
 #'                                     instance.  Requires read and write permissions to this database. On SQL
-#'                                     Server, this should specifiy both the database and the schema,
+#'                                     Server, this should specify both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #'
 #'@export
@@ -29,5 +27,5 @@ DropEventTables <- function (connectionDetails, cdmSchema)
 	sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
 	sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
 	DatabaseConnector::executeSql(conn, sql)
-	on.exit(DatabaseConnector::disconnect(conn))	
+	on.exit(DatabaseConnector::disconnect(conn))
 }

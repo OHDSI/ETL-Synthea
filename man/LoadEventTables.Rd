@@ -4,7 +4,19 @@
 \alias{LoadEventTables}
 \title{Load CDM Non-Vocabulary Tables.}
 \usage{
-LoadEventTables (connectionDetails, cdmSchema, syntheaSchema, cdmVersion, sqlOnly)
+LoadEventTables(
+  connectionDetails,
+  cdmSchema,
+  syntheaSchema,
+  cdmVersion,
+  syntheaVersion = "2.7.0",
+  cdmSourceName = "Synthea synthetic health database",
+  cdmSourceAbbreviation = "Synthea",
+  cdmHolder = "OHDSI",
+  cdmSourceDescription =
+    "SyntheaTM is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats.",
+  sqlOnly = FALSE
+)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the

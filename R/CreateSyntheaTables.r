@@ -2,8 +2,6 @@
 #'
 #' @description This function creates all Synthea tables.
 #'
-#' @usage CreateSyntheaTables(connectionDetails, syntheaSchema, cdmVersion)
-#'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.

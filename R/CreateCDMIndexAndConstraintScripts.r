@@ -2,8 +2,6 @@
 #'
 #' @description This function creates one or more SQL scripts as defined in https://github.com/OHDSI/CommonDataModel.
 #'
-#' @usage CreateCDMIndexAndConstraintScripts(connectionDetails,cdmSchema,cdmVersion,githubTag)
-#'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
@@ -11,15 +9,15 @@
 #'                                     Server, this should specifiy both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param cdmVersion Your CDM version.  Currently "5.3.1" and "6.0.0" are supported.
-#' @param githubTag  An optional github tag from which to pull the DDL script. 
+#' @param githubTag  An optional github tag from which to pull the DDL script.
 #'                   Currently "v5.3.1", "v5.3.1_fixes", "v6.0.0", and "v6.0.0_fixes" are supported.  The default is NULL.
 #'
 #' @details This function creates SQL scripts for the indices and constraints on tables in a CDM by referring to the
-#'          correct SQL DDL script in the OHDSI CommonDataModel repo. The database platform is 
+#'          correct SQL DDL script in the OHDSI CommonDataModel repo. The database platform is
 #'          determined by \code{connectionDetails$dbms}.  Currently "oracle", "postgresql", "pdw", "netezza", and "sql server" are supported.
 #'          The SQL DDL scripts are written to the \code{output} directory.  The SQL scripts can then be run manually in a SQL session
 #'          or by using \code{DatabaseConnector::executeSql(connection,DDLscriptName)}
-#' 
+#'
 #'@export
 
 
@@ -30,11 +28,11 @@ CreateCDMIndexAndConstraintScripts <- function (connectionDetails,cdmSchema,cdmV
 	supportedVersions <- c("5.3.1","6.0.0")
 	supportedTags     <- c("v5.3.1","v6.0.0","v5.3.1_fixes","v6.0.0_fixes")
 	rdbms <- tolower(connectionDetails$dbms)
-	
+
 	if (!(cdmVersion %in% supportedVersions)) {
 		stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
 	}
-	
+
 	if (!(rdbms %in% supportedDbs)) {
 		stop("Unsupported RDBMS specified. Supported rdbms are: \"oracle\", \"postgresql\", \"pdw\", \"netezza\", and \"sql server\"")
 	}
@@ -42,18 +40,18 @@ CreateCDMIndexAndConstraintScripts <- function (connectionDetails,cdmSchema,cdmV
 	if (!is.null(githubTag) && !(githubTag %in% supportedTags)) {
 		stop("Unrecognized github tag.  Supported values are \"v5.3.1\", \"v6.0.0\", \"v5.3.1_fixes\", and \"v6.0.0_fixes\"")
 	}
-	
+
 	if (cdmVersion == "5.3.1" && !(githubTag %in% c("v5.3.1","v5.3.1_fixes"))) {
 		stop("cdmVersion and githubTag mismatch.")
 	}
-	
+
 	if (cdmVersion == "6.0.0" && !(githubTag %in% c("v6.0.0","v6.0.0_fixes"))) {
 		stop("cdmVersion and githubTag mismatch.")
 	}
 
 	# Determine which DDL script to use (from https://github.com/OHDSI/CommonDataModel)
 	# based on the given db platform, cdm version, and (optionally) github tag.
-	
+
 	if (rdbms == "oracle") {
 		if (cdmVersion == "5.3.1") {
 			if (is.null(githubTag) || githubTag == "v5.3.1") {
@@ -141,10 +139,10 @@ CreateCDMIndexAndConstraintScripts <- function (connectionDetails,cdmSchema,cdmV
 			}
 		}
 	}
-	
+
 	# Read the SQL DDL from the correct github repo and apply some string formatting to enable
 	# use of parameterized sql to write to the correct schema.
-	
+
 	indexDDL      <- httr::content(webResponseInd)
 	constraintDDL <- httr::content(webResponseCon)
 	indexDDL      <- toupper(indexDDL)
@@ -165,17 +163,17 @@ CreateCDMIndexAndConstraintScripts <- function (connectionDetails,cdmSchema,cdmV
 		constraintDDL <- SqlRender::render(constraintDDL, CDM_SCHEMA = cdmSchema)
 		constraintDDL <- SqlRender::translate(constraintDDL, targetDialect = rdbms)
 	}
-	
+
 	# Save the translated sql ddl to be run at a later time
 	if (!dir.exists("output")) {
 		dir.create("output")
 	}
-	
+
 	# Constraint DDL
 	writeLines(paste0("Pulling constraint DDL from: ",webResponseCon$url))
 	writeLines(paste0("Saving constraint DDL in: output/",rdbms,"_",cdmVersion,"_constraint_ddl.sql"))
 	SqlRender::writeSql(constraintDDL,paste0("output/",rdbms,"_",cdmVersion,"_constraint_ddl.sql"))
-	
+
 	# Index DDL
 	# Netezza only has a PK script file
 	if (rdbms != "netezza") {

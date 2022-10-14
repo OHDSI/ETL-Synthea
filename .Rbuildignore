@@ -1,5 +1,11 @@
+^renv$
+^renv\.lock$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+inst/sqlite
+.gitignore
+^doc$
+^\.github$

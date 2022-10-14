@@ -4,7 +4,7 @@
 \alias{DropMapAndRollupTables}
 \title{Drop Vocabulary Mapping And Visit Rollup Tables.}
 \usage{
-DropMapAndRollupTables (connectionDetails, cdmSchema)
+DropMapAndRollupTables(connectionDetails, cdmSchema)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the

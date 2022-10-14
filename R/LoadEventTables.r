@@ -2,8 +2,6 @@
 #'
 #' @description This function loads the CDM Event tables with Synthea data.
 #'
-#' @usage LoadEventTables (connectionDetails, cdmSchema, syntheaSchema, cdmVersion, sqlOnly)
-#'
 #' @details This function assumes \cr\code{createCDMTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()},
 #'              and \cr\code{LoadVocabTables()} have all been run.
 #'

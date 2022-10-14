@@ -3,7 +3,10 @@ layout: default
 title: Observation
 nav_order: 8
 description: "Observation mapping from allergies.csv and conditions.csv"
-
+vignette: >
+  %\VignetteIndexEntry{Observation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 # Observation

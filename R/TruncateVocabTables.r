@@ -1,8 +1,6 @@
 #' @title Truncate Vocabulary Tables.
 #'
-#' @description This function truncates the Vocabulary tables. 
-#'
-#' @usage TruncateVocabTables(connectionDetails, cdmSchema)
+#' @description This function truncates the Vocabulary tables.
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
@@ -18,17 +16,17 @@
 TruncateVocabTables <- function (connectionDetails, cdmSchema)
 {
 
-	vocabTables <- c( 
-		'ATTRIBUTE_DEFINITION','COHORT_DEFINITION','CONCEPT','CONCEPT_ANCESTOR','CONCEPT_CLASS','CONCEPT_RELATIONSHIP', 
+	vocabTables <- c(
+		'ATTRIBUTE_DEFINITION','COHORT_DEFINITION','CONCEPT','CONCEPT_ANCESTOR','CONCEPT_CLASS','CONCEPT_RELATIONSHIP',
 		'CONCEPT_SYNONYM','DOMAIN','DRUG_STRENGTH','RELATIONSHIP','SOURCE_TO_CONCEPT_MAP','VOCABULARY' )
 
-	conn <- DatabaseConnector::connect(connectionDetails) 
+	conn <- DatabaseConnector::connect(connectionDetails)
 	allTables <- DatabaseConnector::getTableNames(conn,cdmSchema)
-	writeLines("Truncating vocabulary tables...")		
+	writeLines("Truncating vocabulary tables...")
 	tablesToTruncate <- allTables[which(allTables %in% vocabTables)]
 	sql <- paste("truncate table @cdm_schema.",tablesToTruncate,";",collapse = "\n", sep = "")
 	sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
 	sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
 	DatabaseConnector::executeSql(conn, sql)
-	on.exit(DatabaseConnector::disconnect(conn))	
+	on.exit(DatabaseConnector::disconnect(conn))
 }

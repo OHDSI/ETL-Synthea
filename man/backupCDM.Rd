@@ -4,7 +4,7 @@
 \alias{backupCDM}
 \title{Backup Vocabulary and Event tables before pruning.}
 \usage{
-backupCDM(connectionDetails,cdmSchema,cdmVersion)
+backupCDM(connectionDetails, cdmSchema, cdmVersion)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the

@@ -2,8 +2,6 @@
 #'
 #' @description This function populates all Vocabulary tables with data in csv files.
 #'
-#' @usage LoadVocabFromCsv(connectionDetails, cdmSchema, vocabFileLoc, bulkLoad)
-#'
 #' @details This function assumes \cr\code{createCDMTables()} has already been run.
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
@@ -62,7 +60,7 @@ LoadVocabFromCsv <- function (connectionDetails, cdmSchema, vocabFileLoc, bulkLo
 
 		if (tolower(csv) == "drug_strength.csv") {
 				vocabTable <- vocabTable %>%
-					mutate_at(vars('amount_value','amount_unit_concept_id','numerator_value','numerator_unit_concept_id','denominator_value','denominator_unit_concept_id', 'box_size'), ~tidyr::replace_na(., 0))
+					mutate_at(vars('amount_value','amount_unit_concept_id','numerator_value','numerator_unit_concept_id','denominator_value','denominator_unit_concept_id', 'box_size'), ~replace(., is.na(.), 0))
 		}
 
 		chunkSize <- 1e7
