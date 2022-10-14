@@ -36,7 +36,7 @@ so for example 'cdm_instance.dbo'.}
 \item{cdmVersion}{The version of your CDM.  Currently "5.3" and "5.4".}
 
 \item{syntheaVersion}{The version of Synthea used to generate the csv files.
-Currently "2.7.0" is supported.}
+Currently "2.7.0" and "3.0.0" are supported.}
 
 \item{cdmSourceName}{The source name to insert into the CDM_SOURCE table.  Default is Synthea synthentic health database.}
 
