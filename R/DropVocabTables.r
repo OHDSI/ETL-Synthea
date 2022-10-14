@@ -13,20 +13,36 @@
 #'@export
 
 
-DropVocabTables <- function (connectionDetails, cdmSchema)
+DropVocabTables <- function(connectionDetails, cdmSchema)
 {
+  vocabTables <- c(
+    "ATTRIBUTE_DEFINITION",
+    "COHORT_DEFINITION",
+    "CONCEPT",
+    "CONCEPT_ANCESTOR",
+    "CONCEPT_CLASS",
+    "CONCEPT_RELATIONSHIP",
+    "CONCEPT_SYNONYM",
+    "DOMAIN",
+    "DRUG_STRENGTH",
+    "RELATIONSHIP",
+    "SOURCE_TO_CONCEPT_MAP",
+    "VOCABULARY"
+  )
 
-	vocabTables <- c(
-		'ATTRIBUTE_DEFINITION','COHORT_DEFINITION','CONCEPT','CONCEPT_ANCESTOR','CONCEPT_CLASS','CONCEPT_RELATIONSHIP',
-		'CONCEPT_SYNONYM','DOMAIN','DRUG_STRENGTH','RELATIONSHIP','SOURCE_TO_CONCEPT_MAP','VOCABULARY' )
-
-	conn <- DatabaseConnector::connect(connectionDetails)
-	allTables <- DatabaseConnector::getTableNames(conn,cdmSchema)
-	writeLines("Dropping vocabulary tables...")
-	tablesToDrop <- allTables[which(allTables %in% vocabTables)]
-	sql <- paste("drop table @cdm_schema.",tablesToDrop,";",collapse = "\n", sep = "")
-	sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
-	sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
-	DatabaseConnector::executeSql(conn, sql)
-	on.exit(DatabaseConnector::disconnect(conn))
+  conn <- DatabaseConnector::connect(connectionDetails)
+  allTables <- DatabaseConnector::getTableNames(conn, cdmSchema)
+  writeLines("Dropping vocabulary tables...")
+  tablesToDrop <- allTables[which(allTables %in% vocabTables)]
+  sql <-
+    paste("drop table @cdm_schema.",
+          tablesToDrop,
+          ";",
+          collapse = "\n",
+          sep = "")
+  sql <- SqlRender::render(sql, cdm_schema = cdmSchema)
+  sql <-
+    SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
+  DatabaseConnector::executeSql(conn, sql)
+  on.exit(DatabaseConnector::disconnect(conn))
 }

@@ -27,37 +27,84 @@
 #'@export
 
 
-LoadSyntheaTables <- function (connectionDetails, syntheaSchema, syntheaFileLoc, bulkLoad = FALSE)
-{
-
-    csvList <- c("allergies.csv","conditions.csv","imaging_studies.csv","medications.csv","organizations.csv","procedures.csv",
-	             "careplans.csv","encounters.csv","immunizations.csv","observations.csv","patients.csv","providers.csv","devices.csv")
+LoadSyntheaTables <-
+  function(connectionDetails,
+           syntheaSchema,
+           syntheaFileLoc,
+           bulkLoad = FALSE)
+  {
+    csvList <-
+      c(
+        "allergies.csv",
+        "conditions.csv",
+        "imaging_studies.csv",
+        "medications.csv",
+        "organizations.csv",
+        "procedures.csv",
+        "careplans.csv",
+        "encounters.csv",
+        "immunizations.csv",
+        "observations.csv",
+        "patients.csv",
+        "providers.csv",
+        "devices.csv"
+      )
 
     conn <- DatabaseConnector::connect(connectionDetails)
 
     for (csv in csvList) {
+      syntheaTable <-
+        data.table::fread(
+          file = paste0(syntheaFileLoc, "/", csv),
+          stringsAsFactors = FALSE,
+          header = TRUE,
+          sep = ",",
+          na.strings = ""
+        )
 
-        syntheaTable <- data.table::fread(file = paste0(syntheaFileLoc, "/", csv), stringsAsFactors = FALSE, header = TRUE, sep = ",",na.strings = "")
+      writeLines(paste0("Loading: ", csv))
 
-        writeLines(paste0("Loading: ",csv))
+      # experiencing type conversion errors and need to explicitly case some columns
+      if ("START"       %in% colnames(syntheaTable))
+        syntheaTable$START        <-
+        as.Date(syntheaTable$START, format = "%Y-%m-%d")
+      if ("STOP"        %in% colnames(syntheaTable))
+        syntheaTable$STOP         <-
+        as.Date(syntheaTable$STOP, format = "%Y-%m-%d")
+      if ("DATE"        %in% colnames(syntheaTable))
+        syntheaTable$DATE         <-
+        as.Date(syntheaTable$DATE, format = "%Y-%m-%d")
+      if ("BIRTHDATE"   %in% colnames(syntheaTable))
+        syntheaTable$BIRTHDATE    <-
+        as.Date(syntheaTable$BIRTHDATE, format = "%Y-%m-%d")
+      if ("DEATHDATE"   %in% colnames(syntheaTable))
+        syntheaTable$DEATHDATE    <-
+        as.Date(syntheaTable$DEATHDATE, format = "%Y-%m-%d")
+      if ("CODE"        %in% colnames(syntheaTable))
+        syntheaTable$CODE         <- as.character(syntheaTable$CODE)
+      if ("REASONCODE"  %in% colnames(syntheaTable))
+        syntheaTable$REASONCODE   <-
+        as.character(syntheaTable$REASONCODE)
+      if ("PHONE"       %in% colnames(syntheaTable))
+        syntheaTable$PHONE        <-
+        as.character(syntheaTable$PHONE)
+      if ("UTILIZATION" %in% colnames(syntheaTable))
+        syntheaTable$UTILIZATION  <-
+        as.numeric(syntheaTable$UTILIZATION)
 
-        # experiencing type conversion errors and need to explicitly case some columns
-
-        if("START"       %in% colnames(syntheaTable))  syntheaTable$START        <- as.Date(syntheaTable$START,format="%Y-%m-%d")
-        if("STOP"        %in% colnames(syntheaTable))  syntheaTable$STOP         <- as.Date(syntheaTable$STOP,format="%Y-%m-%d")
-        if("DATE"        %in% colnames(syntheaTable))  syntheaTable$DATE         <- as.Date(syntheaTable$DATE,format="%Y-%m-%d")
-        if("BIRTHDATE"   %in% colnames(syntheaTable))  syntheaTable$BIRTHDATE    <- as.Date(syntheaTable$BIRTHDATE,format="%Y-%m-%d")
-        if("DEATHDATE"   %in% colnames(syntheaTable))  syntheaTable$DEATHDATE    <- as.Date(syntheaTable$DEATHDATE,format="%Y-%m-%d")
-		    if("CODE"        %in% colnames(syntheaTable))  syntheaTable$CODE         <- as.character(syntheaTable$CODE)
-		    if("REASONCODE"  %in% colnames(syntheaTable))  syntheaTable$REASONCODE   <- as.character(syntheaTable$REASONCODE)
-        if("PHONE"       %in% colnames(syntheaTable))  syntheaTable$PHONE        <- as.character(syntheaTable$PHONE)
-        if("UTILIZATION" %in% colnames(syntheaTable))  syntheaTable$UTILIZATION  <- as.numeric(syntheaTable$UTILIZATION)
-
-        suppressWarnings({
-            DatabaseConnector::insertTable(conn,tableName=paste0(syntheaSchema,".",strsplit(csv,"[.]")[[1]][1]), data=as.data.frame(syntheaTable), dropTableIfExists = FALSE, createTable = FALSE, useMppBulkLoad = bulkLoad, progressBar = TRUE)
-        })
+      suppressWarnings({
+        DatabaseConnector::insertTable(
+          conn,
+          tableName = paste0(syntheaSchema, ".", strsplit(csv, "[.]")[[1]][1]),
+          data = as.data.frame(syntheaTable),
+          dropTableIfExists = FALSE,
+          createTable = FALSE,
+          useMppBulkLoad = bulkLoad,
+          progressBar = TRUE
+        )
+      })
     }
 
     on.exit(DatabaseConnector::disconnect(conn))
 
-}
+  }

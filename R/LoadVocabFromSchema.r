@@ -18,17 +18,47 @@
 #'
 #'@export
 
-LoadVocabFromSchema <- function (connectionDetails, cdmSourceSchema, cdmTargetSchema)
-{
+LoadVocabFromSchema <-
+  function(connectionDetails,
+           cdmSourceSchema,
+           cdmTargetSchema)
+  {
+    vocabTableList <-
+      c(
+        "concept",
+        "concept_ancestor",
+        "concept_class",
+        "concept_relationship",
+        "concept_synonym",
+        "domain",
+        "drug_strength",
+        "relationship",
+        "source_to_concept_map",
+        "vocabulary"
+      )
 
-	vocabTableList <- c("concept", "concept_ancestor", "concept_class", "concept_relationship", "concept_synonym", "domain",  "drug_strength", "relationship", "source_to_concept_map", "vocabulary")
+    conn <- DatabaseConnector::connect(connectionDetails)
 
-	conn <- DatabaseConnector::connect(connectionDetails)
-
-	for (tableName in vocabTableList) {
-		sql <- paste0("INSERT INTO ",cdmTargetSchema,".",tableName," SELECT * FROM ",cdmSourceSchema,".",tableName)
-		writeLines(paste0("Copying: ",tableName))
-		DatabaseConnector::executeSql(conn, sql, profile = FALSE, progressBar = TRUE, reportOverallTime = TRUE)
-	}
+    for (tableName in vocabTableList) {
+      sql <-
+        paste0(
+          "INSERT INTO ",
+          cdmTargetSchema,
+          ".",
+          tableName,
+          " SELECT * FROM ",
+          cdmSourceSchema,
+          ".",
+          tableName
+        )
+      writeLines(paste0("Copying: ", tableName))
+      DatabaseConnector::executeSql(
+        conn,
+        sql,
+        profile = FALSE,
+        progressBar = TRUE,
+        reportOverallTime = TRUE
+      )
+    }
     on.exit(DatabaseConnector::disconnect(conn))
-}
+  }
