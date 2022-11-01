@@ -32,7 +32,9 @@ LoadSyntheaTables <-
            syntheaSchema,
            syntheaFileLoc,
            bulkLoad = FALSE)
-  {
+{
+    Sys.setenv("DATABASE_CONNECTOR_BULK_UPLOAD" = bulkLoad)
+
     csvList <-
       c(
         "allergies.csv",
@@ -47,7 +49,12 @@ LoadSyntheaTables <-
         "observations.csv",
         "patients.csv",
         "providers.csv",
-        "devices.csv"
+        "devices.csv",
+		"claims.csv",
+		"claims_transactions.csv",
+		"payers.csv",
+		"payer_transitions.csv",
+		"supplies.csv"
       )
 
     conn <- DatabaseConnector::connect(connectionDetails)
@@ -99,7 +106,6 @@ LoadSyntheaTables <-
           data = as.data.frame(syntheaTable),
           dropTableIfExists = FALSE,
           createTable = FALSE,
-          useMppBulkLoad = bulkLoad,
           progressBar = TRUE
         )
       })

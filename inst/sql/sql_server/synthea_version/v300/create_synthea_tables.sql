@@ -278,18 +278,18 @@ create table @synthea_schema.claims_transactions (
 create table @synthea_schema.payer_transitions (
  patient           varchar(1000),
   memberid         varchar(1000),
-  start_date       date,
-  end_date         date,
+  start_year       date,
+  end_year         date,
   payer            varchar(1000),
   secondary_payer  varchar(1000),
-  plan_ownership   varchar(1000),
-  owner_name       varchar(1000)
+  ownership        varchar(1000),
+  ownername       varchar(1000)
 );
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.payers (
+  id                       varchar(1000),
   name                     varchar(1000),
-  ownership                varchar(1000),
   address                  varchar(1000),
   city                     varchar(1000),
   state_headquartered      varchar(1000),
