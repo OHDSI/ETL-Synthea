@@ -201,3 +201,122 @@ description   varchar(255),
 udi           varchar(255)
 );
 
+--HINT DISTRIBUTE_ON_RANDOM
+create table @synthea_schema.claims (
+  id                           varchar(1000),
+  patientid                    varchar(1000),
+  providerid                   varchar(1000),
+  primarypatientinsuranceid    varchar(1000),
+  secondarypatientinsuranceid  varchar(1000),
+  departmentid                 varchar(1000),
+  patientdepartmentid          varchar(1000),
+  diagnosis1                   varchar(1000),
+  diagnosis2                   varchar(1000),
+  diagnosis3                   varchar(1000),
+  diagnosis4                   varchar(1000),
+  diagnosis5                   varchar(1000),
+  diagnosis6                   varchar(1000),
+  diagnosis7                   varchar(1000),
+  diagnosis8                   varchar(1000),
+  referringproviderid          varchar(1000),
+  appointmentid                varchar(1000),
+  currentillnessdate           date,
+  servicedate                  date,
+  supervisingproviderid        varchar(1000),
+  status1                      varchar(1000),
+  status2                      varchar(1000),
+  statusp                      varchar(1000),
+  outstanding1                 numeric,
+  outstanding2                 numeric,
+  outstandingp                 numeric,
+  lastbilleddate1              date,
+  lastbilleddate2              date,
+  lastbilleddatep              date,
+  healthcareclaimtypeid1       numeric,
+  healthcareclaimtypeid2       numeric
+);
+
+
+--HINT DISTRIBUTE_ON_RANDOM
+create table @synthea_schema.claims_transactions (
+  id                     varchar(1000),
+  claimid                varchar(1000),
+  chargeid               numeric,
+  patientid              varchar(1000),
+  type                   varchar(1000),
+  amount                 numeric,
+  method                 varchar(1000),
+  fromdate               date,
+  todate                 date,
+  placeofservice         varchar(1000),
+  procedurecode          varchar(1000),
+  modifier1              varchar(1000),
+  modifier2              varchar(1000),
+  diagnosisref1          numeric,
+  diagnosisref2          numeric,
+  diagnosisref3          numeric,
+  diagnosisref4          numeric,
+  units                  numeric,
+  departmentid           numeric,
+  notes                  varchar(1000),
+  unitamount             numeric,
+  transferoutid          numeric,
+  transfertype           varchar(1000),
+  payments               numeric,
+  adjustments            numeric,
+  transfers              numeric,
+  outstanding            numeric,
+  appointmentid          varchar(1000),
+  linenote               varchar(1000),
+  patientinsuranceid     varchar(1000),
+  feescheduleid          numeric,
+  providerid             varchar(1000),
+  supervisingproviderid  varchar(1000)
+);
+
+--HINT DISTRIBUTE_ON_RANDOM
+create table @synthea_schema.payer_transitions (
+ patient           varchar(1000),
+  memberid         varchar(1000),
+  start_date       date,
+  end_date         date,
+  payer            varchar(1000),
+  secondary_payer  varchar(1000),
+  plan_ownership   varchar(1000),
+  owner_name       varchar(1000)
+);
+
+--HINT DISTRIBUTE_ON_RANDOM
+create table @synthea_schema.payers (
+  name                     varchar(1000),
+  ownership                varchar(1000),
+  address                  varchar(1000),
+  city                     varchar(1000),
+  state_headquartered      varchar(1000),
+  zip                      varchar(1000),
+  phone                    varchar(1000),
+  amount_covered           numeric,
+  amount_uncovered         numeric,
+  revenue                  numeric,
+  covered_encounters       numeric,
+  uncovered_encounters     numeric,
+  covered_medications      numeric,
+  uncovered_medications    numeric,
+  covered_procedures       numeric,
+  uncovered_procedures     numeric,
+  covered_immunizations    numeric,
+  uncovered_immunizations  numeric,
+  unique_customers         numeric,
+  qols_avg                 numeric,
+  member_months            numeric
+);
+
+--HINT DISTRIBUTE_ON_RANDOM
+create table @synthea_schema.supplies (
+  "date"       date,
+  patient      varchar(1000),
+  encounter    varchar(1000),
+  code         varchar(1000),
+  description  varchar(1000),
+  quantity     numeric
+);

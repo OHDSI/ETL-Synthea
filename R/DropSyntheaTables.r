@@ -19,6 +19,8 @@ DropSyntheaTables <- function(connectionDetails, syntheaSchema)
   syntheaTables <- c(
     "ALLERGIES",
     "CAREPLANS",
+	"CLAIMS",
+	"CLAIMS_TRANSACTIONS",
     "CONDITIONS",
     "DEVICES",
     "ENCOUNTERS",
@@ -28,8 +30,11 @@ DropSyntheaTables <- function(connectionDetails, syntheaSchema)
     "OBSERVATIONS",
     "ORGANIZATIONS",
     "PATIENTS",
+	"PAYERS",
+	"PAYER_TRANSITIONS",
     "PROCEDURES",
-    "PROVIDERS"
+    "PROVIDERS",
+	"SUPPLIES"
   )
 
   conn <- DatabaseConnector::connect(connectionDetails)
