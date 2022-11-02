@@ -236,14 +236,13 @@ create table @synthea_schema.claims (
   healthcareclaimtypeid2       numeric
 );
 
-
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.claims_transactions (
   id                     varchar(1000),
   claimid                varchar(1000),
   chargeid               numeric,
   patientid              varchar(1000),
-  type                   varchar(1000),
+  "type"                 varchar(1000),
   amount                 numeric,
   method                 varchar(1000),
   fromdate               date,
@@ -320,3 +319,4 @@ create table @synthea_schema.supplies (
   description  varchar(1000),
   quantity     numeric
 );
+

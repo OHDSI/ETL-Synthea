@@ -190,3 +190,49 @@ description   varchar(255),
 udi           varchar(255)
 );
 
+
+--HINT DISTRIBUTE_ON_RANDOM
+create table @synthea_schema.payer_transitions (
+  patient          varchar(1000),
+  start_year       numeric,
+  end_year         numeric,
+  payer            varchar(1000),
+  ownership        varchar(1000)
+);
+
+--HINT DISTRIBUTE_ON_RANDOM
+create table @synthea_schema.payers (
+  id                       varchar(1000),
+  name                     varchar(1000),
+  address                  varchar(1000),
+  city                     varchar(1000),
+  state_headquartered      varchar(1000),
+  zip                      varchar(1000),
+  phone                    varchar(1000),
+  amount_covered           numeric,
+  amount_uncovered         numeric,
+  revenue                  numeric,
+  covered_encounters       numeric,
+  uncovered_encounters     numeric,
+  covered_medications      numeric,
+  uncovered_medications    numeric,
+  covered_procedures       numeric,
+  uncovered_procedures     numeric,
+  covered_immunizations    numeric,
+  uncovered_immunizations  numeric,
+  unique_customers         numeric,
+  qols_avg                 numeric,
+  member_months            numeric
+);
+
+--HINT DISTRIBUTE_ON_RANDOM
+create table @synthea_schema.supplies (
+  "date"       date,
+  patient      varchar(1000),
+  encounter    varchar(1000),
+  code         varchar(1000),
+  description  varchar(1000),
+  quantity     numeric
+);
+
+
