@@ -33,7 +33,6 @@ LoadSyntheaTables <-
            syntheaFileLoc,
            bulkLoad = FALSE)
 {
-    Sys.setenv("DATABASE_CONNECTOR_BULK_UPLOAD" = bulkLoad)
 
     csvList <- list.files(syntheaFileLoc, pattern = "*.csv")
 	
@@ -86,6 +85,7 @@ LoadSyntheaTables <-
           data = as.data.frame(syntheaTable),
           dropTableIfExists = FALSE,
           createTable = FALSE,
+		  bulkLoad = bulkLoad,
           progressBar = TRUE
         )
       })
