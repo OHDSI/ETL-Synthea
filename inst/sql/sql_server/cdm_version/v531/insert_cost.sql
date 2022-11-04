@@ -40,17 +40,27 @@ select row_number()over(order by pr.procedure_occurrence_id) cost_id,
 	   CAST(NULL AS NUMERIC)                                 paid_by_primary,
 	   CAST(NULL AS NUMERIC)                                 paid_ingredient_cost,
 	   CAST(NULL AS NUMERIC)                                 paid_dispensing_fee,
-	                                                         payer_plan_period_id,
+	   ppp.payer_plan_period_id                              payer_plan_period_id,
 	   0                                                     revenue_code_concept_id,
        'UNKNOWN / UNKNOWN'                                   revenue_code_source_value,
        0                                                     drg_concept_id,
        '000'                                                 drg_source_value	   
-from @synthea_schema.procedures p
-join @synthea_schema.encounters e 
-  on p.encounter = e.id and p.patient = e.patient
+from @cdm_schema.person p
 join @cdm_schema.procedure_occurrence po
-  on po.procedure_source_value = p.code
+  on p.person_id = po.person_id
+join @synthea_schema.procedures pr
+  on p.person_source_value     = pr.patient 
+ and po.procedure_source_value = pr.code 
+join @synthea_schema.encounters e 
+  on pr.encounter = e.id 
+ and pr.patient   = e.patient
+join @cdm_schema.payer_plan_period ppp
+  on p.person_id = ppp.person_id  
+ and ppp.payer_plan_period_start_date <= po.procedure_date
+ and ppp.payer_plan_period_start_date >= po.procedure_date
 ;
+
+
 
   
   
