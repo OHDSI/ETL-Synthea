@@ -19,10 +19,10 @@ insert into @cdm_schema.payer_plan_period (
   stop_reason_source_concept_id
 )
 
-select row_number()over(order by pat.id, pt.start_year) payer_plan_period_id,
+select ROW_NUMBER()OVER(ORDER BY pat.id, pt.start_year) payer_plan_period_id,
        per.person_id                                    person_id,
-	   '01-JAN-'||cast(pt.start_year as varchar)        payer_plan_period_start_date,
-	   '31-DEC-'||cast(pt.end_year as varchar)          payer_plan_period_end_date,	   
+	   CAST(CONCAT('01-JAN-',CAST(pt.start_year AS VARCHAR)) AS DATE) payer_plan_period_start_date,
+	   CAST(CONCAT('31-DEC-',CAST(pt.end_year AS VARCHAR)) AS DATE)   payer_plan_period_end_date,	   
 	   0                                                payer_concept_id,
 	   pt.payer                                         payer_source_value,
 	   0                                                payer_source_concept_id,
@@ -30,11 +30,11 @@ select row_number()over(order by pat.id, pt.start_year) payer_plan_period_id,
 	   pay.name                                         plan_source_value,
 	   0                                                plan_source_concept_id,
 	   0                                                sponsor_concept_id,
-	   cast(null as varchar)                            sponsor_source_value,
+	   CAST(NULL AS VARCHAR)                            sponsor_source_value,
 	   0                                                sponsor_source_concept_id,
-	   cast(null as varchar)                            family_source_value,
+	   CAST(NULL AS VARCHAR)                            family_source_value,
 	   0                                                stop_reason_concept_id,
-	   cast(null as varchar)                            stop_reason_source_value,
+	   CAST(NULL AS VARCHAR)                            stop_reason_source_value,
 	   0                                                stop_reason_source_concept_id
   from @synthea_schema.payers pay 
   join @synthea_schema.payer_transitions pt
