@@ -258,13 +258,17 @@ LoadEventTables <- function(connectionDetails,
     packageName = "ETLSyntheaBuilder",
     dbms = connectionDetails$dbms,
     cdm_schema = cdmSchema,
-    synthea_schema = syntheaSchema
+    synthea_schema = syntheaSchema,
+	synthea_version = syntheaVersion
   )
   runStep(sql, fileQuery)
 
   # cost
-  if (syntheaVersion == "2.7.0") {
+  if (syntheaVersion == "2.7.0") 
 	fileQuery <- "insert_cost_v270.sql"
+  else if (syntheaVersion == "3.0.0")
+	fileQuery <- "insert_cost_v300.sql"
+  
     sql <- SqlRender::loadRenderTranslateSql(
       sqlFilename = file.path(sqlFilePath, fileQuery),
       packageName = "ETLSyntheaBuilder",
@@ -273,7 +277,6 @@ LoadEventTables <- function(connectionDetails,
       synthea_schema = syntheaSchema
     )
     runStep(sql, fileQuery)
-  }
   
   if (!sqlOnly) {
     DatabaseConnector::disconnect(conn)
