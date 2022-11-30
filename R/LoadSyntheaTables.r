@@ -32,30 +32,16 @@ LoadSyntheaTables <-
            syntheaSchema,
            syntheaFileLoc,
            bulkLoad = FALSE)
-  {
-    csvList <-
-      c(
-        "allergies.csv",
-        "conditions.csv",
-        "imaging_studies.csv",
-        "medications.csv",
-        "organizations.csv",
-        "procedures.csv",
-        "careplans.csv",
-        "encounters.csv",
-        "immunizations.csv",
-        "observations.csv",
-        "patients.csv",
-        "providers.csv",
-        "devices.csv"
-      )
+{
 
+    csvList <- list.files(syntheaFileLoc, pattern = "*.csv")
+	
     conn <- DatabaseConnector::connect(connectionDetails)
 
     for (csv in csvList) {
       syntheaTable <-
         data.table::fread(
-          file = paste0(syntheaFileLoc, "/", csv),
+          file = paste0(syntheaFileLoc,"/",csv),
           stringsAsFactors = FALSE,
           header = TRUE,
           sep = ",",
@@ -99,7 +85,7 @@ LoadSyntheaTables <-
           data = as.data.frame(syntheaTable),
           dropTableIfExists = FALSE,
           createTable = FALSE,
-          useMppBulkLoad = bulkLoad,
+		  bulkLoad = bulkLoad,
           progressBar = TRUE
         )
       })
