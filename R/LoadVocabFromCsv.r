@@ -68,7 +68,7 @@ LoadVocabFromCsv <-
       writeLines(" - type converting")
       vocabTable <- readr::type_convert(df = vocabTable,
                                         col_types = readr::cols(),
-                                        na = c(NA, "")) %>%
+                                        na = c("")) %>%
         dplyr::tibble()
 
       if (tolower(csv) == "drug_strength.csv") {
