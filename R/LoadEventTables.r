@@ -23,6 +23,7 @@
 #' @param cdmSourceAbbreviation The source abbreviation to insert into the CDM_SOURCE table.  Default is Synthea.
 #' @param cdmHolder The holder to insert into the CDM_SOURCE table.  Default is OHDSI
 #' @param cdmSourceDescription The description of the source data.  Default is generic Synthea description.
+#' @param createIndices A boolean that determines whether or not to create indices on CDM tables before the ETL.
 #' @param sqlOnly A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.
 #'
 #'@export
@@ -37,7 +38,8 @@ LoadEventTables <- function(connectionDetails,
                             cdmSourceAbbreviation = "Synthea",
                             cdmHolder = "OHDSI",
                             cdmSourceDescription = "SyntheaTM is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats.",
-                            sqlOnly = FALSE)
+                            createIndices = FALSE,
+							sqlOnly = FALSE)
 {
   # Determine which sql scripts to run based on the given version.
   # The path is relative to inst/sql/sql_server.
@@ -54,6 +56,22 @@ LoadEventTables <- function(connectionDetails,
   if (!(syntheaVersion %in% supportedSyntheaVersions))
     stop("Invalid Synthea version specified. Currently \"2.7.0\" and \"3.0.0\" are supported.")
 
+  if (createIndices) {
+	print("Creating Indices on CDM Tables....")
+
+	indexSQLFile <- CommonDataModel::writeIndex(
+		targetDialect     = connectionDetails$dbms,
+		cdmVersion        = cdmVersion,
+		cdmDatabaseSchema = cdmSchema,
+		outputfolder      = tempdir())
+
+	indexDDL <- SqlRender::readSql(paste0(tempdir(),"/",indexSQLFile))
+	conn <- DatabaseConnector::connect(connectionDetails)
+	DatabaseConnector::executeSql(conn,indexDDL)
+	DatabaseConnector::disconnect(conn)
+	print("Index Creation Complete.")
+  }
+ 
   # Create Vocabulary mapping tables
   CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion, sqlOnly)
 
