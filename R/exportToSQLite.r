@@ -29,7 +29,6 @@ exportToSQLite <-
       "care_site",
       "cdm_source",
       "cohort",
-      "cohort_attribute",
       "condition_era",
       "condition_occurrence",
       "cost",
@@ -72,10 +71,10 @@ exportToSQLite <-
       sqlQuery <-
         paste0("select * from  ", paste0(cdmSchema, ".", tableName), ";")
       translatedSql <-
-        SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
+        SqlRender::translate(sql=sqlQuery, targetDialect = connectionDetails$dbms)
       writeLines(paste0("Fetching: ", tableName))
-      tableData <- DatabaseConnector::querySql(conn, translatedSql)
-      DatabaseConnector::insertTable(sqliteCon, toupper(tableName), tableData)
+      tableData <- DatabaseConnector::querySql(connection=conn, sql=translatedSql)
+      DatabaseConnector::insertTable(connection=sqliteCon, tableName=toupper(tableName), data=tableData)
     }
 
     DatabaseConnector::disconnect(conn)
