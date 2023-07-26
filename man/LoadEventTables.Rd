@@ -15,6 +15,7 @@ LoadEventTables(
   cdmHolder = "OHDSI",
   cdmSourceDescription =
     "SyntheaTM is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats.",
+  createIndices = FALSE,
   sqlOnly = FALSE
 )
 }
@@ -45,6 +46,8 @@ Currently "2.7.0" and "3.0.0" are supported.}
 \item{cdmHolder}{The holder to insert into the CDM_SOURCE table.  Default is OHDSI}
 
 \item{cdmSourceDescription}{The description of the source data.  Default is generic Synthea description.}
+
+\item{createIndices}{A boolean that determines whether or not to create indices on CDM tables before the ETL.}
 
 \item{sqlOnly}{A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.}
 }
