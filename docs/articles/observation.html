@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -99,12 +99,12 @@
 
     
     
-<div class="section level1">
-<h1 id="observation">Observation<a class="anchor" aria-label="anchor" href="#observation"></a>
-</h1>
 <div class="section level2">
-<h2 id="reading-from-synthea-tables-allergies-csv">Reading from Synthea tables allergies.csv<a class="anchor" aria-label="anchor" href="#reading-from-synthea-tables-allergies-csv"></a>
+<h2 id="observation">Observation<a class="anchor" aria-label="anchor" href="#observation"></a>
 </h2>
+<div class="section level3">
+<h3 id="reading-from-synthea-tables-allergies-csv">Reading from Synthea tables allergies.csv<a class="anchor" aria-label="anchor" href="#reading-from-synthea-tables-allergies-csv"></a>
+</h3>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -128,13 +128,20 @@
 <tr class="even">
 <td>person_id</td>
 <td>patient</td>
-<td>Map by mapping person.person_source_value to patient. Find person.person_id by mapping allergies.patient to person.person_source_value.</td>
+<td>Map by mapping person.person_source_value to patient. Find
+person.person_id by mapping allergies.patient to
+person.person_source_value.</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>observation_concept_id</td>
 <td>code</td>
-<td>Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP: select ctvm.target_concept_id from allergies a join cte_target_vocab_map ctvm on ctvm.source_code = a.code and ctvm.target_domain_id = ‘Observation’ and ctvm.target_vocabulary_id = ‘SNOMED’ and ctvm.target_standard_concept = ‘S’ and ctvm.target_invalid_reason is NULL</td>
+<td>Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP: select
+ctvm.target_concept_id from allergies a join cte_target_vocab_map ctvm
+on ctvm.source_code = a.code and ctvm.target_domain_id = ‘Observation’
+and ctvm.target_vocabulary_id = ‘SNOMED’ and
+ctvm.target_standard_concept = ‘S’ and ctvm.target_invalid_reason is
+NULL</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -194,7 +201,8 @@
 <tr class="odd">
 <td>visit_occurrence_id</td>
 <td>encounter</td>
-<td>Lookup visit_occurrence_id using encounter, joining to temp table defined in AllVisitTable.sql.</td>
+<td>Lookup visit_occurrence_id using encounter, joining to temp table
+defined in AllVisitTable.sql.</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -212,7 +220,10 @@
 <tr class="even">
 <td>observation_source_concept_id</td>
 <td>code</td>
-<td>Use code to lookup source_concept_id in CTE_SOURCE_VOCAB_MAP: select csvm.source_concept_id from cte_source_vocab_map csvm join allergies a on csvm.source_code = a.code and csvm.source_vocabulary_id = ‘SNOMED’</td>
+<td>Use code to lookup source_concept_id in CTE_SOURCE_VOCAB_MAP: select
+csvm.source_concept_id from cte_source_vocab_map csvm join allergies a
+on csvm.source_code = a.code and csvm.source_vocabulary_id =
+‘SNOMED’</td>
 <td></td>
 </tr>
 <tr class="odd">
@@ -248,9 +259,9 @@
 </tbody>
 </table>
 </div>
-<div class="section level2">
-<h2 id="reading-from-synthea-table-conditions-csv">Reading from Synthea table conditions.csv<a class="anchor" aria-label="anchor" href="#reading-from-synthea-table-conditions-csv"></a>
-</h2>
+<div class="section level3">
+<h3 id="reading-from-synthea-table-conditions-csv">Reading from Synthea table conditions.csv<a class="anchor" aria-label="anchor" href="#reading-from-synthea-table-conditions-csv"></a>
+</h3>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -274,13 +285,18 @@
 <tr class="even">
 <td>person_id</td>
 <td>patient</td>
-<td>Map by mapping person.person_source_value to patient. Find person.person_id by mapping encouters.patient to person.person_source_value.</td>
+<td>Map by mapping person.person_source_value to patient. Find
+person.person_id by mapping encouters.patient to
+person.person_source_value.</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>observation_concept_id</td>
 <td>code</td>
-<td>Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP: select ctvm.target_concept_id from conditions c join cte_target_vocab_map ctvm on ctvm.source_code = c.code and ctvm.target_domain_id = ‘Observation’ and ctvm.target_vocabulary_id = ‘SNOMED’</td>
+<td>Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP: select
+ctvm.target_concept_id from conditions c join cte_target_vocab_map ctvm
+on ctvm.source_code = c.code and ctvm.target_domain_id = ‘Observation’
+and ctvm.target_vocabulary_id = ‘SNOMED’</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -340,7 +356,8 @@
 <tr class="odd">
 <td>visit_occurrence_id</td>
 <td>encounter</td>
-<td>Lookup visit_occurrence_id using encounter, joining to temp table defined in AllVisitTable.sql.</td>
+<td>Lookup visit_occurrence_id using encounter, joining to temp table
+defined in AllVisitTable.sql.</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -358,7 +375,10 @@
 <tr class="even">
 <td>observation_source_concept_id</td>
 <td>code</td>
-<td>Use code to lookup source_concept_id in CTE_SOURCE_VOCAB_MAP: select csvm.source_concept_id from cte_source_vocab_map csvm join conditions c on csvm.source_code = c.code and csvm.source_vocabulary_id = ‘SNOMED’</td>
+<td>Use code to lookup source_concept_id in CTE_SOURCE_VOCAB_MAP: select
+csvm.source_concept_id from cte_source_vocab_map csvm join conditions c
+on csvm.source_code = c.code and csvm.source_vocabulary_id =
+‘SNOMED’</td>
 <td></td>
 </tr>
 <tr class="odd">
@@ -414,7 +434,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

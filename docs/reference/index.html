@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -73,21 +73,17 @@
           <p class="section-desc"></p>
         </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="backupCDM.html">backupCDM()</a></code> </p>
-        </td>
-        <td><p>Backup Vocabulary and Event tables before pruning.</p></td>
-      </tr><tr><td>
           <p><code><a href="CreateCDMIndexAndConstraintScripts.html">CreateCDMIndexAndConstraintScripts()</a></code> </p>
         </td>
         <td><p>Create Index and Constraint DDL SQL scripts for CDM tables on rdbms that support these features.</p></td>
       </tr><tr><td>
+          <p><code><a href="CreateCDMIndices.html">CreateCDMIndices()</a></code> </p>
+        </td>
+        <td><p>Create Indices on Common Data Model Tables.</p></td>
+      </tr><tr><td>
           <p><code><a href="CreateCDMTables.html">CreateCDMTables()</a></code> </p>
         </td>
         <td><p>Create Common Data Model Tables.</p></td>
-      </tr><tr><td>
-          <p><code><a href="createPrunedTables.html">createPrunedTables()</a></code> </p>
-        </td>
-        <td><p>Create pruned CDM and Vocab tables.</p></td>
       </tr><tr><td>
           <p><code><a href="CreateSyntheaTables.html">CreateSyntheaTables()</a></code> </p>
         </td>
@@ -101,9 +97,9 @@
         </td>
         <td><p>Create Vocabulary Mapping Tables.</p></td>
       </tr><tr><td>
-          <p><code><a href="DropEventTables.html">DropCDMTables()</a></code> </p>
+          <p><code><a href="DropEventTables.html">DropEventTables()</a></code> </p>
         </td>
-        <td><p>Drop OMOP CDM Tables.</p></td>
+        <td><p>Drop OMOP Event Tables.</p></td>
       </tr><tr><td>
           <p><code><a href="DropMapAndRollupTables.html">DropMapAndRollupTables()</a></code> </p>
         </td>
@@ -116,14 +112,6 @@
           <p><code><a href="DropVocabTables.html">DropVocabTables()</a></code> </p>
         </td>
         <td><p>Drop Vocabulary Tables.</p></td>
-      </tr><tr><td>
-          <p><code><a href="exportToSQLite.html">exportToSQLite()</a></code> </p>
-        </td>
-        <td><p>Export a CDM (Vocabulary and Event tables) into a SQLite Database.</p></td>
-      </tr><tr><td>
-          <p><code><a href="getEventConceptId.html">getEventConceptId()</a></code> </p>
-        </td>
-        <td><p>Get All Concept_ids In All Event Tables.</p></td>
       </tr><tr><td>
           <p><code><a href="LoadEventTables.html">LoadEventTables()</a></code> </p>
         </td>
@@ -141,6 +129,30 @@
         </td>
         <td><p>Load Vocabulary Tables From a Preexisting Schema.</p></td>
       </tr><tr><td>
+          <p><code><a href="TruncateEventTables.html">TruncateEventTables()</a></code> </p>
+        </td>
+        <td><p>Truncate Event Tables.</p></td>
+      </tr><tr><td>
+          <p><code><a href="TruncateVocabTables.html">TruncateVocabTables()</a></code> </p>
+        </td>
+        <td><p>Truncate Vocabulary Tables.</p></td>
+      </tr><tr><td>
+          <p><code><a href="backupCDM.html">backupCDM()</a></code> </p>
+        </td>
+        <td><p>Backup Vocabulary and Event tables before pruning.</p></td>
+      </tr><tr><td>
+          <p><code><a href="createPrunedTables.html">createPrunedTables()</a></code> </p>
+        </td>
+        <td><p>Create pruned CDM and Vocab tables.</p></td>
+      </tr><tr><td>
+          <p><code><a href="exportToSQLite.html">exportToSQLite()</a></code> </p>
+        </td>
+        <td><p>Export a CDM (Vocabulary and Event tables) into a SQLite Database.</p></td>
+      </tr><tr><td>
+          <p><code><a href="getEventConceptId.html">getEventConceptId()</a></code> </p>
+        </td>
+        <td><p>Get All Concept_ids In All Event Tables.</p></td>
+      </tr><tr><td>
           <p><code><a href="pruneCDM.html">pruneCDM()</a></code> </p>
         </td>
         <td><p>Prune a CDM.</p></td>
@@ -148,14 +160,6 @@
           <p><code><a href="restoreCDMTables.html">restoreCDMTables()</a></code> </p>
         </td>
         <td><p>Restore the CDM (undo the pruning).</p></td>
-      </tr><tr><td>
-          <p><code><a href="TruncateEventTables.html">TruncateCDMTables()</a></code> </p>
-        </td>
-        <td><p>Truncate Non-Vocabulary CDM Tables.</p></td>
-      </tr><tr><td>
-          <p><code><a href="TruncateVocabTables.html">TruncateVocabTables()</a></code> </p>
-        </td>
-        <td><p>Truncate Vocabulary Tables.</p></td>
       </tr></tbody></table></div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -169,7 +173,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

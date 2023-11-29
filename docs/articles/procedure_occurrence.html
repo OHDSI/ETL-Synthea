@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -99,12 +99,12 @@
 
     
     
-<div class="section level1">
-<h1 id="procedure_occurrence">Procedure_occurrence<a class="anchor" aria-label="anchor" href="#procedure_occurrence"></a>
-</h1>
 <div class="section level2">
-<h2 id="reading-from-synthea-table-procedures-csv">Reading from Synthea table procedures.csv<a class="anchor" aria-label="anchor" href="#reading-from-synthea-table-procedures-csv"></a>
+<h2 id="procedure_occurrence">Procedure_occurrence<a class="anchor" aria-label="anchor" href="#procedure_occurrence"></a>
 </h2>
+<div class="section level3">
+<h3 id="reading-from-synthea-table-procedures-csv">Reading from Synthea table procedures.csv<a class="anchor" aria-label="anchor" href="#reading-from-synthea-table-procedures-csv"></a>
+</h3>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -128,13 +128,19 @@
 <tr class="even">
 <td>person_id</td>
 <td>patient</td>
-<td>Map by mapping person.person_source_value to patient. Find person.person_id by mapping encouters.patient to person.person_source_value.</td>
+<td>Map by mapping person.person_source_value to patient. Find
+person.person_id by mapping encouters.patient to
+person.person_source_value.</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>procedure_concept_id</td>
 <td>code</td>
-<td>Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP: select ctvm.target_concept_id from procedures pr join cte_target_vocab_map ctvm on ctvm.source_code = pr.code and ctvm.target_domain_id = ‘Procedure’ and ctvm.target_vocabulary_id = ‘SNOMED’ and ctvm.target_invalid_reason is NULL and ctvm.target_standard_concept = ‘S’</td>
+<td>Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP: select
+ctvm.target_concept_id from procedures pr join cte_target_vocab_map ctvm
+on ctvm.source_code = pr.code and ctvm.target_domain_id = ‘Procedure’
+and ctvm.target_vocabulary_id = ‘SNOMED’ and ctvm.target_invalid_reason
+is NULL and ctvm.target_standard_concept = ‘S’</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -176,7 +182,8 @@
 <tr class="even">
 <td>visit_occurrence_id</td>
 <td>encounter</td>
-<td>Lookup visit_occurrence_id using encounter, joining to temp table defined in AllVisitTable.sql.</td>
+<td>Lookup visit_occurrence_id using encounter, joining to temp table
+defined in AllVisitTable.sql.</td>
 <td></td>
 </tr>
 <tr class="odd">
@@ -194,7 +201,10 @@
 <tr class="odd">
 <td>procedure_source_concept_id</td>
 <td>code</td>
-<td>Use code to lookup source_concept_id in CTE_SOURCE_VOCAB_MAP: select csvm.source_concept_id from cte_source_vocab_map csvm join procedures pr on csvm.source_code = pr.code and csvm.source_vocabulary_id = ‘SNOMED’</td>
+<td>Use code to lookup source_concept_id in CTE_SOURCE_VOCAB_MAP: select
+csvm.source_concept_id from cte_source_vocab_map csvm join procedures pr
+on csvm.source_code = pr.code and csvm.source_vocabulary_id =
+‘SNOMED’</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -226,7 +236,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
