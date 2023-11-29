@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -74,7 +74,15 @@
     <p>This function creates tables ALL_VISITS, ASSIGN_ALL_VISIT_IDS, and FINAL_VISIT_IDS.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">CreateVisitRollupTables</span> <span class="op">(</span><span class="va">connectionDetails</span>, <span class="va">cdmSchema</span>, <span class="va">syntheaSchema</span>, <span class="va">cdmVersion</span>, <span class="va">sqlOnly</span><span class="op">)</span></code></pre></div></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">CreateVisitRollupTables</span><span class="op">(</span></span>
+<span>  <span class="va">connectionDetails</span>,</span>
+<span>  <span class="va">cdmSchema</span>,</span>
+<span>  <span class="va">syntheaSchema</span>,</span>
+<span>  <span class="va">cdmVersion</span>,</span>
+<span>  sqlOnly <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -82,24 +90,33 @@
 <dd><p>An R object of type<br><code>connectionDetails</code> created using the
 function <code>createConnectionDetails</code> in the
 <code>DatabaseConnector</code> package.</p></dd>
+
+
 <dt>cdmSchema</dt>
-<dd><p>The name of the database schema that will contain the different VISIT 
+<dd><p>The name of the database schema that will contain the different VISIT
 tables.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.</p></dd>
+
+
 <dt>syntheaSchema</dt>
 <dd><p>The name of the database schema that contain the Synthea
 instance.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'synthea_instance.dbo'.</p></dd>
+
+
 <dt>cdmVersion</dt>
 <dd><p>The version of your CDM.  Currently "5.3" and "5.4" are supported.</p></dd>
+
+
 <dt>sqlOnly</dt>
 <dd><p>A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
-    <p>This function assumes <br><code>createCDMTables()</code>, <br><code>createSyntheaTables()</code>, <br><code><a href="LoadSyntheaTables.html">LoadSyntheaTables()</a></code>, 
+    <p>This function assumes <br><code>createCDMTables()</code>, <br><code>createSyntheaTables()</code>, <br><code><a href="LoadSyntheaTables.html">LoadSyntheaTables()</a></code>,
          have all been run and the Vocabulary has been loaded.</p>
     </div>
 
@@ -115,7 +132,7 @@ so for example 'synthea_instance.dbo'.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
