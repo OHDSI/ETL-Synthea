@@ -4,16 +4,40 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/Condition_occurrence.html</loc>
+  </url>
+  <url>
+    <loc>/Drug_exposure.html</loc>
+  </url>
+  <url>
+    <loc>/Measurement.html</loc>
+  </url>
+  <url>
+    <loc>/Observation.html</loc>
+  </url>
+  <url>
+    <loc>/Observation_period.html</loc>
+  </url>
+  <url>
+    <loc>/Person.html</loc>
+  </url>
+  <url>
+    <loc>/Procedure_occurrence.html</loc>
+  </url>
+  <url>
+    <loc>/Visit_occurrence.html</loc>
+  </url>
+  <url>
     <loc>/articles/Condition_occurrence.html</loc>
   </url>
   <url>
     <loc>/articles/Drug_exposure.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>/articles/Measurement.html</loc>
   </url>
   <url>
-    <loc>/articles/Measurement.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
     <loc>/articles/observation.html</loc>
@@ -34,43 +58,19 @@
     <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>/Condition_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>/Drug_exposure.html</loc>
-  </url>
-  <url>
     <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/Measurement.html</loc>
-  </url>
-  <url>
-    <loc>/Observation.html</loc>
-  </url>
-  <url>
-    <loc>/Observation_period.html</loc>
-  </url>
-  <url>
-    <loc>/Person.html</loc>
-  </url>
-  <url>
-    <loc>/Procedure_occurrence.html</loc>
   </url>
   <url>
     <loc>/readme.html</loc>
   </url>
   <url>
-    <loc>/reference/backupCDM.html</loc>
-  </url>
-  <url>
     <loc>/reference/CreateCDMIndexAndConstraintScripts.html</loc>
   </url>
   <url>
-    <loc>/reference/CreateCDMTables.html</loc>
+    <loc>/reference/CreateCDMIndices.html</loc>
   </url>
   <url>
-    <loc>/reference/createPrunedTables.html</loc>
+    <loc>/reference/CreateCDMTables.html</loc>
   </url>
   <url>
     <loc>/reference/CreateSyntheaTables.html</loc>
@@ -94,13 +94,7 @@
     <loc>/reference/DropVocabTables.html</loc>
   </url>
   <url>
-    <loc>/reference/exportToSQLite.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getEventConceptId.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
+    <loc>/reference/ETLSyntheaBuilder-package.html</loc>
   </url>
   <url>
     <loc>/reference/LoadEventTables.html</loc>
@@ -115,18 +109,30 @@
     <loc>/reference/LoadVocabFromSchema.html</loc>
   </url>
   <url>
-    <loc>/reference/pruneCDM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/restoreCDMTables.html</loc>
-  </url>
-  <url>
     <loc>/reference/TruncateEventTables.html</loc>
   </url>
   <url>
     <loc>/reference/TruncateVocabTables.html</loc>
   </url>
   <url>
-    <loc>/Visit_occurrence.html</loc>
+    <loc>/reference/backupCDM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/createPrunedTables.html</loc>
+  </url>
+  <url>
+    <loc>/reference/exportToSQLite.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getEventConceptId.html</loc>
+  </url>
+  <url>
+    <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pruneCDM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/restoreCDMTables.html</loc>
   </url>
 </urlset>

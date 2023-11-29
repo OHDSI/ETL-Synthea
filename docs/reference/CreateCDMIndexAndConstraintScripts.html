@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -74,7 +74,14 @@
     <p>This function creates one or more SQL scripts as defined in https://github.com/OHDSI/CommonDataModel.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">CreateCDMIndexAndConstraintScripts</span><span class="op">(</span><span class="va">connectionDetails</span>,<span class="va">cdmSchema</span>,<span class="va">cdmVersion</span>,<span class="va">githubTag</span><span class="op">)</span></code></pre></div></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">CreateCDMIndexAndConstraintScripts</span><span class="op">(</span></span>
+<span>  <span class="va">connectionDetails</span>,</span>
+<span>  <span class="va">cdmSchema</span>,</span>
+<span>  <span class="va">cdmVersion</span>,</span>
+<span>  githubTag <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -82,20 +89,27 @@
 <dd><p>An R object of type<br><code>connectionDetails</code> created using the
 function <code>createConnectionDetails</code> in the
 <code>DatabaseConnector</code> package.</p></dd>
+
+
 <dt>cdmSchema</dt>
 <dd><p>The name of the CDM database schema.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.</p></dd>
+
+
 <dt>cdmVersion</dt>
 <dd><p>Your CDM version.  Currently "5.3.1" and "6.0.0" are supported.</p></dd>
+
+
 <dt>githubTag</dt>
-<dd><p>An optional github tag from which to pull the DDL script. 
+<dd><p>An optional github tag from which to pull the DDL script.
 Currently "v5.3.1", "v5.3.1_fixes", "v6.0.0", and "v6.0.0_fixes" are supported.  The default is NULL.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
     <p>This function creates SQL scripts for the indices and constraints on tables in a CDM by referring to the
-         correct SQL DDL script in the OHDSI CommonDataModel repo. The database platform is 
+         correct SQL DDL script in the OHDSI CommonDataModel repo. The database platform is
          determined by <code>connectionDetails$dbms</code>.  Currently "oracle", "postgresql", "pdw", "netezza", and "sql server" are supported.
          The SQL DDL scripts are written to the <code>output</code> directory.  The SQL scripts can then be run manually in a SQL session
          or by using <code>DatabaseConnector::executeSql(connection,DDLscriptName)</code></p>
@@ -113,7 +127,7 @@ Currently "v5.3.1", "v5.3.1_fixes", "v6.0.0", and "v6.0.0_fixes" are supported. 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

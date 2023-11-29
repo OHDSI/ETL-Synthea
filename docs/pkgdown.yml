@@ -1,5 +1,5 @@
-pandoc: 2.14.0.3
-pkgdown: 2.0.0
+pandoc: 3.1.1
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   Condition_occurrence: Condition_occurrence.html
@@ -10,5 +10,5 @@ articles:
   person: person.html
   procedure_occurrence: procedure_occurrence.html
   visit_occurrence: visit_occurrence.html
-last_built: 2021-12-22T20:18Z
+last_built: 2023-11-29T18:28Z
 
