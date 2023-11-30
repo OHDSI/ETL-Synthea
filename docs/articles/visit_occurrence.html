@@ -53,10 +53,22 @@
       <a href="../articles/Condition_occurrence.html">Condition_occurrence</a>
     </li>
     <li>
+      <a href="../articles/Cost.html">Cost</a>
+    </li>
+    <li>
+      <a href="../articles/Device_exposure.html">Device_exposure</a>
+    </li>
+    <li>
       <a href="../articles/Drug_exposure.html">Drug_exposure</a>
     </li>
     <li>
       <a href="../articles/Measurement.html">Measurement</a>
+    </li>
+    <li>
+      <a href="../articles/Payer_plan_period.html">Payer_plan_period</a>
+    </li>
+    <li>
+      <a href="../articles/death.html">Death</a>
     </li>
     <li>
       <a href="../articles/observation.html">Observation</a>
@@ -69,6 +81,12 @@
     </li>
     <li>
       <a href="../articles/procedure_occurrence.html">Procedure_occurrence</a>
+    </li>
+    <li>
+      <a href="../articles/provider.html">Provider</a>
+    </li>
+    <li>
+      <a href="../articles/visit_detail.html">Visit Detail</a>
     </li>
     <li>
       <a href="../articles/visit_occurrence.html">Visit Occurrence</a>
@@ -133,7 +151,7 @@ PLACE_OF_SERVICE_SOURCE_VALUE.</p>
 Sort data in ascending order by PATIENT, START, END. 2. Then by
 PERSON_ID take START as VISIT_START_DATE, MAX(END) as VISIT_END_DATE,
 and ‘OP’ as PLACE_OF_SERVICE_SOURCE_VALUE.</p>
-<p>Use logic found here: <a href="https://github.com/OHDSI/ETL-Synthea/blob/master/ETL/SQL/AllVisitTable.sql" class="external-link uri">https://github.com/OHDSI/ETL-Synthea/blob/master/ETL/SQL/AllVisitTable.sql</a></p>
+<p>Use logic found here: <a href="https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v540/AllVisitTable.sql" class="external-link uri">https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v540/AllVisitTable.sql</a></p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -151,7 +169,7 @@ and ‘OP’ as PLACE_OF_SERVICE_SOURCE_VALUE.</p>
 <tr class="odd">
 <td>visit_occurrence_id</td>
 <td></td>
-<td></td>
+<td>all_visits.visit_occurrence_id</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -199,60 +217,62 @@ Otherwise set to 0.</td>
 <td>visit_type_concept_id</td>
 <td></td>
 <td></td>
-<td>Set all records as concept_id 44818517.</td>
+<td>Set all records as concept_id 44818517 (Visit derived from encounter
+on claim).</td>
 </tr>
 <tr class="odd">
 <td>provider_id</td>
-<td></td>
+<td>encounters.provider</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
 <td>care_site_id</td>
 <td></td>
-<td></td>
+<td>Set to null for all records</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>visit_source_value</td>
-<td>encounterclass</td>
+<td>encounters.id</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
 <td>visit_source_concept_id</td>
 <td></td>
-<td></td>
+<td>Set to 0 for all records</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>admitted_from_concept_id</td>
 <td></td>
-<td></td>
+<td>Set to 0 for all records</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>admitted_from_source_value</td>
 <td></td>
-<td></td>
+<td>Set to null for all records</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>discharge_to_concept_id</td>
 <td></td>
-<td></td>
+<td>Set to 0 for all records</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>discharge_to_source_value</td>
 <td></td>
-<td></td>
+<td>Set to null for all records</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>preceding_visit_occurrence_id</td>
 <td></td>
-<td></td>
+<td>lag(av.visit_occurrence_id) over(partition by p.person_id order by
+av.visit_start_date)</td>
 <td></td>
 </tr>
 </tbody>

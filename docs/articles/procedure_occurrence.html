@@ -53,10 +53,22 @@
       <a href="../articles/Condition_occurrence.html">Condition_occurrence</a>
     </li>
     <li>
+      <a href="../articles/Cost.html">Cost</a>
+    </li>
+    <li>
+      <a href="../articles/Device_exposure.html">Device_exposure</a>
+    </li>
+    <li>
       <a href="../articles/Drug_exposure.html">Drug_exposure</a>
     </li>
     <li>
       <a href="../articles/Measurement.html">Measurement</a>
+    </li>
+    <li>
+      <a href="../articles/Payer_plan_period.html">Payer_plan_period</a>
+    </li>
+    <li>
+      <a href="../articles/death.html">Death</a>
     </li>
     <li>
       <a href="../articles/observation.html">Observation</a>
@@ -69,6 +81,12 @@
     </li>
     <li>
       <a href="../articles/procedure_occurrence.html">Procedure_occurrence</a>
+    </li>
+    <li>
+      <a href="../articles/provider.html">Provider</a>
+    </li>
+    <li>
+      <a href="../articles/visit_detail.html">Visit Detail</a>
     </li>
     <li>
       <a href="../articles/visit_occurrence.html">Visit Occurrence</a>
@@ -145,13 +163,25 @@ is NULL and ctvm.target_standard_concept = ‘S’</td>
 </tr>
 <tr class="even">
 <td>procedure_date</td>
-<td>date</td>
+<td>date, start(v3.0.0)</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>procedure_datetime</td>
-<td>date</td>
+<td>date, start(v3.0.0)</td>
+<td>Use 00:00:00 as the time.</td>
+<td></td>
+</tr>
+<tr class="even">
+<td>procedure_end_date</td>
+<td>stop(v3.0.0)</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>procedure_end_datetime</td>
+<td>stop(v3.0.0)</td>
 <td>Use 00:00:00 as the time.</td>
 <td></td>
 </tr>
@@ -159,23 +189,24 @@ is NULL and ctvm.target_standard_concept = ‘S’</td>
 <td>procedure_type_concept_id</td>
 <td></td>
 <td></td>
-<td>Use concept_id 38000275 for all records.</td>
+<td>Use concept_id 38000267 (Outpatient detail - 1st position) for all
+records.</td>
 </tr>
 <tr class="odd">
 <td>modifier_concept_id</td>
 <td></td>
-<td></td>
+<td>Set to 0 for all records</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>quantity</td>
 <td></td>
-<td></td>
+<td>cast(null as integer)</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>provider_id</td>
-<td></td>
+<td>encounters.provider</td>
 <td></td>
 <td></td>
 </tr>
@@ -183,13 +214,14 @@ is NULL and ctvm.target_standard_concept = ‘S’</td>
 <td>visit_occurrence_id</td>
 <td>encounter</td>
 <td>Lookup visit_occurrence_id using encounter, joining to temp table
-defined in AllVisitTable.sql.</td>
+defined in final_visit_ids.sql.</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>visit_detail_id</td>
-<td></td>
-<td></td>
+<td>encounter</td>
+<td>Lookup visit_occurrence_id using encounter, joining to temp table
+defined in final_visit_ids.sql and all 1000000.</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -210,7 +242,7 @@ on csvm.source_code = pr.code and csvm.source_vocabulary_id =
 <tr class="even">
 <td>modifier_source_value</td>
 <td></td>
-<td></td>
+<td>Set to null for all records</td>
 <td></td>
 </tr>
 </tbody>
