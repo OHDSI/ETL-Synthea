@@ -1,0 +1,39 @@
+---
+layout: default
+title: Visit Detail
+nav_order: 14
+description: "Visit_occurrence mapping from encounters.csv"
+vignette: >
+  %\VignetteIndexEntry{Visit Detail}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Visit_detail
+
+## Reading from Synthea table encounters.csv
+
+
+- Use logic found here (depending on cdm version - CDM v5.4 provided as example)::
+https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v540/AllVisitTable.sql and https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v540/final_visit_ids.sql
+
+| Destination Field | Source field | Logic | Comment field |
+| --- | --- | --- | --- |
+| visit_detail__id | all_visits.visit_occurrence_id  | all_visits.visit_occurrence_id + 1000000  |  |
+| person_id | patient | Map by mapping person.person_source_value to patient.  Find person.person_id by mapping encouters.patient to person.person_source_value. |  |
+| visit_detail__concept_id | encounterclass | When encounterclass is 'emergency' or 'urgentcare' then set to 9203. When encounterclass is 'ambulatory', 'wellness', or 'outpatient' then set to 9202. When encounterclass is 'inpatient' then set to 9201. Otherwise set to 0. |  |
+| visit_detail__start_date | start |  |  |
+| visit_detail__start_datetime | start |  |  |
+| visi_detail_t_end_date | stop |  |  |
+| visit_detail__end_datetime | stop |  |  |
+| visit__detail_type_concept_id |  |  Set all records as concept_id 44818517 (Visit derived from encounter on claim).  | |
+| provider_id | encounters.provider |  |  |
+| care_site_id |  | Set to null for all records |  |
+| admitted_from_source_concept_id |  | Set to 0 for all records |  |
+| admitted_from_source_value |  | Set to null for all record |  |
+| discharged_to_concept_id |  | Set to 0 for all records |  |
+| discharged_to_source_value |  | Set to null for all record  |  |
+| preceding_visit_detail__id |  | lag(all_visits.visit_occurrence_id) over(partition by person.person_id order by all_visits.visit_start_date) + 1000000  |  |
+| visit_detail_source_value | all_visits.encounter_id |  |  |
+| visit_detail_source_concept_id |  | Set to 0 for all record |  |
+

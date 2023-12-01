@@ -31,10 +31,22 @@
     <loc>/articles/Condition_occurrence.html</loc>
   </url>
   <url>
+    <loc>/articles/Cost.html</loc>
+  </url>
+  <url>
+    <loc>/articles/Device_exposure.html</loc>
+  </url>
+  <url>
     <loc>/articles/Drug_exposure.html</loc>
   </url>
   <url>
     <loc>/articles/Measurement.html</loc>
+  </url>
+  <url>
+    <loc>/articles/Payer_plan_period.html</loc>
+  </url>
+  <url>
+    <loc>/articles/death.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>
@@ -50,6 +62,12 @@
   </url>
   <url>
     <loc>/articles/procedure_occurrence.html</loc>
+  </url>
+  <url>
+    <loc>/articles/provider.html</loc>
+  </url>
+  <url>
+    <loc>/articles/visit_detail.html</loc>
   </url>
   <url>
     <loc>/articles/visit_occurrence.html</loc>
