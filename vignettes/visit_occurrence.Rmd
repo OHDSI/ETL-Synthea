@@ -33,7 +33,7 @@ For claim type in ('ambulatory', 'wellness', 'outpatient') (OP)
 1. Sort data in ascending order by PATIENT, START, END.
 2. Then by PERSON_ID take START as VISIT_START_DATE, MAX(END) as VISIT_END_DATE, and ‘OP’ as PLACE_OF_SERVICE_SOURCE_VALUE.
 
-Use logic found here:
+Use logic found here (depending on cdm version - CDM v5.4 provided as example):
 https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v540/AllVisitTable.sql
 
 | Destination Field | Source field | Logic | Comment field |
@@ -45,14 +45,14 @@ https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v
 | visit_start_datetime | start |  |  |
 | visit_end_date | stop |  |  |
 | visit_end_datetime | stop |  |  |
-| visit_type_concept_id |  |  |Set all records as concept_id 44818517 (Visit derived from encounter on claim).  |
+| visit_type_concept_id |  |  Set all records as concept_id 44818517 (Visit derived from encounter on claim).  | |
 | provider_id |encounters.provider  |  |  |
 | care_site_id |  | Set to null for all records  |  |
-| visit_source_value | encounters.id |  |  |
+| visit_source_value | all_visits.encounters_id |  |  |
 | visit_source_concept_id |  | Set to 0 for all records  |  |
 | admitted_from_concept_id |  | Set to 0 for all records |  |
 | admitted_from_source_value |  | Set to null for all records  |  |
 | discharge_to_concept_id |  | Set to 0 for all records |  |
 | discharge_to_source_value |  | Set to null for all records |  |
-| preceding_visit_occurrence_id |  |lag(av.visit_occurrence_id) over(partition by p.person_id order by av.visit_start_date)  |  |
+| preceding_visit_occurrence_id |  |lag(all_visits.visit_occurrence_id) over(partition by person.person_id order by all_visits.visit_start_date)  |  |
 

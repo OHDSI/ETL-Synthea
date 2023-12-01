@@ -199,7 +199,7 @@ on claim).</td>
 </tr>
 <tr class="odd">
 <td>provider_id</td>
-<td>encounters.provider_id</td>
+<td>encounters.provider</td>
 <td></td>
 <td></td>
 </tr>
@@ -236,13 +236,13 @@ on claim).</td>
 <tr class="odd">
 <td>preceding_visit_detail__id</td>
 <td></td>
-<td>lag(av.visit_occurrence_id) over(partition by p.person_id order by
-av.visit_start_date) + 1000000</td>
+<td>lag(all_visits.visit_occurrence_id) over(partition by
+person.person_id order by all_visits.visit_start_date) + 1000000</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>visit_detail_source_value</td>
-<td>encounter_id</td>
+<td>all_visits.encounter_id</td>
 <td></td>
 <td></td>
 </tr>

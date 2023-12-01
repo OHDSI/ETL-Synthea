@@ -151,7 +151,8 @@ PLACE_OF_SERVICE_SOURCE_VALUE.</p>
 Sort data in ascending order by PATIENT, START, END. 2. Then by
 PERSON_ID take START as VISIT_START_DATE, MAX(END) as VISIT_END_DATE,
 and ‘OP’ as PLACE_OF_SERVICE_SOURCE_VALUE.</p>
-<p>Use logic found here: <a href="https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v540/AllVisitTable.sql" class="external-link uri">https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v540/AllVisitTable.sql</a></p>
+<p>Use logic found here (depending on cdm version - CDM v5.4 provided as
+example): <a href="https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v540/AllVisitTable.sql" class="external-link uri">https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v540/AllVisitTable.sql</a></p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -216,9 +217,9 @@ Otherwise set to 0.</td>
 <tr class="even">
 <td>visit_type_concept_id</td>
 <td></td>
-<td></td>
 <td>Set all records as concept_id 44818517 (Visit derived from encounter
 on claim).</td>
+<td></td>
 </tr>
 <tr class="odd">
 <td>provider_id</td>
@@ -234,7 +235,7 @@ on claim).</td>
 </tr>
 <tr class="odd">
 <td>visit_source_value</td>
-<td>encounters.id</td>
+<td>all_visits.encounters_id</td>
 <td></td>
 <td></td>
 </tr>
@@ -271,8 +272,8 @@ on claim).</td>
 <tr class="odd">
 <td>preceding_visit_occurrence_id</td>
 <td></td>
-<td>lag(av.visit_occurrence_id) over(partition by p.person_id order by
-av.visit_start_date)</td>
+<td>lag(all_visits.visit_occurrence_id) over(partition by
+person.person_id order by all_visits.visit_start_date)</td>
 <td></td>
 </tr>
 </tbody>
