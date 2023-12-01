@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -35,10 +35,22 @@
       <a href="../articles/Condition_occurrence.html">Condition_occurrence</a>
     </li>
     <li>
+      <a href="../articles/Cost.html">Cost</a>
+    </li>
+    <li>
+      <a href="../articles/Device_exposure.html">Device_exposure</a>
+    </li>
+    <li>
       <a href="../articles/Drug_exposure.html">Drug_exposure</a>
     </li>
     <li>
       <a href="../articles/Measurement.html">Measurement</a>
+    </li>
+    <li>
+      <a href="../articles/Payer_plan_period.html">Payer_plan_period</a>
+    </li>
+    <li>
+      <a href="../articles/death.html">Death</a>
     </li>
     <li>
       <a href="../articles/observation.html">Observation</a>
@@ -51,6 +63,12 @@
     </li>
     <li>
       <a href="../articles/procedure_occurrence.html">Procedure_occurrence</a>
+    </li>
+    <li>
+      <a href="../articles/provider.html">Provider</a>
+    </li>
+    <li>
+      <a href="../articles/visit_detail.html">Visit Detail</a>
     </li>
     <li>
       <a href="../articles/visit_occurrence.html">Visit Occurrence</a>
@@ -74,7 +92,22 @@
     <p>This function loads the CDM Event tables with Synthea data.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">LoadEventTables</span> <span class="op">(</span><span class="va">connectionDetails</span>, <span class="va">cdmSchema</span>, <span class="va">syntheaSchema</span>, <span class="va">cdmVersion</span>, <span class="va">sqlOnly</span><span class="op">)</span></code></pre></div></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">LoadEventTables</span><span class="op">(</span></span>
+<span>  <span class="va">connectionDetails</span>,</span>
+<span>  <span class="va">cdmSchema</span>,</span>
+<span>  <span class="va">syntheaSchema</span>,</span>
+<span>  <span class="va">cdmVersion</span>,</span>
+<span>  syntheaVersion <span class="op">=</span> <span class="st">"2.7.0"</span>,</span>
+<span>  cdmSourceName <span class="op">=</span> <span class="st">"Synthea synthetic health database"</span>,</span>
+<span>  cdmSourceAbbreviation <span class="op">=</span> <span class="st">"Synthea"</span>,</span>
+<span>  cdmHolder <span class="op">=</span> <span class="st">"OHDSI"</span>,</span>
+<span>  cdmSourceDescription <span class="op">=</span></span>
+<span>    <span class="st">"SyntheaTM is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats."</span>,</span>
+<span>  createIndices <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  sqlOnly <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -82,31 +115,54 @@
 <dd><p>An R object of type<br><code>connectionDetails</code> created using the
 function <code>createConnectionDetails</code> in the
 <code>DatabaseConnector</code> package.</p></dd>
+
+
 <dt>cdmSchema</dt>
 <dd><p>The name of the database schema that will contain the CDM.
 Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.</p></dd>
+
+
 <dt>syntheaSchema</dt>
 <dd><p>The name of the database schema that contain the Synthea
 instance.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.</p></dd>
+
+
 <dt>cdmVersion</dt>
 <dd><p>The version of your CDM.  Currently "5.3" and "5.4".</p></dd>
+
+
 <dt>syntheaVersion</dt>
 <dd><p>The version of Synthea used to generate the csv files.
-Currently "2.7.0" is supported.</p></dd>
+Currently "2.7.0" and "3.0.0" are supported.</p></dd>
+
+
 <dt>cdmSourceName</dt>
 <dd><p>The source name to insert into the CDM_SOURCE table.  Default is Synthea synthentic health database.</p></dd>
+
+
 <dt>cdmSourceAbbreviation</dt>
 <dd><p>The source abbreviation to insert into the CDM_SOURCE table.  Default is Synthea.</p></dd>
+
+
 <dt>cdmHolder</dt>
 <dd><p>The holder to insert into the CDM_SOURCE table.  Default is OHDSI</p></dd>
+
+
 <dt>cdmSourceDescription</dt>
 <dd><p>The description of the source data.  Default is generic Synthea description.</p></dd>
+
+
+<dt>createIndices</dt>
+<dd><p>A boolean that determines whether or not to create indices on CDM tables before the ETL.</p></dd>
+
+
 <dt>sqlOnly</dt>
 <dd><p>A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -126,7 +182,7 @@ Currently "2.7.0" is supported.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

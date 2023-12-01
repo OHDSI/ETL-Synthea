@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -35,10 +35,22 @@
       <a href="../articles/Condition_occurrence.html">Condition_occurrence</a>
     </li>
     <li>
+      <a href="../articles/Cost.html">Cost</a>
+    </li>
+    <li>
+      <a href="../articles/Device_exposure.html">Device_exposure</a>
+    </li>
+    <li>
       <a href="../articles/Drug_exposure.html">Drug_exposure</a>
     </li>
     <li>
       <a href="../articles/Measurement.html">Measurement</a>
+    </li>
+    <li>
+      <a href="../articles/Payer_plan_period.html">Payer_plan_period</a>
+    </li>
+    <li>
+      <a href="../articles/death.html">Death</a>
     </li>
     <li>
       <a href="../articles/observation.html">Observation</a>
@@ -51,6 +63,12 @@
     </li>
     <li>
       <a href="../articles/procedure_occurrence.html">Procedure_occurrence</a>
+    </li>
+    <li>
+      <a href="../articles/provider.html">Provider</a>
+    </li>
+    <li>
+      <a href="../articles/visit_detail.html">Visit Detail</a>
     </li>
     <li>
       <a href="../articles/visit_occurrence.html">Visit Occurrence</a>
@@ -74,7 +92,9 @@
     <p>This function cleans up the tables created by the <br><code><a href="CreateVocabMapTables.html">CreateVocabMapTables()</a></code> and <br><code><a href="CreateVisitRollupTables.html">CreateVisitRollupTables()</a></code></p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">DropMapAndRollupTables</span> <span class="op">(</span><span class="va">connectionDetails</span>, <span class="va">cdmSchema</span><span class="op">)</span></code></pre></div></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">DropMapAndRollupTables</span><span class="op">(</span><span class="va">connectionDetails</span>, <span class="va">cdmSchema</span><span class="op">)</span></span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -82,11 +102,14 @@
 <dd><p>An R object of type<br><code>connectionDetails</code> created using the
 function <code>createConnectionDetails</code> in the
 <code>DatabaseConnector</code> package.</p></dd>
+
+
 <dt>cdmSchema</dt>
 <dd><p>The name of the database schema that will contain the Vocab mapping
 tables.  Requires read and write permissions to this database. On SQL
 Server, this should specifiy both the database and the schema,
 so for example 'cdm_instance.dbo'.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -105,7 +128,7 @@ so for example 'cdm_instance.dbo'.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

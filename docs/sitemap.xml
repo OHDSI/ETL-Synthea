@@ -4,43 +4,10 @@
     <loc>/404.html</loc>
   </url>
   <url>
-    <loc>/articles/Condition_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Drug_exposure.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Measurement.html</loc>
-  </url>
-  <url>
-    <loc>/articles/observation.html</loc>
-  </url>
-  <url>
-    <loc>/articles/observation_period.html</loc>
-  </url>
-  <url>
-    <loc>/articles/person.html</loc>
-  </url>
-  <url>
-    <loc>/articles/procedure_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>/articles/visit_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
     <loc>/Condition_occurrence.html</loc>
   </url>
   <url>
     <loc>/Drug_exposure.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
   </url>
   <url>
     <loc>/Measurement.html</loc>
@@ -58,19 +25,70 @@
     <loc>/Procedure_occurrence.html</loc>
   </url>
   <url>
-    <loc>/readme.html</loc>
+    <loc>/Visit_occurrence.html</loc>
   </url>
   <url>
-    <loc>/reference/backupCDM.html</loc>
+    <loc>/articles/Condition_occurrence.html</loc>
+  </url>
+  <url>
+    <loc>/articles/Cost.html</loc>
+  </url>
+  <url>
+    <loc>/articles/Device_exposure.html</loc>
+  </url>
+  <url>
+    <loc>/articles/Drug_exposure.html</loc>
+  </url>
+  <url>
+    <loc>/articles/Measurement.html</loc>
+  </url>
+  <url>
+    <loc>/articles/Payer_plan_period.html</loc>
+  </url>
+  <url>
+    <loc>/articles/death.html</loc>
+  </url>
+  <url>
+    <loc>/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>/articles/observation.html</loc>
+  </url>
+  <url>
+    <loc>/articles/observation_period.html</loc>
+  </url>
+  <url>
+    <loc>/articles/person.html</loc>
+  </url>
+  <url>
+    <loc>/articles/procedure_occurrence.html</loc>
+  </url>
+  <url>
+    <loc>/articles/provider.html</loc>
+  </url>
+  <url>
+    <loc>/articles/visit_detail.html</loc>
+  </url>
+  <url>
+    <loc>/articles/visit_occurrence.html</loc>
+  </url>
+  <url>
+    <loc>/authors.html</loc>
+  </url>
+  <url>
+    <loc>/index.html</loc>
+  </url>
+  <url>
+    <loc>/readme.html</loc>
   </url>
   <url>
     <loc>/reference/CreateCDMIndexAndConstraintScripts.html</loc>
   </url>
   <url>
-    <loc>/reference/CreateCDMTables.html</loc>
+    <loc>/reference/CreateCDMIndices.html</loc>
   </url>
   <url>
-    <loc>/reference/createPrunedTables.html</loc>
+    <loc>/reference/CreateCDMTables.html</loc>
   </url>
   <url>
     <loc>/reference/CreateSyntheaTables.html</loc>
@@ -94,13 +112,7 @@
     <loc>/reference/DropVocabTables.html</loc>
   </url>
   <url>
-    <loc>/reference/exportToSQLite.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getEventConceptId.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
+    <loc>/reference/ETLSyntheaBuilder-package.html</loc>
   </url>
   <url>
     <loc>/reference/LoadEventTables.html</loc>
@@ -115,18 +127,30 @@
     <loc>/reference/LoadVocabFromSchema.html</loc>
   </url>
   <url>
-    <loc>/reference/pruneCDM.html</loc>
-  </url>
-  <url>
-    <loc>/reference/restoreCDMTables.html</loc>
-  </url>
-  <url>
     <loc>/reference/TruncateEventTables.html</loc>
   </url>
   <url>
     <loc>/reference/TruncateVocabTables.html</loc>
   </url>
   <url>
-    <loc>/Visit_occurrence.html</loc>
+    <loc>/reference/backupCDM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/createPrunedTables.html</loc>
+  </url>
+  <url>
+    <loc>/reference/exportToSQLite.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getEventConceptId.html</loc>
+  </url>
+  <url>
+    <loc>/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pruneCDM.html</loc>
+  </url>
+  <url>
+    <loc>/reference/restoreCDMTables.html</loc>
   </url>
 </urlset>
