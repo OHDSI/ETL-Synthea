@@ -30,7 +30,7 @@ pr.start                                 procedure_date,
 pr.start                                 procedure_datetime,
 }
 
-38000267                                 procedure_type_concept_id,
+32827                                    procedure_type_concept_id,
 0                                        modifier_concept_id,
 cast(null as integer)                    quantity,
 prv.provider_id                          provider_id,

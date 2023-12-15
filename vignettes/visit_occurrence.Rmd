@@ -45,7 +45,7 @@ https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v
 | visit_start_datetime | start |  |  |
 | visit_end_date | stop |  |  |
 | visit_end_datetime | stop |  |  |
-| visit_type_concept_id |  |  Set all records as concept_id 44818517 (Visit derived from encounter on claim).  | |
+| visit_type_concept_id |  |  Set all records as concept_id 32827 (EHR encounter record).  | |
 | provider_id |encounters.provider  |  |  |
 | care_site_id |  | Set to null for all records  |  |
 | visit_source_value | all_visits.encounters_id |  |  |

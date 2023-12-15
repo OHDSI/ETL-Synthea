@@ -22,7 +22,7 @@ insert into @cdm_schema.death (
 select p.person_id                              person_id,
        e.start                                  death_date,
 	   e.start                                  death_datetime,
-	   38003566                                 death_type_concept_id,
+	   32817                                 death_type_concept_id,
        srctostdvm.target_concept_id             cause_concept_id,  
        e.reasoncode                             cause_source_value,
        srctostdvm.source_concept_id             cause_source_concept_id 

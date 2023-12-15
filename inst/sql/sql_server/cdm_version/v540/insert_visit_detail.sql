@@ -42,7 +42,7 @@ select
 	av.visit_start_date                  visit_detail_start_datetime,
 	av.visit_end_date                    visit_detail_end_date,
 	av.visit_end_date                    visit_detail_end_datetime,
-	44818517                             visit_detail_type_concept_id,                             
+	32827                             visit_detail_type_concept_id,                             
 	pr.provider_id                       provider_id,                                 
 	null                                 care_site_id,                                 
 	0                                    admitted_from_source_concept_id,

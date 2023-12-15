@@ -65,7 +65,7 @@ select
   pr.start                                 measurement_time,
 }
 
-  38000267                                 measurement_type_concept_id,
+  32827                                 measurement_type_concept_id,
   0                                        operator_concept_id,
   cast(null as float)                      value_as_number,
   0                                        value_as_concept_id,
@@ -111,7 +111,7 @@ select
   o.date                                    measurement_date,
   o.date                                    measurement_datetime,
   o.date                                    measurement_time,
-  38000267                                  measurement_type_concept_id,
+  32827                                  measurement_type_concept_id,
   0                                         operator_concept_id,
   case
   when isnumeric(o.value) = 1

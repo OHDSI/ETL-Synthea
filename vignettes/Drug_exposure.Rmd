@@ -23,7 +23,7 @@ vignette: >
 | drug_exposure_end_date | stop  start | (coalesce(stop,start))  |  |
 | drug_exposure_end_datetime | stop  start |coalesce(stop,start)  Use 00:00:00 as the time. |  |
 | verbatim_end_date | stop |  |  |
-| drug_type_concept_id |  |  |Use the concept_id 32869 (Pharmacy Claim).   |
+| drug_type_concept_id |  |  |Use the concept_id 32838 (EHR prescription).   |
 | stop_reason |  |  |  |
 | refills |  |  |  |
 | quantity |  |  |  |
@@ -51,7 +51,7 @@ vignette: >
 | drug_exposure_end_date | date |  |  |
 | drug_exposure_end_datetime | date | Use 00:00:00 as the time. |  |
 | verbatim_end_date | date |  |  |
-| drug_type_concept_id |  |  | Use the concept_id 32869 (Pharmacy Claim).  |
+| drug_type_concept_id |  |  | Use the concept_id 32827 (EHR encounter record).  |
 | stop_reason |  | cast(null as varchar) |  |
 | refills |  | Set to 0 for all records  |  |
 | quantity |  |Set to 0 for all record  |  |

@@ -22,7 +22,7 @@ vignette: >
 | device_exposure_start_datetime | start |  |  |
 | device_exposure_end_date | stop |  |  |
 | device_exposure_end_datetime | stop |  |  |
-| device_type_concept_id |  | Set to 38000267 (Outpatient Detail) for all records |  |
+| device_type_concept_id |  | Set to 32827 (EHR encounter record) for all records |  |
 | unique_device_id |udi  |  |  |
 | quantity |  | cast(null as integer) |  |
 | provider_id | provider | Look up provider_id using provider, joining to the provider.provider_source_value field in the omop table  |  |

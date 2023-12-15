@@ -11,7 +11,7 @@ select row_number()over(order by person_id),
        person_id,
 	   start_date,
 	   end_date,
-	   44814724 period_type_concept_id
+	   32882 period_type_concept_id
   from (
 select p.person_id,
        min(e.start) start_date,
