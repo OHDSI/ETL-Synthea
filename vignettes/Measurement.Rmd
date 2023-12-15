@@ -21,7 +21,7 @@ vignette: >
 | measurement_date | date (v2.7.0) start (v3.0.0) |  |  |
 | measurement_datetime | date (v2.7.0) start (v3.0.0) | Use 00:00:00 as the time. |  |
 | measurement_time | date (v2.7.0) start (v3.0.0)  |  |  |
-| measurement_type_concept_id |  |  | Use concept_id 38000267 (Outpatient detail - 1st position) for all records |
+| measurement_type_concept_id |  |  | Use concept_id 32827 (EHR encounter record) for all records |
 | operator_concept_id |  | Set to 0 for all records  |  |
 | value_as_number |  |cast(null as float)   |  |
 | value_as_concept_id |  | Set to 0 for all records |  |
@@ -46,7 +46,7 @@ vignette: >
 | measurement_date | date |  |  |
 | measurement_datetime | date | Use 00:00:00 as time. |  |
 | measurement_time |  |  |  |
-| measurement_type_concept_id |  |  | Use concept_id 38000267 (Outpatient detail - 1st position) for all records |
+| measurement_type_concept_id |  |  | Use concept_id 32827 (EHR encounter record) for all records |
 | operator_concept_id |  | Set as 0 for all records |  |
 | value_as_number | value |  |  |
 | value_as_concept_id | value | units  | Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP:    select ctvm.target_concept_id    from observations o     join cte_target_vocab_map ctvm       on ctvm.source_code              = o.value     and ctvm.target_domain_id       = 'Meas value'    and ctvm.target_standard_concept = 'S'     and ctvm.target_invalid_reason is NULL |  |

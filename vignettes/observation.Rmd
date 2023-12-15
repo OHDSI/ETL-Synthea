@@ -72,7 +72,7 @@ vignette: >
 | observation_concept_id | code | Use code to lookup target_concept_id in CTE_TARGET_VOCAB_MAP:    select ctvm.target_concept_id    from observations o     join cte_target_vocab_map ctvm       on ctvm.source_code              = o.code     and ctvm.target_domain_id       = 'Observation'     and ctvm.target_vocabulary_id = 'LOINC' and ctvm.standard_concept_id = 'S' and ctvm.target_invalid_reason is null |  |
 | observation_date | date |  |  |
 | observation_datetime | date |  |  |
-| observation_type_concept_id | | Set as 38000280 (Observation recorded from EHR) for all records. |  |
+| observation_type_concept_id | | Set as 32827 (EHR encounter record) for all records. |  |
 | value_as_number |  | cast(null as float)   |  |
 | value_as_string |  | cast(null as varchar) |  |
 | value_as_concept_id |  | Set as 0 for all records |  |

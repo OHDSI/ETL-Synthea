@@ -20,7 +20,7 @@ vignette: >
 | person_id | patient | Map by mapping person.person_source_value to patient.  Find person.person_id by mapping encounters.patient to person.person_source_value. |  | |  |
 | death_date| start|  |  |
 | death_datetime | start | |  |
-| death_type_concept_id |  | Set to 38003566 (Medical claim discharge status "Died") for all records  |  |
+| death_type_concept_id |  | Set to 32817 (EHR) for all records  |  |
 | cause_concept_id | reasoncode | Use the following SQL code to lookup target_concept_id in CTE_SOURCE_VOCAB_MAP:    select csvm.target_concept_id    from encounters e     join cte_source_vocab_map csvm       on csvm.source_code              = e.reasoncode     and csvm.target_domain_id       = 'Condition'  and csvm.source_domain_id       = 'Condition'    and csvm.target_vocabulary_id = 'SNOMED'     and csvm.source_vocabulary_id = 'SNOMED'     and csvm.target_invalid_reason is NULL     and csvm.target_standard_concept = 'S' |  |
 | cause_source_value | reasoncode | |  |
 | cause_source_concept_id | reasoncode | Use the following SQL code to lookup source_concept_id in CTE_SOURCE_VOCAB_MAP:    select csvm.source_concept_id    from encounters e     join cte_source_vocab_map csvm       on csvm.source_code              = e.reasoncode     and csvm.target_domain_id       = 'Condition'  and csvm.source_domain_id       = 'Condition'    and csvm.target_vocabulary_id = 'SNOMED'     and csvm.source_vocabulary_id = 'SNOMED'     and csvm.target_invalid_reason is NULL     and csvm.target_standard_concept = 'S' |  |

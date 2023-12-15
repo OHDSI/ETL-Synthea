@@ -22,7 +22,7 @@ vignette: >
 | procedure_datetime | date, start(v3.0.0) | Use 00:00:00 as the time. |  |
 | procedure_end_date | stop(v3.0.0) |  |  |
 | procedure_end_datetime | stop(v3.0.0) | Use 00:00:00 as the time. |  |
-| procedure_type_concept_id |  |  | Use concept_id 38000267 (Outpatient detail - 1st position) for all records. |
+| procedure_type_concept_id |  |  | Use concept_id 32827 (EHR encounter record) for all records. |
 | modifier_concept_id |  | Set to 0 for all records |  |
 | quantity |  |cast(null as integer)    |  |
 | provider_id | encounters.provider |  |  |
