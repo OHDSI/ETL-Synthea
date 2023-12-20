@@ -8,9 +8,9 @@
 #'
 #' @param cdmSchema  The name of the database schema that contains the CDM.
 #'                   Requires read and write permissions to this database. On SQL
-#'                   Server, this should specifiy both the database and the schema,
+#'                   Server, this should specify both the database and the schema,
 #'                   so for example 'cdm_instance.dbo'.
-#' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "6.0.0".
+#' @param cdmVersion The version of your CDM.  Currently "5.3.1" and "5.4.0".
 #'
 #'@export
 
@@ -19,10 +19,10 @@ getEventConceptId <-
   {
     if (cdmVersion == "5.3.1")
       sqlFilePath <- "cdm_version/v531"
-    else if (cdmVersion == "6.0.0")
-      sqlFilePath <- "cdm_version/v600"
+    else if (cdmVersion == "5.4.0")
+      sqlFilePath <- "cdm_version/v540"
     else
-      stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"6.0.0\"")
+      stop("Unsupported CDM specified. Supported CDM versions are \"5.3.1\" and \"5.4.0\"")
 
     sql <- SqlRender::loadRenderTranslateSql(
       sqlFileName = paste0(sqlFilePath, "/get_event_concept_id.sql"),
