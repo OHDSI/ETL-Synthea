@@ -127,11 +127,11 @@ CreateCDMIndexAndConstraintScripts <-
         if (is.null(githubTag) || githubTag == "v5.4.0") {
           webResponseInd <-
             httr::GET(
-              "https://raw.githubusercontent.com/OHDSI/CommonDataModel/v5.4.0/inst/ddl/5.4/netezza/OMOPCDM_netezza_5.4_indices.sql"
+              "https://raw.githubusercontent.com/OHDSI/CommonDataModel/v5.4.0/inst/ddl/5.4/pdw/OMOPCDM_pdw_5.4_indices.sql"
             )
           webResponseCon <-
             httr::GET(
-              "https://raw.githubusercontent.com/OHDSI/CommonDataModel/v5.4.0/inst/ddl/5.4/netezza/OMOPCDM_netezza_5.4_constraints.sql"
+              "https://raw.githubusercontent.com/OHDSI/CommonDataModel/v5.4.0/inst/ddl/5.4/pdw/OMOPCDM_pdw_5.4_constraints.sql"
             )
         }
       }
