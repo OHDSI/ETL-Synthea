@@ -51,12 +51,12 @@ CreateCDMIndexAndConstraintScripts <-
     }
 
     if (cdmVersion == "5.3.1" &&
-        !(githubTag %in% c("v5.3.1"))) {
+          !(githubTag %in% c("v5.3.1"))) {
       stop("cdmVersion and githubTag mismatch.")
     }
 
     if (cdmVersion == "5.4.0" &&
-        !(githubTag %in% c("v5.4.0"))) {
+          !(githubTag %in% c("v5.4.0"))) {
       stop("cdmVersion and githubTag mismatch.")
     }
 
