@@ -6,7 +6,7 @@
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
 #' @param cdmSchema  The name of the CDM database schema.  Requires read and write permissions to this database. On SQL
-#'                                     Server, this should specifiy both the database and the schema,
+#'                                     Server, this should specify both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param cdmVersion Your CDM version.  Currently "5.3" and "5.4" are supported.
 #' @param outputFolder Location of the SQL scripts if sqlOnly = TRUE. Default is NULL.
@@ -25,23 +25,23 @@ CreateCDMIndices <-
            cdmVersion,
            outputFolder = NULL,
            sqlOnly = FALSE)
-{
+  {
     if (!sqlOnly) {
-		
-		print("Creating Indices on CDM Tables....")
+      print("Creating Indices on CDM Tables....")
 
-		indexSQLFile <- CommonDataModel::writeIndex(
-		targetDialect     = connectionDetails$dbms,
-		cdmVersion        = cdmVersion,
-		cdmDatabaseSchema = cdmSchema,
-		outputfolder      = tempdir())
+      indexSQLFile <- CommonDataModel::writeIndex(
+        targetDialect     = connectionDetails$dbms,
+        cdmVersion        = cdmVersion,
+        cdmDatabaseSchema = cdmSchema,
+        outputfolder      = tempdir()
+      )
 
-		indexDDL <- SqlRender::readSql(paste0(tempdir(),"/",indexSQLFile))
-		conn <- DatabaseConnector::connect(connectionDetails)
-		DatabaseConnector::executeSql(conn,indexDDL)
-		DatabaseConnector::disconnect(conn)
-		print("Index Creation Complete.")
-	
+      indexDDL <- SqlRender::readSql(paste0(tempdir(), "/", indexSQLFile))
+      conn <- DatabaseConnector::connect(connectionDetails)
+      DatabaseConnector::executeSql(conn, indexDDL)
+      DatabaseConnector::disconnect(conn)
+      print("Index Creation Complete.")
+
     } else {
       if (is.null(outputFolder)) {
         stop("Must specify an outputFolder location when using sqlOnly = TRUE")
@@ -56,4 +56,4 @@ CreateCDMIndices <-
         cdmDatabaseSchema = cdmSchema
       )
     }
-}
+  }
