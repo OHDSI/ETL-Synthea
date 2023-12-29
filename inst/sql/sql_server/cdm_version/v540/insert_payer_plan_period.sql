@@ -31,6 +31,11 @@ select ROW_NUMBER()OVER(ORDER BY pat.id, pt.start_year) payer_plan_period_id,
 	   CAST(pt.start_year AS DATE)                      payer_plan_period_start_date,
 	   CAST(pt.end_year AS DATE)                        payer_plan_period_end_date,	   
 	   }
+
+      {@synthea_version == "3.1.0" | @synthea_version == "3.2.0" } ? {
+	   CAST(pt.start_date AS DATE)                      payer_plan_period_start_date,
+	   CAST(pt.end_date AS DATE)                        payer_plan_period_end_date,	   
+	   }
 	   
 	   0                                                payer_concept_id,
 	   pt.payer                                         payer_source_value,
