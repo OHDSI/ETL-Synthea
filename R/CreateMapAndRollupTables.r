@@ -19,12 +19,11 @@
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param cdmVersion The version of your CDM.  Currently "5.3" and "5.4".
 #' @param syntheaVersion The version of Synthea used to generate the csv files.
-#'                       Currently "2.7.0" and "3.0.0" are supported.
+#'                       Currently "2.7.0", "3.0.0", "3.1.0" and "3.2.0" are supported.
 #' @param cdmSourceName	The source name to insert into the CDM_SOURCE table.  Default is Synthea synthetic health database.
 #' @param cdmSourceAbbreviation The source abbreviation to insert into the CDM_SOURCE table.  Default is Synthea.
 #' @param cdmHolder The holder to insert into the CDM_SOURCE table.  Default is OHDSI
 #' @param cdmSourceDescription The description of the source data.  Default is generic Synthea description.
-#' @param createIndices A boolean that determines whether or not to create indices on CDM tables before the ETL.
 #' @param sqlOnly A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.
 #'
 #'@export
@@ -51,10 +50,10 @@ CreateMapAndRollupTables <- function(connectionDetails,
     stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\".")
   }
 
-  supportedSyntheaVersions <- c("2.7.0", "3.0.0")
+  supportedSyntheaVersions <- c("2.7.0", "3.0.0","3.1.0","3.2.0")
 
   if (!(syntheaVersion %in% supportedSyntheaVersions))
-    stop("Invalid Synthea version specified. Currently \"2.7.0\" and \"3.0.0\" are supported.")
+    stop("Invalid Synthea version specified. Currently \"2.7.0\", \"3.0.0\",\"3.1.0\", and \"3.2.0\" are supported.")
 
   # Create Vocabulary mapping tables
   CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion, sqlOnly)
