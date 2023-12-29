@@ -10,7 +10,7 @@
 #'                                     Server, this should specify both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param syntheaVersion The version of Synthea used to generate the csv files.
-#'                       Currently "2.7.0" and "3.0.0" are is supported.
+#'                       Currently "2.7.0", "3.0.0", "3.1.0", and "3.2.0" are is supported.
 #'
 #'@export
 
@@ -25,8 +25,12 @@ CreateSyntheaTables <-
       sqlFilePath <- "synthea_version/v270"
     else if (syntheaVersion == "3.0.0")
       sqlFilePath <- "synthea_version/v300"
+    else if (syntheaVersion == "3.1.0")
+      sqlFilePath <- "synthea_version/v310"
+    else if (syntheaVersion == "3.2.0")
+      sqlFilePath <- "synthea_version/v320"
     else
-      stop("Invalid synthea version specified. Currently \"2.7.0\" and \"3.0.0\" are supported.")
+      stop("Invalid synthea version specified. Currently \"2.7.0\", \"3.0.0\", \"3.1.0\" and \"3.2.0\" are supported.")
 
     sqlFilename <-  paste0(sqlFilePath, "/", "create_synthea_tables.sql")
 

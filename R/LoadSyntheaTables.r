@@ -11,7 +11,7 @@
 #'                  \cr\code{./run_synthea -p 1000}
 #'
 #'               You can enable csv records in src/main/resources/synthea.properties by setting exporter.csv.export = true.
-#'               As of the time of this writing the csv files can be found at synthe/output/csv.
+#'               As of the time of this writing the csv files can be found at synthea/output/csv.
 #'               For more details: \href{https://github.com/synthetichealth/synthea/wiki/Basic-Setup-and-Running}{Synthea Basic Setup}
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
@@ -35,7 +35,7 @@ LoadSyntheaTables <-
 {
 
     csvList <- list.files(syntheaFileLoc, pattern = "*.csv")
-	
+
     conn <- DatabaseConnector::connect(connectionDetails)
 
     for (csv in csvList) {
@@ -60,6 +60,12 @@ LoadSyntheaTables <-
       if ("DATE"        %in% colnames(syntheaTable))
         syntheaTable$DATE         <-
         as.Date(syntheaTable$DATE, format = "%Y-%m-%d")
+      if ("START_DATE"        %in% colnames(syntheaTable))
+        syntheaTable$START_DATE         <-
+        as.Date(syntheaTable$START_DATE, format = "%Y-%m-%d")
+      if ("END_DATE"        %in% colnames(syntheaTable))
+        syntheaTable$END_DATE         <-
+        as.Date(syntheaTable$END_DATE, format = "%Y-%m-%d")
       if ("BIRTHDATE"   %in% colnames(syntheaTable))
         syntheaTable$BIRTHDATE    <-
         as.Date(syntheaTable$BIRTHDATE, format = "%Y-%m-%d")
