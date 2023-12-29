@@ -13,12 +13,12 @@ function \code{createConnectionDetails} in the
 
 \item{cdmSchema}{The name of the database schema that contains the CDM.
 Requires read and write permissions to this database. On SQL
-Server, this should specifiy both the database and the schema,
+Server, this should specify both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
 \item{eventConceptId}{A vector of concept_ids returned from \code{getEventConceptId}.}
 
-\item{cdmVersion}{The version of your CDM.  Currently "5.3.1" and "6.0.0".}
+\item{cdmVersion}{The version of your CDM.  Currently "5.3.1" and "5.4.0".}
 }
 \description{
 This function creates the pruned cdm and vocab tables by keeping only those rows from

@@ -21,7 +21,7 @@
 #' @export
 
 
-createExtraIndices <- function(connectionDetails,
+CreateExtraIndices <- function(connectionDetails,
                                cdmSchema,
                                syntheaSchema,
                                syntheaVersion,

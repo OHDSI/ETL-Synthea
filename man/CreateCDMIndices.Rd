@@ -18,7 +18,7 @@ function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
 \item{cdmSchema}{The name of the CDM database schema.  Requires read and write permissions to this database. On SQL
-Server, this should specifiy both the database and the schema,
+Server, this should specify both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
 \item{cdmVersion}{Your CDM version.  Currently "5.3" and "5.4" are supported.}

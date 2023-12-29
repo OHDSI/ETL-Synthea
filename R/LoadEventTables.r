@@ -3,23 +3,23 @@
 #' @description This function loads the CDM Event tables with Synthea data.
 #'
 #' @details This function assumes \cr\code{createCDMTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()},
-#'              and \cr\code{LoadVocabTables()} have all been run.
+#'              \cr\code{LoadVocabTables()}, and \cr\code{CreateMapAndRollupTables()} have all been run.
 #'
 #' @param connectionDetails  An R object of type\cr\code{connectionDetails} created using the
 #'                                     function \code{createConnectionDetails} in the
 #'                                     \code{DatabaseConnector} package.
 #' @param cdmSchema  The name of the database schema that will contain the CDM.
 #'                                     Requires read and write permissions to this database. On SQL
-#'                                     Server, this should specifiy both the database and the schema,
+#'                                     Server, this should specify both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param syntheaSchema  The name of the database schema that contain the Synthea
 #'                                     instance.  Requires read and write permissions to this database. On SQL
-#'                                     Server, this should specifiy both the database and the schema,
+#'                                     Server, this should specify both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param cdmVersion The version of your CDM.  Currently "5.3" and "5.4".
 #' @param syntheaVersion The version of Synthea used to generate the csv files.
 #'                       Currently "2.7.0" and "3.0.0" are supported.
-#' @param cdmSourceName	The source name to insert into the CDM_SOURCE table.  Default is Synthea synthentic health database.
+#' @param cdmSourceName	The source name to insert into the CDM_SOURCE table.  Default is Synthea synthetic health database.
 #' @param cdmSourceAbbreviation The source abbreviation to insert into the CDM_SOURCE table.  Default is Synthea.
 #' @param cdmHolder The holder to insert into the CDM_SOURCE table.  Default is OHDSI
 #' @param cdmSourceDescription The description of the source data.  Default is generic Synthea description.
@@ -71,16 +71,6 @@ LoadEventTables <- function(connectionDetails,
 	DatabaseConnector::disconnect(conn)
 	print("Index Creation Complete.")
   }
- 
-  # Create Vocabulary mapping tables
-  CreateVocabMapTables(connectionDetails, cdmSchema, cdmVersion, sqlOnly)
-
-  # Perform visit rollup logic and create auxiliary tables
-  CreateVisitRollupTables(connectionDetails,
-                          cdmSchema,
-                          syntheaSchema,
-                          cdmVersion,
-                          sqlOnly)
 
   if (!sqlOnly) {
     conn <- DatabaseConnector::connect(connectionDetails)
@@ -282,11 +272,11 @@ LoadEventTables <- function(connectionDetails,
   runStep(sql, fileQuery)
 
   # cost
-  if (syntheaVersion == "2.7.0") 
+  if (syntheaVersion == "2.7.0")
 	fileQuery <- "insert_cost_v270.sql"
   else if (syntheaVersion == "3.0.0")
 	fileQuery <- "insert_cost_v300.sql"
-  
+
     sql <- SqlRender::loadRenderTranslateSql(
       sqlFilename = file.path(sqlFilePath, fileQuery),
       packageName = "ETLSyntheaBuilder",
@@ -295,7 +285,7 @@ LoadEventTables <- function(connectionDetails,
       synthea_schema = syntheaSchema
     )
     runStep(sql, fileQuery)
-  
+
   if (!sqlOnly) {
     DatabaseConnector::disconnect(conn)
   }
