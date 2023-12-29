@@ -233,7 +233,7 @@ LoadEventTables <- function(connectionDetails,
     cdm_source_name = cdmSourceName,
     cdm_source_abbreviation = cdmSourceAbbreviation,
     cdm_holder = cdmHolder,
-    source_description = cdmSourceDescription
+    source_description = paste("Synthea version: ",syntheaVersion," ",cdmSourceDescription)
   )
   runStep(sql, fileQuery)
 
