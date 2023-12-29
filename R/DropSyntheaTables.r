@@ -40,7 +40,7 @@ DropSyntheaTables <- function(connectionDetails, syntheaSchema)
   conn <- DatabaseConnector::connect(connectionDetails)
   allTables <- DatabaseConnector::getTableNames(conn, syntheaSchema)
   tablesToDrop <- allTables[which(allTables %in% syntheaTables)]
-  
+
   if (length(tablesToDrop) > 0) {
       writeLines("Dropping Synthea tables...")
 	  sql <-
@@ -57,6 +57,6 @@ DropSyntheaTables <- function(connectionDetails, syntheaSchema)
   } else {
 	print(sprintf("No synthea tables to drop in schema %s",syntheaSchema))
   }
-  
+
   on.exit(DatabaseConnector::disconnect(conn))
 }
