@@ -19,8 +19,8 @@ DropSyntheaTables <- function(connectionDetails, syntheaSchema)
   syntheaTables <- c(
     "ALLERGIES",
     "CAREPLANS",
-	"CLAIMS",
-	"CLAIMS_TRANSACTIONS",
+    "CLAIMS",
+    "CLAIMS_TRANSACTIONS",
     "CONDITIONS",
     "DEVICES",
     "ENCOUNTERS",
@@ -30,11 +30,11 @@ DropSyntheaTables <- function(connectionDetails, syntheaSchema)
     "OBSERVATIONS",
     "ORGANIZATIONS",
     "PATIENTS",
-	"PAYERS",
-	"PAYER_TRANSITIONS",
+    "PAYERS",
+    "PAYER_TRANSITIONS",
     "PROCEDURES",
     "PROVIDERS",
-	"SUPPLIES"
+    "SUPPLIES"
   )
 
   conn <- DatabaseConnector::connect(connectionDetails)
@@ -42,20 +42,21 @@ DropSyntheaTables <- function(connectionDetails, syntheaSchema)
   tablesToDrop <- allTables[which(allTables %in% syntheaTables)]
 
   if (length(tablesToDrop) > 0) {
-      writeLines("Dropping Synthea tables...")
-	  sql <-
-		paste(
-		  "drop table @synthea_schema.",
-		  tablesToDrop,
-		  ";",
-		  collapse = "\n",
-		  sep = ""
-		)
-	  sql <- SqlRender::render(sql, synthea_schema = syntheaSchema)
-	  sql <- SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
-	  DatabaseConnector::executeSql(conn, sql)
+    writeLines("Dropping Synthea tables...")
+    sql <-
+      paste(
+        "drop table @synthea_schema.",
+        tablesToDrop,
+        ";",
+        collapse = "\n",
+        sep = ""
+      )
+    sql <- SqlRender::render(sql, synthea_schema = syntheaSchema)
+    sql <-
+      SqlRender::translate(sql, targetDialect = connectionDetails$dbms)
+    DatabaseConnector::executeSql(conn, sql)
   } else {
-	print(sprintf("No synthea tables to drop in schema %s",syntheaSchema))
+    print(sprintf("No synthea tables to drop in schema %s", syntheaSchema))
   }
 
   on.exit(DatabaseConnector::disconnect(conn))

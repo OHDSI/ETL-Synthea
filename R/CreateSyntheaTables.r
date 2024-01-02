@@ -17,9 +17,9 @@
 
 
 CreateSyntheaTables <-
-  function (connectionDetails,
-            syntheaSchema,
-            syntheaVersion = "2.7.0")
+  function(connectionDetails,
+           syntheaSchema,
+           syntheaVersion = "2.7.0")
   {
     if (syntheaVersion == "2.7.0")
       sqlFilePath <- "synthea_version/v270"
@@ -30,9 +30,12 @@ CreateSyntheaTables <-
     else if (syntheaVersion == "3.2.0")
       sqlFilePath <- "synthea_version/v320"
     else
-      stop("Invalid synthea version specified. Currently \"2.7.0\", \"3.0.0\", \"3.1.0\" and \"3.2.0\" are supported.")
+      stop(
+        "Invalid synthea version specified. Currently \"2.7.0\", \"3.0.0\", \"3.1.0\" and \"3.2.0\" are supported."
+      )
 
-    sqlFilename <-  paste0(sqlFilePath, "/", "create_synthea_tables.sql")
+    sqlFilename <-
+      paste0(sqlFilePath, "/", "create_synthea_tables.sql")
 
     translatedSql <- SqlRender::loadRenderTranslateSql(
       sqlFilename     = sqlFilename,

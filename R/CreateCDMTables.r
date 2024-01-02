@@ -26,41 +26,41 @@ CreateCDMTables <-
            cdmSchema,
            cdmVersion,
            outputFolder = NULL,
-		   createIndices = FALSE,
+           createIndices = FALSE,
            sqlOnly = FALSE)
   {
     if (!sqlOnly) {
-	
-		print("Creating CDM Tables....")
-		
-		CommonDataModel::executeDdl(
-			connectionDetails = connectionDetails,
-			cdmVersion        = cdmVersion,
-			cdmDatabaseSchema = cdmSchema,
-			executeDdl        = TRUE,
-			executePrimaryKey = TRUE,
-			executeForeignKey = FALSE
-		) # False for now due to bug: https://github.com/OHDSI/CommonDataModel/issues/452
+      print("Creating CDM Tables....")
 
-		print("CDM Tables Created.")
-				
-		if (createIndices) {
-		
-			print("Creating Indices on CDM Tables....")
+      CommonDataModel::executeDdl(
+        connectionDetails = connectionDetails,
+        cdmVersion        = cdmVersion,
+        cdmDatabaseSchema = cdmSchema,
+        executeDdl        = TRUE,
+        executePrimaryKey = TRUE,
+        executeForeignKey = FALSE
+      ) # False for now due to bug: https://github.com/OHDSI/CommonDataModel/issues/452
 
-			indexSQLFile <- CommonDataModel::writeIndex(
-				targetDialect     = connectionDetails$dbms,
-				cdmVersion        = cdmVersion,
-				cdmDatabaseSchema = cdmSchema,
-				outputfolder      = tempdir())
+      print("CDM Tables Created.")
 
-			indexDDL <- SqlRender::readSql(paste0(tempdir(),"/",indexSQLFile))
-			conn <- DatabaseConnector::connect(connectionDetails)
-			DatabaseConnector::executeSql(conn,indexDDL)
-			DatabaseConnector::disconnect(conn)
-			print("Index Creation Complete.")
-		}
-	
+      if (createIndices) {
+        print("Creating Indices on CDM Tables....")
+
+        indexSQLFile <- CommonDataModel::writeIndex(
+          targetDialect     = connectionDetails$dbms,
+          cdmVersion        = cdmVersion,
+          cdmDatabaseSchema = cdmSchema,
+          outputfolder      = tempdir()
+        )
+
+        indexDDL <-
+          SqlRender::readSql(paste0(tempdir(), "/", indexSQLFile))
+        conn <- DatabaseConnector::connect(connectionDetails)
+        DatabaseConnector::executeSql(conn, indexDDL)
+        DatabaseConnector::disconnect(conn)
+        print("Index Creation Complete.")
+      }
+
     } else {
       if (is.null(outputFolder)) {
         stop("Must specify an outputFolder location when using sqlOnly = TRUE")
