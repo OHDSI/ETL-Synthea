@@ -18,7 +18,7 @@
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param cdmVersion The version of your CDM.  Currently "5.3" and "5.4".
 #' @param syntheaVersion The version of Synthea used to generate the csv files.
-#'                       Currently "2.7.0" and "3.0.0" are supported.
+#'                       Currently "2.7.0","3.0.0","3.1.0" and "3.2.0" are supported.
 #' @param cdmSourceName	The source name to insert into the CDM_SOURCE table.  Default is Synthea synthetic health database.
 #' @param cdmSourceAbbreviation The source abbreviation to insert into the CDM_SOURCE table.  Default is Synthea.
 #' @param cdmHolder The holder to insert into the CDM_SOURCE table.  Default is OHDSI
@@ -39,7 +39,7 @@ LoadEventTables <- function(connectionDetails,
                             cdmHolder = "OHDSI",
                             cdmSourceDescription = "SyntheaTM is a Synthetic Patient Population Simulator. The goal is to output synthetic, realistic (but not real), patient data and associated health records in a variety of formats.",
                             createIndices = FALSE,
-							sqlOnly = FALSE)
+                            sqlOnly = FALSE)
 {
   # Determine which sql scripts to run based on the given version.
   # The path is relative to inst/sql/sql_server.
@@ -51,25 +51,28 @@ LoadEventTables <- function(connectionDetails,
     stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\".")
   }
 
-  supportedSyntheaVersions <- c("2.7.0", "3.0.0")
+  supportedSyntheaVersions <- c("2.7.0", "3.0.0", "3.1.0", "3.2.0")
 
   if (!(syntheaVersion %in% supportedSyntheaVersions))
-    stop("Invalid Synthea version specified. Currently \"2.7.0\" and \"3.0.0\" are supported.")
+    stop(
+      "Invalid Synthea version specified. Currently \"2.7.0\", \"3.0.0\",\"3.1.0\", and \"3.2.0\" are supported."
+    )
 
   if (createIndices) {
-	print("Creating Indices on CDM Tables....")
+    print("Creating Indices on CDM Tables....")
 
-	indexSQLFile <- CommonDataModel::writeIndex(
-		targetDialect     = connectionDetails$dbms,
-		cdmVersion        = cdmVersion,
-		cdmDatabaseSchema = cdmSchema,
-		outputfolder      = tempdir())
+    indexSQLFile <- CommonDataModel::writeIndex(
+      targetDialect     = connectionDetails$dbms,
+      cdmVersion        = cdmVersion,
+      cdmDatabaseSchema = cdmSchema,
+      outputfolder      = tempdir()
+    )
 
-	indexDDL <- SqlRender::readSql(paste0(tempdir(),"/",indexSQLFile))
-	conn <- DatabaseConnector::connect(connectionDetails)
-	DatabaseConnector::executeSql(conn,indexDDL)
-	DatabaseConnector::disconnect(conn)
-	print("Index Creation Complete.")
+    indexDDL <- SqlRender::readSql(paste0(tempdir(), "/", indexSQLFile))
+    conn <- DatabaseConnector::connect(connectionDetails)
+    DatabaseConnector::executeSql(conn, indexDDL)
+    DatabaseConnector::disconnect(conn)
+    print("Index Creation Complete.")
   }
 
   if (!sqlOnly) {
@@ -233,7 +236,7 @@ LoadEventTables <- function(connectionDetails,
     cdm_source_name = cdmSourceName,
     cdm_source_abbreviation = cdmSourceAbbreviation,
     cdm_holder = cdmHolder,
-    source_description = cdmSourceDescription
+    source_description = paste("Synthea version: ", syntheaVersion, " ", cdmSourceDescription)
   )
   runStep(sql, fileQuery)
 
@@ -267,24 +270,24 @@ LoadEventTables <- function(connectionDetails,
     dbms = connectionDetails$dbms,
     cdm_schema = cdmSchema,
     synthea_schema = syntheaSchema,
-	synthea_version = syntheaVersion
+    synthea_version = syntheaVersion
   )
   runStep(sql, fileQuery)
 
   # cost
   if (syntheaVersion == "2.7.0")
-	fileQuery <- "insert_cost_v270.sql"
-  else if (syntheaVersion == "3.0.0")
-	fileQuery <- "insert_cost_v300.sql"
+    fileQuery <- "insert_cost_v270.sql"
+  else if (syntheaVersion %in% c("3.0.0", "3.1.0", "3.2.0"))
+    fileQuery <- "insert_cost_v300.sql"
 
-    sql <- SqlRender::loadRenderTranslateSql(
-      sqlFilename = file.path(sqlFilePath, fileQuery),
-      packageName = "ETLSyntheaBuilder",
-      dbms = connectionDetails$dbms,
-      cdm_schema = cdmSchema,
-      synthea_schema = syntheaSchema
-    )
-    runStep(sql, fileQuery)
+  sql <- SqlRender::loadRenderTranslateSql(
+    sqlFilename = file.path(sqlFilePath, fileQuery),
+    packageName = "ETLSyntheaBuilder",
+    dbms = connectionDetails$dbms,
+    cdm_schema = cdmSchema,
+    synthea_schema = syntheaSchema
+  )
+  runStep(sql, fileQuery)
 
   if (!sqlOnly) {
     DatabaseConnector::disconnect(conn)

@@ -34,7 +34,7 @@ createPrunedTables <-
       sqlFileName = paste0(sqlFilePath, "/create_pruned_tables.sql"),
       packageName = "ETLSyntheaBuilder",
       dbms        = connectionDetails$dbms,
-      cdm_schema = cdmDatabaseSchema,
+      cdm_schema = cdmSchema,
       event_concept_id = eventConceptId
     )
 

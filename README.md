@@ -15,7 +15,7 @@ Follow the steps on the [synthea wiki](https://github.com/synthetichealth/synthe
  # The ETLSyntheaBuilder package leverages the OHDSI/CommonDataModel package for CDM creation.
  # Valid CDM versions are determined by executing CommonDataModel::listSupportedVersions().
  # The strings representing supported CDM versions are currently "5.3" and "5.4". 
- # The Synthea version we use in this example is 2.7.0. However, at this time we also support 3.0.0.
+ # The Synthea version we use in this example is 2.7.0. However, at this time we also support 3.0.0, 3.1.0 and 3.2.0.
  # Please note that Synthea's MASTER branch is always active and this package will be updated to support
  # future versions as possible.
  # The schema to load the Synthea tables is called "native".

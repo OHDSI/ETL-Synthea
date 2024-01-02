@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ETLSyntheaBuilder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -157,14 +157,16 @@ payer_transitions.patient to person.person_source_value.</td>
 <td>payer_plan_period_start_date</td>
 <td>start_year</td>
 <td>For synthea v2.7.0 CAST(CONCAT(‘01-JAN-’,CAST(pt.start_year AS
-VARCHAR)) AS DATE) For synthea v3.0.0 CAST(pt.start_year AS DATE)</td>
+VARCHAR)) AS DATE) For synthea v3.0.0 CAST(pt.start_year AS DATE) For
+synthea v3.1.0 and v3.2.0 CAST(pt.start_date AS DATE)</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>payer_plan_period_start_date</td>
 <td>end_year</td>
 <td>For synthea v2.7.0 CAST(CONCAT(‘01-JAN-’,CAST(pt.end_year AS
-VARCHAR)) AS DATE) For synthea v3.0.0 CAST(pt.end_year AS DATE)</td>
+VARCHAR)) AS DATE) For synthea v3.0.0 CAST(pt.end_year AS DATE) For
+synthea v3.1.0 and v3.2.0 CAST(pt.end_date AS DATE)</td>
 <td></td>
 </tr>
 <tr class="odd">
@@ -263,7 +265,7 @@ VARCHAR)) AS DATE) For synthea v3.0.0 CAST(pt.end_year AS DATE)</td>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Anthony Molinaro.</p>
+<p>Developed by Evanette Burrows.</p>
 </div>
 
 <div class="pkgdown">

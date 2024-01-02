@@ -72,10 +72,14 @@ exportToSQLite <-
       sqlQuery <-
         paste0("select * from  ", paste0(cdmSchema, ".", tableName), ";")
       translatedSql <-
-        SqlRender::translate(renderedSql, targetDialect = connectionDetails$dbms)
+        SqlRender::translate(sqlQuery, targetDialect = connectionDetails$dbms)
       writeLines(paste0("Fetching: ", tableName))
       tableData <- DatabaseConnector::querySql(conn, translatedSql)
-      DatabaseConnector::insertTable(sqliteCon, toupper(tableName), tableData)
+      DatabaseConnector::insertTable(
+        connection = sqliteCon,
+        tableName = toupper(tableName),
+        data = tableData
+      )
     }
 
     DatabaseConnector::disconnect(conn)
