@@ -37,5 +37,5 @@ getEventConceptId <-
 
     on.exit(DatabaseConnector::disconnect(conn))
 
-    return(eventConceptId)
+    eventConceptId
   }
