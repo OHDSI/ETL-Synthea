@@ -93,6 +93,28 @@ LoadEventTables <- function(connectionDetails,
     }
   }
 
+  # location
+  fileQuery <- "insert_location.sql"
+  sql <- SqlRender::loadRenderTranslateSql(
+    sqlFilename = file.path(sqlFilePath, fileQuery),
+    packageName = "ETLSyntheaBuilder",
+    dbms = connectionDetails$dbms,
+    cdm_schema = cdmSchema,
+    synthea_schema = syntheaSchema
+  )
+  runStep(sql, fileQuery)
+
+  # care_site
+  fileQuery <- "insert_care_site.sql"
+  sql <- SqlRender::loadRenderTranslateSql(
+    sqlFilename = file.path(sqlFilePath, fileQuery),
+    packageName = "ETLSyntheaBuilder",
+    dbms = connectionDetails$dbms,
+    cdm_schema = cdmSchema,
+    synthea_schema = syntheaSchema
+  )
+  runStep(sql, fileQuery)
+
   # person
   fileQuery <- "insert_person.sql"
   sql <- SqlRender::loadRenderTranslateSql(

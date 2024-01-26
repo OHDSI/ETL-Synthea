@@ -33,7 +33,8 @@ CreateVocabMapTables <-
     queries <-
       c(
         "create_source_to_standard_vocab_map.sql",
-        "create_source_to_source_vocab_map.sql"
+        "create_source_to_source_vocab_map.sql",
+        "create_states_map.sql"
       )
 
     if (!sqlOnly) {
