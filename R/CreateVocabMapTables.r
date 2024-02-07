@@ -9,7 +9,7 @@
 #'                                     \code{DatabaseConnector} package.
 #' @param cdmSchema  The name of the database schema that will contain the Vocab mapping
 #'                                     tables.  Requires read and write permissions to this database. On SQL
-#'                                     Server, this should specifiy both the database and the schema,
+#'                                     Server, this should specify both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param cdmVersion The version of your CDM.  Currently "5.3" and "5.4" are supported.
 #' @param sqlOnly A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.

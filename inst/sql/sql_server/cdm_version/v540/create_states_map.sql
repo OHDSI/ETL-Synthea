@@ -1,5 +1,7 @@
 if object_id('@cdm_schema.states_map', 'U')  is not null drop table @cdm_schema.states_map;
 
+create table @cdm_schema.states_map(state varchar(50),state_abbreviation varchar(2));
+
 INSERT INTO @cdm_schema.states_map (state, state_abbreviation)
 VALUES
     ('Alabama', 'AL'),
