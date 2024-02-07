@@ -23,7 +23,7 @@ with mapped_states as (
 
 	select distinct l.location_id,l.city,states_map.state,l.zip
 	from @cdm_schema.location l
-	left join states_map state_map on l.state=states_map.state_abbreviation
+	left join @cdm_schema.states_map states_map on l.state=states_map.state_abbreviation
 )
 select
 	row_number()over(order by p.id),
