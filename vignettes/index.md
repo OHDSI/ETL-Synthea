@@ -21,3 +21,5 @@ This guide is meant to show the process by which the synthetic data set [Synthea
 * [Devices](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#devices)
 * [Payers](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#payers)
 * [Payer Transitions](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#payer-transitions)
+* [Providers](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#providers)
+* [Organizations](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#organizations)
