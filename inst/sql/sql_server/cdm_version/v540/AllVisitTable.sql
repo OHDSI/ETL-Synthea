@@ -77,12 +77,8 @@ FROM (
 			CL1.patient,
 			CL1.encounterclass,
 			CL1.start VISIT_START_DATE,
-			CL2.stop VISIT_END_DATE
+			CL1.stop VISIT_END_DATE
 		FROM @synthea_schema.encounters CL1
-		JOIN @synthea_schema.encounters CL2
-			ON CL1.patient = CL2.patient
-			AND CL1.start = CL2.start
-			AND CL1.encounterclass = CL2.encounterclass
 		WHERE CL1.encounterclass in ('emergency','urgent')
 	) T1
 	GROUP BY patient, encounterclass, VISIT_START_DATE
