@@ -137,7 +137,8 @@
 <span> <span class="co"># The ETLSyntheaBuilder package leverages the OHDSI/CommonDataModel package for CDM creation.</span></span>
 <span> <span class="co"># Valid CDM versions are determined by executing CommonDataModel::listSupportedVersions().</span></span>
 <span> <span class="co"># The strings representing supported CDM versions are currently "5.3" and "5.4". </span></span>
-<span> <span class="co"># The Synthea version we use in this example is 2.7.0. However, at this time we also support 3.0.0, 3.1.0 and 3.2.0.</span></span>
+<span> <span class="co"># The Synthea version we use in this example is 2.7.0.</span></span>
+<span> <span class="co"># However, at this time we also support 3.0.0, 3.1.0 and 3.2.0.</span></span>
 <span> <span class="co"># Please note that Synthea's MASTER branch is always active and this package will be updated to support</span></span>
 <span> <span class="co"># future versions as possible.</span></span>
 <span> <span class="co"># The schema to load the Synthea tables is called "native".</span></span>
@@ -174,7 +175,7 @@
 <span><span class="fu">ETLSyntheaBuilder</span><span class="fu">::</span><span class="fu"><a href="reference/CreateMapAndRollupTables.html">CreateMapAndRollupTables</a></span><span class="op">(</span>connectionDetails <span class="op">=</span> <span class="va">cd</span>, cdmSchema <span class="op">=</span> <span class="va">cdmSchema</span>, syntheaSchema <span class="op">=</span> <span class="va">syntheaSchema</span>, cdmVersion <span class="op">=</span> <span class="va">cdmVersion</span>, syntheaVersion <span class="op">=</span> <span class="va">syntheaVersion</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">## Optional Step to create extra indices</span></span>
-<span><span class="fu">ETLSyntheaBuilder</span><span class="fu">::</span><span class="fu"><a href="reference/createExtraIndices.html">CreateExtraIndices</a></span><span class="op">(</span>connectionDetails <span class="op">=</span> <span class="va">cd</span>, cdmSchema <span class="op">=</span> <span class="va">cdmSchema</span>, syntheaSchema <span class="op">=</span> <span class="va">syntheaSchema</span>, cdmVersion <span class="op">=</span> <span class="va">cdmVersion</span>, syntheaVersion <span class="op">=</span> <span class="va">syntheaVersion</span><span class="op">)</span></span>
+<span><span class="fu">ETLSyntheaBuilder</span><span class="fu">::</span><span class="fu"><a href="reference/createExtraIndices.html">CreateExtraIndices</a></span><span class="op">(</span>connectionDetails <span class="op">=</span> <span class="va">cd</span>, cdmSchema <span class="op">=</span> <span class="va">cdmSchema</span>, syntheaSchema <span class="op">=</span> <span class="va">syntheaSchema</span>, syntheaVersion <span class="op">=</span> <span class="va">syntheaVersion</span><span class="op">)</span></span>
 <span>                                    </span>
 <span><span class="fu">ETLSyntheaBuilder</span><span class="fu">::</span><span class="fu"><a href="reference/LoadEventTables.html">LoadEventTables</a></span><span class="op">(</span>connectionDetails <span class="op">=</span> <span class="va">cd</span>, cdmSchema <span class="op">=</span> <span class="va">cdmSchema</span>, syntheaSchema <span class="op">=</span> <span class="va">syntheaSchema</span>, cdmVersion <span class="op">=</span> <span class="va">cdmVersion</span>, syntheaVersion <span class="op">=</span> <span class="va">syntheaVersion</span><span class="op">)</span></span></code></pre></div>
 </div>
