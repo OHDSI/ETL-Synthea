@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ETLSyntheaBuilder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -26,19 +26,34 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/Condition_occurrence.html">Condition_occurrence</a>
+      <a href="../articles/care_site.html">Care_site</a>
     </li>
     <li>
-      <a href="../articles/Drug_exposure.html">Drug_exposure</a>
+      <a href="../articles/condition_occurrence.html">Condition_occurrence</a>
     </li>
     <li>
-      <a href="../articles/Measurement.html">Measurement</a>
+      <a href="../articles/cost.html">Cost</a>
+    </li>
+    <li>
+      <a href="../articles/death.html">Death</a>
+    </li>
+    <li>
+      <a href="../articles/device_exposure.html">Device_exposure</a>
+    </li>
+    <li>
+      <a href="../articles/drug_exposure.html">Drug_exposure</a>
+    </li>
+    <li>
+      <a href="../articles/location.html">Location</a>
+    </li>
+    <li>
+      <a href="../articles/measurement.html">Measurement</a>
     </li>
     <li>
       <a href="../articles/observation.html">Observation</a>
@@ -47,10 +62,19 @@
       <a href="../articles/observation_period.html">Observation_period</a>
     </li>
     <li>
+      <a href="../articles/payer_plan_period.html">Payer_plan_period</a>
+    </li>
+    <li>
       <a href="../articles/person.html">Person</a>
     </li>
     <li>
       <a href="../articles/procedure_occurrence.html">Procedure_occurrence</a>
+    </li>
+    <li>
+      <a href="../articles/provider.html">Provider</a>
+    </li>
+    <li>
+      <a href="../articles/visit_detail.html">Visit Detail</a>
     </li>
     <li>
       <a href="../articles/visit_occurrence.html">Visit Occurrence</a>
@@ -72,20 +96,36 @@
       <h3>All vignettes</h3>
       <p class="section-desc"></p>
 
-      <dl><dt><a href="Condition_occurrence.html">Condition_occurrence</a></dt>
+      <dl><dt><a href="care_site.html">Care_site</a></dt>
+        <dd><p>Care_site mapping from organizations.csv</p>
+        </dd><dt><a href="condition_occurrence.html">Condition_occurrence</a></dt>
         <dd><p>Condition_occurrence mapping from conditions.csv</p>
-        </dd><dt><a href="Drug_exposure.html">Drug_exposure</a></dt>
+        </dd><dt><a href="cost.html">Cost</a></dt>
+        <dd><p>Cost mapping from procedures.csv,immunizations.csv and medications.csv for v2.7.0 and expanded to include conditions.csv, claims_transations.csv and claims.csv for v3.0.0</p>
+        </dd><dt><a href="death.html">Death</a></dt>
+        <dd><p>Death mapping from encounters.csv</p>
+        </dd><dt><a href="device_exposure.html">Device_exposure</a></dt>
+        <dd><p>Device_exposure mapping from devices.csv</p>
+        </dd><dt><a href="drug_exposure.html">Drug_exposure</a></dt>
         <dd><p>Drug_exposure mapping from medications.csv, and immunizations.csv</p>
-        </dd><dt><a href="Measurement.html">Measurement</a></dt>
+        </dd><dt><a href="location.html">Location</a></dt>
+        <dd><p>location mapping from patients.csv</p>
+        </dd><dt><a href="measurement.html">Measurement</a></dt>
         <dd><p>Measurement mapping from procedures.csv and observations.csv</p>
         </dd><dt><a href="observation.html">Observation</a></dt>
-        <dd><p>Observation mapping from allergies.csv and conditions.csv</p>
+        <dd><p>Observation mapping from allergies.csv, conditions.csv and observations.csv</p>
         </dd><dt><a href="observation_period.html">Observation_period</a></dt>
         <dd><p>Observation_period mapping from encounters.csv</p>
+        </dd><dt><a href="payer_plan_period.html">Payer_plan_period</a></dt>
+        <dd><p>Payer_plan_period mapping from payers.csv and payer_transitions.csv</p>
         </dd><dt><a href="person.html">Person</a></dt>
         <dd><p>Person mapping from patients.csv</p>
         </dd><dt><a href="procedure_occurrence.html">Procedure_occurrence</a></dt>
         <dd><p>Procedure_occurrence mapping from procedures.csv</p>
+        </dd><dt><a href="provider.html">Provider</a></dt>
+        <dd><p>Provider mapping from providers.csv</p>
+        </dd><dt><a href="visit_detail.html">Visit Detail</a></dt>
+        <dd><p>Visit_occurrence mapping from encounters.csv</p>
         </dd><dt><a href="visit_occurrence.html">Visit Occurrence</a></dt>
         <dd><p>Visit_occurrence mapping from encounters.csv</p>
       </dd></dl></div>
@@ -94,11 +134,11 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Anthony Molinaro.</p>
+  <p></p><p>Developed by Evanette Burrows.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

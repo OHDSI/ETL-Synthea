@@ -25,8 +25,8 @@ d.start                                     device_exposure_start_date,
 d.start                                     device_exposure_start_datetime,
 d.stop                                      device_exposure_end_date,
 d.stop                                      device_exposure_end_datetime,
-38000267                                    device_type_concept_id,
-d.udi                                       unique_device_id,
+32827                                    device_type_concept_id,
+left(d.udi,50)                                       unique_device_id,
 cast(null as int)                           quantity,
 pr.provider_id                              provider_id,
 fv.visit_occurrence_id_new                  visit_occurrence_id,
@@ -50,7 +50,7 @@ left join @cdm_schema.final_visit_ids fv
 left join @synthea_schema.encounters e
   on d.encounter                        = e.id
  and d.patient                          = e.patient
-left join @cdm_schema.provider pr 
+left join @cdm_schema.provider pr
   on e.provider                         = pr.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value              = d.patient

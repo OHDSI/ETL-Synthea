@@ -1,14 +1,22 @@
-pandoc: 2.14.0.3
-pkgdown: 2.0.0
+pandoc: 3.1.1
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  Condition_occurrence: Condition_occurrence.html
-  Drug_exposure: Drug_exposure.html
-  Measurement: Measurement.html
+  care_site: care_site.html
+  condition_occurrence: condition_occurrence.html
+  cost: cost.html
+  death: death.html
+  device_exposure: device_exposure.html
+  drug_exposure: drug_exposure.html
+  location: location.html
+  measurement: measurement.html
   observation: observation.html
   observation_period: observation_period.html
+  payer_plan_period: payer_plan_period.html
   person: person.html
   procedure_occurrence: procedure_occurrence.html
+  provider: provider.html
+  visit_detail: visit_detail.html
   visit_occurrence: visit_occurrence.html
-last_built: 2021-12-22T20:18Z
+last_built: 2024-02-23T16:59Z
 

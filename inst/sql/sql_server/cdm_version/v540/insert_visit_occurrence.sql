@@ -35,7 +35,7 @@ select
 	av.visit_start_date,
 	av.visit_end_date,
 	av.visit_end_date,
-	44818517,                             
+	32827,                             
 	pr.provider_id,                                 
 	null,                                 
 	av.encounter_id,

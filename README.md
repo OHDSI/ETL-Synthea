@@ -1,11 +1,12 @@
 # Utility to Load Synthea CSV data to OMOP CDM
-## Currently supports CDM v5.3 and v5.4 
+
+## Currently supports CDM v5.3 and v5.4
 
 Follow the steps on the [synthea wiki](https://github.com/synthetichealth/synthea/wiki) to run the program and generate the files. This builder works off of the csv files, not the fhir files. To do this the `exporter.csv.export` option in the `./src/main/resources/synthea.properties` file needs to be set to TRUE.
 
 ### Step by Step Example
 
-```r
+``` r
  devtools::install_github("OHDSI/ETL-Synthea")
 
  library(ETLSyntheaBuilder)
@@ -14,8 +15,10 @@ Follow the steps on the [synthea wiki](https://github.com/synthetichealth/synthe
  # The ETLSyntheaBuilder package leverages the OHDSI/CommonDataModel package for CDM creation.
  # Valid CDM versions are determined by executing CommonDataModel::listSupportedVersions().
  # The strings representing supported CDM versions are currently "5.3" and "5.4". 
- # The Synthea version we use in this example is 2.7.0.  Since Synthea's MASTER branch is always active,
- # the only other version we support is 3.0.0.
+ # The Synthea version we use in this example is 2.7.0.
+ # However, at this time we also support 3.0.0, 3.1.0 and 3.2.0.
+ # Please note that Synthea's MASTER branch is always active and this package will be updated to support
+ # future versions as possible.
  # The schema to load the Synthea tables is called "native".
  # The schema to load the Vocabulary and CDM tables is "cdm_synthea10".  
  # The username and pw are "postgres" and "lollipop".
@@ -46,16 +49,19 @@ ETLSyntheaBuilder::CreateSyntheaTables(connectionDetails = cd, syntheaSchema = s
 ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails = cd, syntheaSchema = syntheaSchema, syntheaFileLoc = syntheaFileLoc)
                                      
 ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails = cd, cdmSchema = cdmSchema, vocabFileLoc = vocabFileLoc)
+
+ETLSyntheaBuilder::CreateMapAndRollupTables(connectionDetails = cd, cdmSchema = cdmSchema, syntheaSchema = syntheaSchema, cdmVersion = cdmVersion, syntheaVersion = syntheaVersion)
+
+## Optional Step to create extra indices
+ETLSyntheaBuilder::CreateExtraIndices(connectionDetails = cd, cdmSchema = cdmSchema, syntheaSchema = syntheaSchema, syntheaVersion = syntheaVersion)
                                     
 ETLSyntheaBuilder::LoadEventTables(connectionDetails = cd, cdmSchema = cdmSchema, syntheaSchema = syntheaSchema, cdmVersion = cdmVersion, syntheaVersion = syntheaVersion)
-
 ```
 
 ### Simulating Data with Synthea
+
 For commented code used to convert the Synthea data see extras/codeToRun.R
 
-For more information on Synthea visit:
-https://synthetichealth.github.io/synthea/
+For more information on Synthea visit: <https://synthetichealth.github.io/synthea/>
 
-Get Synthea from GitHub:
-https://github.com/synthetichealth/synthea
+Get Synthea from GitHub: <https://github.com/synthetichealth/synthea>

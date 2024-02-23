@@ -18,3 +18,8 @@ This guide is meant to show the process by which the synthetic data set [Synthea
 * [Procedures](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#procedures)
 * [Allergies](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#allergies)
 * [Immunizations](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#immunizations)
+* [Devices](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#devices)
+* [Payers](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#payers)
+* [Payer Transitions](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#payer-transitions)
+* [Providers](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#providers)
+* [Organizations](https://github.com/synthetichealth/synthea/wiki/CSV-File-Data-Dictionary#organizations)

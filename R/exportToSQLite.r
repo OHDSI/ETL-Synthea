@@ -18,7 +18,6 @@
 exportToSQLite <-
   function(connectionDetails,
            cdmSchema,
-           cdmVersion,
            SQLiteDbName = "cdm.sqlite")
   {
     conn      <- DatabaseConnector::connect(connectionDetails)
@@ -26,72 +25,35 @@ exportToSQLite <-
       DatabaseConnector::createConnectionDetails(dbms = "sqlite", server = SQLiteDbName)
     sqliteCon <- DatabaseConnector::connect(sqliteCD)
 
-    if (cdmVersion == "5.3")
-      eventTable <- c(
-        "attribute_definition",
-        "care_site",
-        "cdm_source",
-        "cohort_definition",
-        "condition_era",
-        "condition_occurrence",
-        "cost",
-        "death",
-        "device_exposure",
-        "dose_era",
-        "drug_era",
-        "drug_exposure",
-        "fact_relationship",
-        "location",
-        "measurement",
-        "metadata",
-        "note",
-        "note_nlp",
-        "observation",
-        "observation_period",
-        "payer_plan_period",
-        "person",
-        "procedure_occurrence",
-        "provider",
-        "specimen",
-        "visit_detail",
-        "visit_occurrence"
-      )
-    else if (cdmVersion == "5.4")
-      eventTable <- c(
-        "care_site",
-        "cdm_source",
-        "cohort",
-        "cohort_definition",
-        "condition_era",
-        "condition_occurrence",
-        "cost",
-        "death",
-        "device_exposure",
-        "dose_era",
-        "drug_era",
-        "drug_exposure",
-        "episode",
-        "episode_event",
-        "fact_relationship",
-        "location",
-        "measurement",
-        "metadata",
-        "note",
-        "note_nlp",
-        "observation",
-        "observation_period",
-        "payer_plan_period",
-        "person",
-        "procedure_occurrence",
-        "provider",
-        "specimen",
-        "visit_detail",
-        "visit_occurrence"
-      )
-    else
-      stop("Unsupported CDM specified. Supported CDM versions are \"5.3\" and \"5.4\"")
-
-
+    eventTable <- c(
+      "care_site",
+      "cdm_source",
+      "cohort",
+      "cohort_attribute",
+      "condition_era",
+      "condition_occurrence",
+      "cost",
+      "death",
+      "device_exposure",
+      "dose_era",
+      "drug_era",
+      "drug_exposure",
+      "fact_relationship",
+      "location",
+      "measurement",
+      "metadata",
+      "note",
+      "note_nlp",
+      "observation",
+      "observation_period",
+      "payer_plan_period",
+      "person",
+      "procedure_occurrence",
+      "provider",
+      "specimen",
+      "visit_detail",
+      "visit_occurrence"
+    )
 
     vocabTable <- c(
       "concept",
@@ -110,10 +72,14 @@ exportToSQLite <-
       sqlQuery <-
         paste0("select * from  ", paste0(cdmSchema, ".", tableName), ";")
       translatedSql <-
-        SqlRender::translate(sql=sqlQuery, targetDialect = connectionDetails$dbms)
+        SqlRender::translate(sqlQuery, targetDialect = connectionDetails$dbms)
       writeLines(paste0("Fetching: ", tableName))
-      tableData <- DatabaseConnector::querySql(connection=conn, sql=translatedSql)
-      DatabaseConnector::insertTable(connection=sqliteCon, tableName=toupper(tableName), data=tableData)
+      tableData <- DatabaseConnector::querySql(conn, translatedSql)
+      DatabaseConnector::insertTable(
+        connection = sqliteCon,
+        tableName = toupper(tableName),
+        data = tableData
+      )
     }
 
     DatabaseConnector::disconnect(conn)

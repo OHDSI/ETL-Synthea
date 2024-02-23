@@ -9,3 +9,4 @@ inst/sqlite
 .gitignore
 ^doc$
 ^\.github$
+extras

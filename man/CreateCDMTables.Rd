@@ -9,6 +9,7 @@ CreateCDMTables(
   cdmSchema,
   cdmVersion,
   outputFolder = NULL,
+  createIndices = FALSE,
   sqlOnly = FALSE
 )
 }
@@ -25,13 +26,16 @@ so for example 'cdm_instance.dbo'.}
 
 \item{outputFolder}{Location of the SQL scripts if sqlOnly = TRUE. Default is NULL.}
 
-\item{sqlOnly}{A boolean that determines whether or not to perform the load or generate SQL scripts. Default is FALSE.}
+\item{createIndices}{A boolean that determines whether or not to create indices on CDM tables after they are created.}
+
+\item{sqlOnly}{A boolean that determines whether to create the tables or generate SQL scripts. Default is FALSE.}
 }
 \description{
 This function creates the all the required tables for the CDM.
 }
 \details{
 This function creates all the tables in a CDM by calling \code{CommonDataModel::executeDdl()}.
+         Indices, if created, come from \code{CommonDataModel::writeIndex()}.
          Supported CDM versions and db dialects are determined by \code{CommonDataModel::listSupportedVersions()}
          and \code{CommonDataModel::listSupportedDialects()}, respectively.
 }

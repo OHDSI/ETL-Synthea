@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ETLSyntheaBuilder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -43,20 +43,35 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/Condition_occurrence.html">Condition_occurrence</a>
+      <a href="../articles/care_site.html">Care_site</a>
     </li>
     <li>
-      <a href="../articles/Drug_exposure.html">Drug_exposure</a>
+      <a href="../articles/condition_occurrence.html">Condition_occurrence</a>
     </li>
     <li>
-      <a href="../articles/Measurement.html">Measurement</a>
+      <a href="../articles/cost.html">Cost</a>
+    </li>
+    <li>
+      <a href="../articles/death.html">Death</a>
+    </li>
+    <li>
+      <a href="../articles/device_exposure.html">Device_exposure</a>
+    </li>
+    <li>
+      <a href="../articles/drug_exposure.html">Drug_exposure</a>
+    </li>
+    <li>
+      <a href="../articles/location.html">Location</a>
+    </li>
+    <li>
+      <a href="../articles/measurement.html">Measurement</a>
     </li>
     <li>
       <a href="../articles/observation.html">Observation</a>
@@ -65,10 +80,19 @@
       <a href="../articles/observation_period.html">Observation_period</a>
     </li>
     <li>
+      <a href="../articles/payer_plan_period.html">Payer_plan_period</a>
+    </li>
+    <li>
       <a href="../articles/person.html">Person</a>
     </li>
     <li>
       <a href="../articles/procedure_occurrence.html">Procedure_occurrence</a>
+    </li>
+    <li>
+      <a href="../articles/provider.html">Provider</a>
+    </li>
+    <li>
+      <a href="../articles/visit_detail.html">Visit Detail</a>
     </li>
     <li>
       <a href="../articles/visit_occurrence.html">Visit Occurrence</a>
@@ -99,19 +123,42 @@
 
     
     
-<div class="section level1">
-<h1 id="visit_occurrence">Visit_occurrence<a class="anchor" aria-label="anchor" href="#visit_occurrence"></a>
-</h1>
 <div class="section level2">
-<h2 id="reading-from-synthea-table-encounters-csv">Reading from Synthea table encounters.csv<a class="anchor" aria-label="anchor" href="#reading-from-synthea-table-encounters-csv"></a>
+<h2 id="visit_occurrence">Visit_occurrence<a class="anchor" aria-label="anchor" href="#visit_occurrence"></a>
 </h2>
 <div class="section level3">
-<h3 id="step-1">STEP 1<a class="anchor" aria-label="anchor" href="#step-1"></a>
+<h3 id="reading-from-synthea-table-encounters-csv">Reading from Synthea table encounters.csv<a class="anchor" aria-label="anchor" href="#reading-from-synthea-table-encounters-csv"></a>
 </h3>
-<p>For encounterclass = ‘Inpatient’ (IP): 1. Sort data in ascending order by PATIENT, START, END. 2. Then by PERSON_ID, collapse lines of claim as long as the time between the END of one line and the START of the next is &lt;=1 day. 3. Each consolidated inpatient claim is then considered as one inpatient visit, set 1. MIN(START) as VISIT_START_DATE 2. MAX(END) as VISIT_END_DATE 3. ‘IP’ as PLACE_OF_SERVICE_SOURCE_VALUE 4. See if any records with encounterclass ‘outpatient’ (OP), ‘ambulatory’ (OP), ‘wellness’ (OP), ‘emergency’ (ER) or ‘urgentcare’ (ER) occur during an identified ‘inpatient’ visit. These should be consolidated into the ‘inpatient’ visit, unless it is an ‘emergency’ or ‘urgentcare’ visit that starts and ends on the first day of the ‘inpatient’ visit. Types of outpatient (OP) visits not collapsed: 1. If an OP starts before an IP but ends during an IP 2. If an OP starts before and ends after an IP visit. If an OP is collapsed into an IP and its VISIT_END_DATE is greater than the IP’s VISIT_END_DATE it does not change the IP VISIT_END_DATE.</p>
-<p>For claim type in (‘emergency’,‘urgentcare’) (ER) 1. Sort data in ascending order by PATIENT, START, END. 2. Then by PERSON_ID, collapse all (ER) claims that start on the same day as one ER visit, then take START as VISIT_START_DATE, MAX (END) as VISIT_END_DATE, and ‘ER’ as PLACE_OF_SERVICE_SOURCE_VALUE.</p>
-<p>For claim type in (‘ambulatory’, ‘wellness’, ‘outpatient’) (OP) 1. Sort data in ascending order by PATIENT, START, END. 2. Then by PERSON_ID take START as VISIT_START_DATE, MAX(END) as VISIT_END_DATE, and ‘OP’ as PLACE_OF_SERVICE_SOURCE_VALUE.</p>
-<p>Use logic found here: <a href="https://github.com/OHDSI/ETL-Synthea/blob/master/ETL/SQL/AllVisitTable.sql" class="external-link uri">https://github.com/OHDSI/ETL-Synthea/blob/master/ETL/SQL/AllVisitTable.sql</a></p>
+<div class="section level4">
+<h4 id="step-1">STEP 1<a class="anchor" aria-label="anchor" href="#step-1"></a>
+</h4>
+<p>For encounterclass = ‘Inpatient’ (IP): 1. Sort data in ascending
+order by PATIENT, START, END. 2. Then by PERSON_ID, collapse lines of
+claim as long as the time between the END of one line and the START of
+the next is &lt;=1 day. 3. Each consolidated inpatient claim is then
+considered as one inpatient visit, set 1. MIN(START) as VISIT_START_DATE
+2. MAX(END) as VISIT_END_DATE 3. ‘IP’ as PLACE_OF_SERVICE_SOURCE_VALUE
+4. See if any records with encounterclass ‘outpatient’ (OP),
+‘ambulatory’ (OP), ‘wellness’ (OP), ‘emergency’ (ER) or ‘urgentcare’
+(ER) occur during an identified ‘inpatient’ visit. These should be
+consolidated into the ‘inpatient’ visit, unless it is an ‘emergency’ or
+‘urgentcare’ visit that starts and ends on the first day of the
+‘inpatient’ visit. Types of outpatient (OP) visits not collapsed: 1. If
+an OP starts before an IP but ends during an IP 2. If an OP starts
+before and ends after an IP visit. If an OP is collapsed into an IP and
+its VISIT_END_DATE is greater than the IP’s VISIT_END_DATE it does not
+change the IP VISIT_END_DATE.</p>
+<p>For claim type in (‘emergency’,‘urgentcare’) (ER) 1. Sort data in
+ascending order by PATIENT, START, END. 2. Then by PERSON_ID, collapse
+all (ER) claims that start on the same day as one ER visit, then take
+START as VISIT_START_DATE, MAX (END) as VISIT_END_DATE, and ‘ER’ as
+PLACE_OF_SERVICE_SOURCE_VALUE.</p>
+<p>For claim type in (‘ambulatory’, ‘wellness’, ‘outpatient’) (OP) 1.
+Sort data in ascending order by PATIENT, START, END. 2. Then by
+PERSON_ID take START as VISIT_START_DATE, MAX(END) as VISIT_END_DATE,
+and ‘OP’ as PLACE_OF_SERVICE_SOURCE_VALUE.</p>
+<p>Use logic found here (depending on cdm version - CDM v5.4 provided as
+example): <a href="https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v540/AllVisitTable.sql" class="external-link uri">https://github.com/OHDSI/ETL-Synthea/blob/main/inst/sql/sql_server/cdm_version/v540/AllVisitTable.sql</a></p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -129,19 +176,24 @@
 <tr class="odd">
 <td>visit_occurrence_id</td>
 <td></td>
-<td></td>
+<td>all_visits.visit_occurrence_id</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>person_id</td>
 <td>patient</td>
-<td>Map by mapping person.person_source_value to patient. Find person.person_id by mapping encouters.patient to person.person_source_value.</td>
+<td>Map by mapping person.person_source_value to patient. Find
+person.person_id by mapping encouters.patient to
+person.person_source_value.</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>visit_concept_id</td>
 <td>encounterclass</td>
-<td>When encounterclass is ‘emergency’ or ‘urgentcare’ then set to 9203. When encounterclass is ‘ambulatory’, ‘wellness’, or ‘outpatient’ then set to 9202. When encounterclass is ‘inpatient’ then set to 9201. Otherwise set to 0.</td>
+<td>When encounterclass is ‘emergency’ or ‘urgentcare’ then set to 9203.
+When encounterclass is ‘ambulatory’, ‘wellness’, or ‘outpatient’ then
+set to 9202. When encounterclass is ‘inpatient’ then set to 9201.
+Otherwise set to 0.</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -171,61 +223,62 @@
 <tr class="even">
 <td>visit_type_concept_id</td>
 <td></td>
+<td>Set all records as concept_id 32827 (EHR encounter record).</td>
 <td></td>
-<td>Set all records as concept_id 44818517.</td>
 </tr>
 <tr class="odd">
 <td>provider_id</td>
-<td></td>
+<td>encounters.provider</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
 <td>care_site_id</td>
 <td></td>
-<td></td>
+<td>Set to null for all records</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>visit_source_value</td>
-<td>encounterclass</td>
+<td>all_visits.encounters_id</td>
 <td></td>
 <td></td>
 </tr>
 <tr class="even">
 <td>visit_source_concept_id</td>
 <td></td>
-<td></td>
+<td>Set to 0 for all records</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>admitted_from_concept_id</td>
 <td></td>
-<td></td>
+<td>Set to 0 for all records</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>admitted_from_source_value</td>
 <td></td>
-<td></td>
+<td>Set to null for all records</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>discharge_to_concept_id</td>
 <td></td>
-<td></td>
+<td>Set to 0 for all records</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>discharge_to_source_value</td>
 <td></td>
-<td></td>
+<td>Set to null for all records</td>
 <td></td>
 </tr>
 <tr class="odd">
 <td>preceding_visit_occurrence_id</td>
 <td></td>
-<td></td>
+<td>lag(all_visits.visit_occurrence_id) over(partition by
+person.person_id order by all_visits.visit_start_date)</td>
 <td></td>
 </tr>
 </tbody>
@@ -247,12 +300,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Anthony Molinaro.</p>
+<p>Developed by Evanette Burrows.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

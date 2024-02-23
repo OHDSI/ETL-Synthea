@@ -29,14 +29,14 @@ pr.date                                  procedure_end_date,
 pr.date                                  procedure_end_datetime,
 }
 
-{@synthea_version == "3.0.0"} ? {
+{@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0" } ? {
 pr.start                                 procedure_date,
 pr.start                                 procedure_datetime,
 pr.stop                                  procedure_end_date,
 pr.stop                                  procedure_end_datetime,
 }
 
-38000267                                 procedure_type_concept_id,
+32827                                    procedure_type_concept_id,
 0                                        modifier_concept_id,
 cast(null as integer)                    quantity,
 prv.provider_id                          provider_id,

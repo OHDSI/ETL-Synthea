@@ -17,13 +17,13 @@ function \code{createConnectionDetails} in the
 \code{DatabaseConnector} package.}
 
 \item{cdmSchema}{The name of the CDM database schema.  Requires read and write permissions to this database. On SQL
-Server, this should specifiy both the database and the schema,
+Server, this should specify both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
-\item{cdmVersion}{Your CDM version.  Currently "5.3.1" and "6.0.0" are supported.}
+\item{cdmVersion}{Your CDM version.  Currently "5.3.1" and "5.4.0" are supported.}
 
 \item{githubTag}{An optional github tag from which to pull the DDL script.
-Currently "v5.3.1", "v5.3.1_fixes", "v6.0.0", and "v6.0.0_fixes" are supported.  The default is NULL.}
+Currently "v5.3.1" and "v5.4.0" are supported.  The default is NULL.}
 }
 \description{
 This function creates one or more SQL scripts as defined in https://github.com/OHDSI/CommonDataModel.
