@@ -25,7 +25,7 @@ pr.date                                  procedure_date,
 pr.date                                  procedure_datetime,
 }
 
-{@synthea_version == "3.0.0"} ? {
+{@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0" } ? {
 pr.start                                 procedure_date,
 pr.start                                 procedure_datetime,
 }
