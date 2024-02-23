@@ -19,6 +19,12 @@ race_source_concept_id,
 ethnicity_source_value,
 ethnicity_source_concept_id
 )
+with mapped_states as (
+
+	select distinct l.location_id,l.city,states_map.state,l.zip
+	from @cdm_schema.location l
+	left join @cdm_schema.states_map states_map on l.state=states_map.state_abbreviation
+)
 select
 	row_number()over(order by p.id),
 	case upper(p.gender)
@@ -40,7 +46,7 @@ select
       when Upper(p.ethnicity) = 'NONHISPANIC' then 38003564
       else 0
     end,
-	NULL,
+	l.location_id,
 	NULL,
 	NULL,
 	p.id,
@@ -51,4 +57,5 @@ select
 	p.ethnicity,
 	0
 	from @synthea_schema.patients p
+	left join mapped_states l on p.city = l.city and p.state=l.state and p.zip=l.zip
 	where p.gender is not null;

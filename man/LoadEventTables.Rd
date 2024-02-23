@@ -26,20 +26,20 @@ function \code{createConnectionDetails} in the
 
 \item{cdmSchema}{The name of the database schema that will contain the CDM.
 Requires read and write permissions to this database. On SQL
-Server, this should specifiy both the database and the schema,
+Server, this should specify both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
 \item{syntheaSchema}{The name of the database schema that contain the Synthea
 instance.  Requires read and write permissions to this database. On SQL
-Server, this should specifiy both the database and the schema,
+Server, this should specify both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
 \item{cdmVersion}{The version of your CDM.  Currently "5.3" and "5.4".}
 
 \item{syntheaVersion}{The version of Synthea used to generate the csv files.
-Currently "2.7.0" and "3.0.0" are supported.}
+Currently "2.7.0","3.0.0","3.1.0" and "3.2.0" are supported.}
 
-\item{cdmSourceName}{The source name to insert into the CDM_SOURCE table.  Default is Synthea synthentic health database.}
+\item{cdmSourceName}{The source name to insert into the CDM_SOURCE table.  Default is Synthea synthetic health database.}
 
 \item{cdmSourceAbbreviation}{The source abbreviation to insert into the CDM_SOURCE table.  Default is Synthea.}
 
@@ -56,5 +56,5 @@ This function loads the CDM Event tables with Synthea data.
 }
 \details{
 This function assumes \cr\code{createCDMTables()}, \cr\code{createSyntheaTables()}, \cr\code{LoadSyntheaTables()},
-             and \cr\code{LoadVocabTables()} have all been run.
+             \cr\code{LoadVocabTables()}, and \cr\code{CreateMapAndRollupTables()} have all been run.
 }

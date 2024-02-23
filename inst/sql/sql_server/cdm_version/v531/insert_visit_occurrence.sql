@@ -20,14 +20,14 @@ preceding_visit_occurrence_id
 )
 select
   	av.visit_occurrence_id,
-	p.person_id,                          
+	p.person_id,
 
-	case lower(av.encounterclass) 
+	case lower(av.encounterclass)
 		when 'ambulatory'  then 9202
 		when 'emergency'   then 9203
 		when 'inpatient'   then 9201
 		when 'wellness'    then 9202
-		when 'urgentcare'  then 9203 
+		when 'urgentcare'  then 9203
 		when 'outpatient'  then 9202
 	else 0
 	end,
@@ -35,16 +35,16 @@ select
 	av.visit_start_date,
 	av.visit_end_date,
 	av.visit_end_date,
-	32827,                             
-	pr.provider_id,                                 
-	null,                                 
+	32827,
+	pr.provider_id,
+	cs.care_site_id,
 	av.encounter_id,
-	0,                                       
+	0,
 	0,
 	null,
-	0,                                
-	null,   
-	lag(av.visit_occurrence_id) 
+	0,
+	null,
+	lag(av.visit_occurrence_id)
 	 over(partition by p.person_id
 			  order by av.visit_start_date)
 from @cdm_schema.all_visits av
@@ -53,8 +53,10 @@ join @cdm_schema.person p
 join @synthea_schema.encounters e
   on av.encounter_id = e.id
  and av.patient = e.patient
-join @cdm_schema.provider pr 
+join @cdm_schema.provider pr
   on e.provider = pr.provider_source_value
+join @cdm_schema.care_site cs
+  on e.organization = cs.care_site_source_value
 where av.visit_occurrence_id in (
 		select distinct visit_occurrence_id_new
 		from @cdm_schema.final_visit_ids);

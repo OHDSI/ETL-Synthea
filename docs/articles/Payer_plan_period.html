@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ETLSyntheaBuilder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -50,31 +50,37 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/Condition_occurrence.html">Condition_occurrence</a>
+      <a href="../articles/care_site.html">Care_site</a>
     </li>
     <li>
-      <a href="../articles/Cost.html">Cost</a>
+      <a href="../articles/condition_occurrence.html">Condition_occurrence</a>
     </li>
     <li>
-      <a href="../articles/Device_exposure.html">Device_exposure</a>
-    </li>
-    <li>
-      <a href="../articles/Drug_exposure.html">Drug_exposure</a>
-    </li>
-    <li>
-      <a href="../articles/Measurement.html">Measurement</a>
-    </li>
-    <li>
-      <a href="../articles/Payer_plan_period.html">Payer_plan_period</a>
+      <a href="../articles/cost.html">Cost</a>
     </li>
     <li>
       <a href="../articles/death.html">Death</a>
+    </li>
+    <li>
+      <a href="../articles/device_exposure.html">Device_exposure</a>
+    </li>
+    <li>
+      <a href="../articles/drug_exposure.html">Drug_exposure</a>
+    </li>
+    <li>
+      <a href="../articles/location.html">Location</a>
+    </li>
+    <li>
+      <a href="../articles/measurement.html">Measurement</a>
     </li>
     <li>
       <a href="../articles/observation.html">Observation</a>
     </li>
     <li>
       <a href="../articles/observation_period.html">Observation_period</a>
+    </li>
+    <li>
+      <a href="../articles/payer_plan_period.html">Payer_plan_period</a>
     </li>
     <li>
       <a href="../articles/person.html">Person</a>
@@ -111,7 +117,7 @@
             
       
       
-      <div class="hidden name"><code>Payer_plan_period.Rmd</code></div>
+      <div class="hidden name"><code>payer_plan_period.Rmd</code></div>
 
     </div>
 
@@ -157,14 +163,16 @@ payer_transitions.patient to person.person_source_value.</td>
 <td>payer_plan_period_start_date</td>
 <td>start_year</td>
 <td>For synthea v2.7.0 CAST(CONCAT(‘01-JAN-’,CAST(pt.start_year AS
-VARCHAR)) AS DATE) For synthea v3.0.0 CAST(pt.start_year AS DATE)</td>
+VARCHAR)) AS DATE) For synthea v3.0.0 CAST(pt.start_year AS DATE) For
+synthea v3.1.0 and v3.2.0 CAST(pt.start_date AS DATE)</td>
 <td></td>
 </tr>
 <tr class="even">
 <td>payer_plan_period_start_date</td>
 <td>end_year</td>
 <td>For synthea v2.7.0 CAST(CONCAT(‘01-JAN-’,CAST(pt.end_year AS
-VARCHAR)) AS DATE) For synthea v3.0.0 CAST(pt.end_year AS DATE)</td>
+VARCHAR)) AS DATE) For synthea v3.0.0 CAST(pt.end_year AS DATE) For
+synthea v3.1.0 and v3.2.0 CAST(pt.end_date AS DATE)</td>
 <td></td>
 </tr>
 <tr class="odd">
@@ -263,7 +271,7 @@ VARCHAR)) AS DATE) For synthea v3.0.0 CAST(pt.end_year AS DATE)</td>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Anthony Molinaro.</p>
+<p>Developed by Evanette Burrows.</p>
 </div>
 
 <div class="pkgdown">

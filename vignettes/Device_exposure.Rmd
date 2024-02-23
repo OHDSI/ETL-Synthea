@@ -23,7 +23,7 @@ vignette: >
 | device_exposure_end_date | stop |  |  |
 | device_exposure_end_datetime | stop |  |  |
 | device_type_concept_id |  | Set to 32827 (EHR encounter record) for all records |  |
-| unique_device_id |udi  |  |  |
+| unique_device_id |udi  | For OMOP v5.3 left(udi,50) to account for unique_device_id character length  |  |
 | quantity |  | cast(null as integer) |  |
 | provider_id | provider | Look up provider_id using provider, joining to the provider.provider_source_value field in the omop table  |  |
 | visit_occurrence_id | encounter | Lookup visit_occurrence_id using encounter, joining to temp table defined in AllVisitTable.sql. |  |

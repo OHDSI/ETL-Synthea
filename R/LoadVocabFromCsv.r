@@ -54,9 +54,7 @@ LoadVocabFromCsv <-
           na.strings = ""
         )
 
-      if (tolower(csv) == "concept.csv" ||
-          tolower(csv) == "concept_relationship.csv" ||
-          tolower(csv) == "drug_strength.csv") {
+      if (tolower(csv) == "concept.csv" || tolower(csv) == "concept_relationship.csv" || tolower(csv) == "drug_strength.csv") {
         writeLines(" - handling dates")
         vocabTable$valid_start_date <-
           as.Date(as.character(vocabTable$valid_start_date), "%Y%m%d")

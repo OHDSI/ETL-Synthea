@@ -38,6 +38,6 @@ This function assumes \cr\code{createSyntheaTables()} has already been run.  Add
                  \cr\code{./run_synthea -p 1000}
 
               You can enable csv records in src/main/resources/synthea.properties by setting exporter.csv.export = true.
-              As of the time of this writing the csv files can be found at synthe/output/csv.
+              As of the time of this writing the csv files can be found at synthea/output/csv.
               For more details: \href{https://github.com/synthetichealth/synthea/wiki/Basic-Setup-and-Running}{Synthea Basic Setup}
 }

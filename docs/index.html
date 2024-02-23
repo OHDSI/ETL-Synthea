@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ETLSyntheaBuilder</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -56,31 +56,37 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/Condition_occurrence.html">Condition_occurrence</a>
+      <a href="articles/care_site.html">Care_site</a>
     </li>
     <li>
-      <a href="articles/Cost.html">Cost</a>
+      <a href="articles/condition_occurrence.html">Condition_occurrence</a>
     </li>
     <li>
-      <a href="articles/Device_exposure.html">Device_exposure</a>
-    </li>
-    <li>
-      <a href="articles/Drug_exposure.html">Drug_exposure</a>
-    </li>
-    <li>
-      <a href="articles/Measurement.html">Measurement</a>
-    </li>
-    <li>
-      <a href="articles/Payer_plan_period.html">Payer_plan_period</a>
+      <a href="articles/cost.html">Cost</a>
     </li>
     <li>
       <a href="articles/death.html">Death</a>
+    </li>
+    <li>
+      <a href="articles/device_exposure.html">Device_exposure</a>
+    </li>
+    <li>
+      <a href="articles/drug_exposure.html">Drug_exposure</a>
+    </li>
+    <li>
+      <a href="articles/location.html">Location</a>
+    </li>
+    <li>
+      <a href="articles/measurement.html">Measurement</a>
     </li>
     <li>
       <a href="articles/observation.html">Observation</a>
     </li>
     <li>
       <a href="articles/observation_period.html">Observation_period</a>
+    </li>
+    <li>
+      <a href="articles/payer_plan_period.html">Payer_plan_period</a>
     </li>
     <li>
       <a href="articles/person.html">Person</a>
@@ -131,7 +137,7 @@
 <span> <span class="co"># The ETLSyntheaBuilder package leverages the OHDSI/CommonDataModel package for CDM creation.</span></span>
 <span> <span class="co"># Valid CDM versions are determined by executing CommonDataModel::listSupportedVersions().</span></span>
 <span> <span class="co"># The strings representing supported CDM versions are currently "5.3" and "5.4". </span></span>
-<span> <span class="co"># The Synthea version we use in this example is 2.7.0. However, at this time we also support 3.0.0.</span></span>
+<span> <span class="co"># The Synthea version we use in this example is 2.7.0. However, at this time we also support 3.0.0, 3.1.0 and 3.2.0.</span></span>
 <span> <span class="co"># Please note that Synthea's MASTER branch is always active and this package will be updated to support</span></span>
 <span> <span class="co"># future versions as possible.</span></span>
 <span> <span class="co"># The schema to load the Synthea tables is called "native".</span></span>
@@ -164,6 +170,11 @@
 <span><span class="fu">ETLSyntheaBuilder</span><span class="fu">::</span><span class="fu"><a href="reference/LoadSyntheaTables.html">LoadSyntheaTables</a></span><span class="op">(</span>connectionDetails <span class="op">=</span> <span class="va">cd</span>, syntheaSchema <span class="op">=</span> <span class="va">syntheaSchema</span>, syntheaFileLoc <span class="op">=</span> <span class="va">syntheaFileLoc</span><span class="op">)</span></span>
 <span>                                     </span>
 <span><span class="fu">ETLSyntheaBuilder</span><span class="fu">::</span><span class="fu"><a href="reference/LoadVocabFromCsv.html">LoadVocabFromCsv</a></span><span class="op">(</span>connectionDetails <span class="op">=</span> <span class="va">cd</span>, cdmSchema <span class="op">=</span> <span class="va">cdmSchema</span>, vocabFileLoc <span class="op">=</span> <span class="va">vocabFileLoc</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ETLSyntheaBuilder</span><span class="fu">::</span><span class="fu"><a href="reference/CreateMapAndRollupTables.html">CreateMapAndRollupTables</a></span><span class="op">(</span>connectionDetails <span class="op">=</span> <span class="va">cd</span>, cdmSchema <span class="op">=</span> <span class="va">cdmSchema</span>, syntheaSchema <span class="op">=</span> <span class="va">syntheaSchema</span>, cdmVersion <span class="op">=</span> <span class="va">cdmVersion</span>, syntheaVersion <span class="op">=</span> <span class="va">syntheaVersion</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Optional Step to create extra indices</span></span>
+<span><span class="fu">ETLSyntheaBuilder</span><span class="fu">::</span><span class="fu"><a href="reference/createExtraIndices.html">CreateExtraIndices</a></span><span class="op">(</span>connectionDetails <span class="op">=</span> <span class="va">cd</span>, cdmSchema <span class="op">=</span> <span class="va">cdmSchema</span>, syntheaSchema <span class="op">=</span> <span class="va">syntheaSchema</span>, cdmVersion <span class="op">=</span> <span class="va">cdmVersion</span>, syntheaVersion <span class="op">=</span> <span class="va">syntheaVersion</span><span class="op">)</span></span>
 <span>                                    </span>
 <span><span class="fu">ETLSyntheaBuilder</span><span class="fu">::</span><span class="fu"><a href="reference/LoadEventTables.html">LoadEventTables</a></span><span class="op">(</span>connectionDetails <span class="op">=</span> <span class="va">cd</span>, cdmSchema <span class="op">=</span> <span class="va">cdmSchema</span>, syntheaSchema <span class="op">=</span> <span class="va">syntheaSchema</span>, cdmVersion <span class="op">=</span> <span class="va">cdmVersion</span>, syntheaVersion <span class="op">=</span> <span class="va">syntheaVersion</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -197,7 +208,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Anthony Molinaro <br><small class="roles"> Maintainer </small>  </li>
+<li>Evanette Burrows <br><small class="roles"> Maintainer </small>  </li>
 </ul>
 </div>
 
@@ -209,7 +220,7 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Anthony Molinaro.</p>
+<p>Developed by Evanette Burrows.</p>
 </div>
 
 <div class="pkgdown">
