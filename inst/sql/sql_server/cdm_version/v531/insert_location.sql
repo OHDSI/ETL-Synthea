@@ -23,5 +23,5 @@ cast(null as varchar)               county,
 p.zip                               zip,
 p.zip                               location_source_value
 from @synthea_schema.patients p
-left join cdm_synthea_30_v54.states_map states_map on p.state=states_map.state) locations
+left join @cdm_schema.states_map states_map on p.state=states_map.state) locations
 ;
