@@ -34,8 +34,8 @@ ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails,syntheaSchema,syntheaFile
 # Populate vocabulary tables
 ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails,cdmDatabaseSchema,vocabFileLoc)
 # Create intermediate vocabulary mapping and visit rollup tables
-ETLSyntheaBuilder::CreateMapAndRollupTables(connectionDetails = cd, cdmSchema = cdmSchema, syntheaSchema = syntheaSchema, cdmVersion = cdmVersion, syntheaVersion = syntheaVersion)
+ETLSyntheaBuilder::CreateMapAndRollupTables(connectionDetails, cdmDatabaseSchema,syntheaSchema,cdmVersion,syntheaVersion)
 ## Optional Step to create extra indices
-ETLSyntheaBuilder::CreateExtraIndices(connectionDetails = cd, cdmSchema = cdmSchema, syntheaSchema = syntheaSchema, cdmVersion = cdmVersion, syntheaVersion = syntheaVersion)
+ETLSyntheaBuilder::CreateExtraIndices(connectionDetails,cdmDatabaseSchema,syntheaSchema,syntheaVersion)
 # Populate event tables
 ETLSyntheaBuilder::LoadEventTables(connectionDetails,cdmDatabaseSchema,syntheaSchema,cdmVersion,syntheaVersion)
