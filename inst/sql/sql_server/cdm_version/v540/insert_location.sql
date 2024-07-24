@@ -6,8 +6,8 @@ address_1,
 address_2,
 city,
 state,
-zip,
 county,
+zip,
 location_source_value
 )
 select
