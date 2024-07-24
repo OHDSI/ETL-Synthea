@@ -6,12 +6,12 @@ address_1,
 address_2,
 city,
 state,
-zip,
 county,
+zip,
 location_source_value
 )
 select
-row_number() over () as location_id,
+row_number() over (order by city,state,zip) as location_id,
 locations.*
 from
 (select distinct
