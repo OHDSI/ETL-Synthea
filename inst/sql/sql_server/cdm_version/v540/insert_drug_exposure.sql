@@ -77,20 +77,20 @@ cast(null as varchar)                        route_source_value,
 cast(null as varchar)                        dose_unit_source_value
 from @synthea_schema.medications m
 join @cdm_schema.source_to_standard_vocab_map srctostdvm
-  on srctostdvm.source_code             = m.code
+  on srctostdvm.source_code             = CAST(m.code as VARCHAR)
  and srctostdvm.target_domain_id        = 'Drug'
  and srctostdvm.target_vocabulary_id    = 'RxNorm'
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason is null
 join @cdm_schema.source_to_source_vocab_map srctosrcvm
-  on srctosrcvm.source_code             = m.code
+  on srctosrcvm.source_code             = CAST(m.code as VARCHAR)
  and srctosrcvm.source_vocabulary_id    = 'RxNorm'
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id                    = m.encounter
 left join @synthea_schema.encounters e
   on m.encounter                        = e.id
  and m.patient                          = e.patient
-left join @cdm_schema.provider pr 
+left join @cdm_schema.provider pr
   on e.provider                         = pr.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value              = m.patient
@@ -112,30 +112,30 @@ cast(null as varchar)                       stop_reason,
 0                                           days_supply,
 cast(null as varchar)                       sig,
 0                                           route_concept_id,
-0                                           lot_number, 
+0                                           lot_number,
 pr.provider_id                              provider_id,
 fv.visit_occurrence_id_new                  visit_occurrence_id,
 fv.visit_occurrence_id_new + 1000000        visit_detail_id,
 i.code                                      drug_source_value,
-srctosrcvm.source_concept_id                drug_source_concept_id,     
+srctosrcvm.source_concept_id                drug_source_concept_id,
 cast(null as varchar)                       route_source_value,
 cast(null as varchar)                       dose_unit_source_value
 from @synthea_schema.immunizations i
 join @cdm_schema.source_to_standard_vocab_map srctostdvm
-  on srctostdvm.source_code             = i.code
+  on srctostdvm.source_code             = CAST(i.code as VARCHAR)
  and srctostdvm.target_domain_id        = 'Drug'
  and srctostdvm.target_vocabulary_id    = 'CVX'
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason is null
 join @cdm_schema.source_to_source_vocab_map srctosrcvm
-  on srctosrcvm.source_code             = i.code
+  on srctosrcvm.source_code             = CAST(i.code as VARCHAR)
  and srctosrcvm.source_vocabulary_id    = 'CVX'
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id                    = i.encounter
 left join @synthea_schema.encounters e
   on i.encounter                        = e.id
  and i.patient                          = e.patient
-left join @cdm_schema.provider pr 
+left join @cdm_schema.provider pr
   on e.provider                         = pr.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value              = i.patient

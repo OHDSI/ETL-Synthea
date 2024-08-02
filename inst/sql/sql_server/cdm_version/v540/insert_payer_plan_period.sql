@@ -23,10 +23,9 @@ select ROW_NUMBER()OVER(ORDER BY person_id, payer_plan_period_start_date) payer_
 *
 from (select
        per.person_id                                    person_id,
-
   	   {@synthea_version == "2.7.0"} ? {
-  	   CAST(CONCAT('01-JAN-',CAST(pt.start_year AS VARCHAR)) AS DATE) payer_plan_period_start_date,
-  	   CAST(CONCAT('31-DEC-',CAST(pt.end_year AS VARCHAR)) AS DATE)   payer_plan_period_end_date,
+  	   CAST(CONCAT(CAST(pt.start_year AS VARCHAR),'-01-01') AS DATE) payer_plan_period_start_date,
+  	   CAST(CONCAT(CAST(pt.end_year AS VARCHAR),'-12-31') AS DATE)   payer_plan_period_end_date,
   	   }
 
   	   {@synthea_version == "3.0.0"} ? {
