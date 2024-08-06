@@ -28,28 +28,22 @@
     <loc>/Visit_occurrence.html</loc>
   </url>
   <url>
-    <loc>/articles/Condition_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Cost.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Device_exposure.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Drug_exposure.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Measurement.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Payer_plan_period.html</loc>
-  </url>
-  <url>
     <loc>/articles/care_site.html</loc>
   </url>
   <url>
+    <loc>/articles/condition_occurrence.html</loc>
+  </url>
+  <url>
+    <loc>/articles/cost.html</loc>
+  </url>
+  <url>
     <loc>/articles/death.html</loc>
+  </url>
+  <url>
+    <loc>/articles/device_exposure.html</loc>
+  </url>
+  <url>
+    <loc>/articles/drug_exposure.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>
@@ -58,10 +52,16 @@
     <loc>/articles/location.html</loc>
   </url>
   <url>
+    <loc>/articles/measurement.html</loc>
+  </url>
+  <url>
     <loc>/articles/observation.html</loc>
   </url>
   <url>
     <loc>/articles/observation_period.html</loc>
+  </url>
+  <url>
+    <loc>/articles/payer_plan_period.html</loc>
   </url>
   <url>
     <loc>/articles/person.html</loc>

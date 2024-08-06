@@ -69,13 +69,13 @@ cast(null as bigint)                        observation_event_id,
 cast(null as int)                           obs_event_field_concept_id
 from @synthea_schema.allergies a
 join @cdm_schema.source_to_standard_vocab_map srctostdvm
-  on srctostdvm.source_code             = a.code
+  on srctostdvm.source_code             = CAST(a.code as VARCHAR)
  and srctostdvm.target_domain_id        = 'Observation'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason is null
 join @cdm_schema.source_to_source_vocab_map srctosrcvm
-  on srctosrcvm.source_code             = a.code
+  on srctosrcvm.source_code             = CAST(a.code as VARCHAR)
  and srctosrcvm.source_vocabulary_id    = 'SNOMED'
  and srctosrcvm.source_domain_id        = 'Observation'
 left join @cdm_schema.final_visit_ids fv
@@ -83,7 +83,7 @@ left join @cdm_schema.final_visit_ids fv
 left join @synthea_schema.encounters e
   on a.encounter                        = e.id
  and a.patient                          = e.patient
-left join @cdm_schema.provider pr 
+left join @cdm_schema.provider pr
   on e.provider                         = pr.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value              = a.patient
@@ -114,13 +114,13 @@ cast(null as int)                          obs_event_field_concept_id
 
 from @synthea_schema.conditions c
 join @cdm_schema.source_to_standard_vocab_map srctostdvm
-  on srctostdvm.source_code             = c.code
+  on srctostdvm.source_code             = CAST(c.code as VARCHAR)
  and srctostdvm.target_domain_id        = 'Observation'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason is null
 join @cdm_schema.source_to_source_vocab_map srctosrcvm
-  on srctosrcvm.source_code              = c.code
+  on srctosrcvm.source_code              = CAST(c.code as VARCHAR)
  and srctosrcvm.source_vocabulary_id     = 'SNOMED'
  and srctosrcvm.source_domain_id         = 'Observation'
 left join @cdm_schema.final_visit_ids fv
@@ -128,11 +128,11 @@ left join @cdm_schema.final_visit_ids fv
 left join @synthea_schema.encounters e
   on c.encounter                         = e.id
  and c.patient                           = e.patient
-left join @cdm_schema.provider pr 
+left join @cdm_schema.provider pr
   on e.provider                          = pr.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value               = c.patient
-  
+
 union all
 
 select
@@ -159,13 +159,13 @@ cast(null as int)                          obs_event_field_concept_id
 
 from @synthea_schema.observations o
 join @cdm_schema.source_to_standard_vocab_map srctostdvm
-  on srctostdvm.source_code             = o.code
+  on srctostdvm.source_code             = CAST(o.code as VARCHAR)
  and srctostdvm.target_domain_id        = 'Observation'
  and srctostdvm.target_vocabulary_id    = 'LOINC'
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason is null
 join @cdm_schema.source_to_source_vocab_map srctosrcvm
-  on srctosrcvm.source_code              = o.code
+  on srctosrcvm.source_code              = CAST(o.code as VARCHAR)
  and srctosrcvm.source_vocabulary_id     = 'LOINC'
  and srctosrcvm.source_domain_id         = 'Observation'
 left join @cdm_schema.final_visit_ids fv
@@ -173,10 +173,9 @@ left join @cdm_schema.final_visit_ids fv
 left join @synthea_schema.encounters e
   on o.encounter                         = e.id
  and o.patient                           = e.patient
-left join @cdm_schema.provider pr 
+left join @cdm_schema.provider pr
   on e.provider                          = pr.provider_source_value
 join @cdm_schema.person p
   on p.person_source_value               = o.patient
-
  ) tmp
 ;

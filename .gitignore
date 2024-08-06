@@ -1,4 +1,5 @@
 output/*.sql
+output/*.txt
 .DS_Store
 .Rproj.user
 errorReport.txt
