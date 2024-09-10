@@ -53,7 +53,7 @@ select
   pr.date                                  measurement_time,
 }
 
-{@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0" } ? {
+{@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0" | @synthea_version == "3.3.0"} ? {
   pr.start                                 measurement_date,
   pr.start                                 measurement_datetime,
   pr.start                                 measurement_time,

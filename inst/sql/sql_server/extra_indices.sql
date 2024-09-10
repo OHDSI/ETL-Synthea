@@ -31,7 +31,7 @@ CREATE INDEX person_psv ON @cdmDatabaseSchema.person (
 	person_source_value
 );
 
-{@syntheaVersion == '3.0.0' | @syntheaVersion == '3.1.0' | @syntheaVersion == '3.2.0' }?{
+{@syntheaVersion == '3.0.0' | @syntheaVersion == '3.1.0' | @syntheaVersion == '3.2.0' | @syntheaVersion == '3.3.0' }?{
   CREATE INDEX claims_transactions_cpap ON @syntheaSchema.claims_transactions (
   	claimid,
   	patientid,
