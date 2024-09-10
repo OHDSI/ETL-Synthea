@@ -8,13 +8,13 @@
 #'                  Server, this should specify both the database and the schema, so for example 'cdm_instance.dbo'.
 #' @param syntheaSchema The name of the Synthea database schema. Requires read and write permissions to this schema. On SQL
 #'                      Server, this should specify both the database and the schema, so for example 'synthea.dbo'.
-#' @param syntheaVersion Your Synthea version. Currently "2.7.0", "3.0.0", "3.1.0" and "3.2.0" are supported.
+#' @param syntheaVersion Your Synthea version. Currently "2.7.0", "3.0.0", "3.1.0", "3.2.0" and "3.3.0" are supported.
 #' @param outputFolder Location of the SQL scripts if sqlOnly = TRUE. Default is NULL.
 #' @param sqlOnly A boolean that determines whether to create the indices or generate a SQL scripts. Default is FALSE.
 #'
 #' @details This function creates indices which have been found to speed up certain long-running INSERT queries in LoadEventTables,
 #'          for some users. Indices are created on the intermediate vocabulary mapping tables; the person & provider CDM tables;
-#'          and the claims_transactions Synthea table (in Synthea 3.0.0, 3.1.0 and 3.2.0) .
+#'          and the claims_transactions Synthea table (in Synthea 3.0.0, 3.1.0, 3.2.0 and 3.3.0) .
 #'
 #' @importFrom utils head
 #'

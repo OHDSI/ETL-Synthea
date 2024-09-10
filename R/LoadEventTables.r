@@ -299,7 +299,7 @@ LoadEventTables <- function(connectionDetails,
   # cost
   if (syntheaVersion == "2.7.0")
     fileQuery <- "insert_cost_v270.sql"
-  else if (syntheaVersion %in% c("3.0.0", "3.1.0", "3.2.0"))
+  else if (syntheaVersion %in% c("3.0.0", "3.1.0", "3.2.0", "3.3.0"))
     fileQuery <- "insert_cost_v300.sql"
 
   sql <- SqlRender::loadRenderTranslateSql(
