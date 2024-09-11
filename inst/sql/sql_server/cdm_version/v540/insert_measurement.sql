@@ -128,7 +128,7 @@ select
   o.code                                    measurement_source_value,
   coalesce(srctosrcvm.source_concept_id,0)  measurement_source_concept_id,
   o.units                                   unit_source_value,
-  o.value                                   value_source_value,
+  left(o.value,50)                           value_source_value,
   cast(null as int)                         unit_source_concept_id,
   cast(null as bigint)                      measurement_event_id,
   cast(null as int)                         meas_event_field_concept_id

@@ -153,7 +153,7 @@ o.code                                     observation_source_value,
 srctosrcvm.source_concept_id               observation_source_concept_id,
 cast(null as varchar)                      unit_source_value,
 cast(null as varchar)                      qualifier_source_value,
-cast(null as varchar)                      value_source_value,
+left(o.value,50)                           value_source_value,
 cast(null as bigint)                       observation_event_id,
 cast(null as int)                          obs_event_field_concept_id
 
