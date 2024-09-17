@@ -36,25 +36,34 @@ c.code                                     condition_source_value,
 srctosrcvm.source_concept_id               condition_source_concept_id,
 null                                       condition_status_source_value,
 0                                          condition_status_concept_id
-
 from @synthea_schema.conditions c
 join @cdm_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = c.code
  and srctostdvm.target_domain_id        = 'Condition'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
+{@synthea_version == "2.7.0" |@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0"} ? {
  and srctostdvm.source_vocabulary_id    = 'SNOMED'
+}
+{@synthea_version == "3.3.0"} ? {
+ and srctostdvm.source_vocabulary_id    in ( 'SNOMED','ICD10CM')
+}
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason is null
 join @cdm_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = c.code
+{@synthea_version == "2.7.0" |@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0"} ? {
  and srctosrcvm.source_vocabulary_id    = 'SNOMED'
+}
+{@synthea_version == "3.3.0"} ? {
+ and srctosrcvm.source_vocabulary_id    in ('SNOMED','ICD10CM')
+}
  and srctosrcvm.source_domain_id        = 'Condition'
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id                    = c.encounter
 left join @synthea_schema.encounters e
   on c.encounter                        = e.id
  and c.patient                          = e.patient
-left join @cdm_schema.provider pr 
+left join @cdm_schema.provider pr
   on e.provider                         = pr.provider_source_value
 join @cdm_schema.person p
   on c.patient                          = p.person_source_value
