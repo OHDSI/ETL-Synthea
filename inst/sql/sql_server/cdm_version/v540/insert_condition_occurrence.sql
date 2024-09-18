@@ -42,7 +42,7 @@ join @cdm_schema.source_to_standard_vocab_map srctostdvm
  and srctostdvm.target_domain_id        = 'Condition'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
 
-{@synthea_version == "2.7.0" |@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0"} ? {
+{@synthea_version == "2.7.0" | @synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0"} ? {
  and srctostdvm.source_vocabulary_id    = 'SNOMED'
 }
 
@@ -55,7 +55,7 @@ join @cdm_schema.source_to_standard_vocab_map srctostdvm
 join @cdm_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = c.code
 
-{@synthea_version == "2.7.0" |@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0"} ? {
+{@synthea_version == "2.7.0" | @synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0"} ? {
  and srctosrcvm.source_vocabulary_id    = 'SNOMED'
 }
 
