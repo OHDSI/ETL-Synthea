@@ -41,22 +41,28 @@ join @cdm_schema.source_to_standard_vocab_map srctostdvm
   on srctostdvm.source_code             = c.code
  and srctostdvm.target_domain_id        = 'Condition'
  and srctostdvm.target_vocabulary_id    = 'SNOMED'
+
 {@synthea_version == "2.7.0" |@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0"} ? {
  and srctostdvm.source_vocabulary_id    = 'SNOMED'
 }
+
 {@synthea_version == "3.3.0"} ? {
  and srctostdvm.source_vocabulary_id    in ( 'SNOMED','ICD10CM')
 }
+
  and srctostdvm.target_standard_concept = 'S'
  and srctostdvm.target_invalid_reason is null
 join @cdm_schema.source_to_source_vocab_map srctosrcvm
   on srctosrcvm.source_code             = c.code
+
 {@synthea_version == "2.7.0" |@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0"} ? {
  and srctosrcvm.source_vocabulary_id    = 'SNOMED'
 }
+
 {@synthea_version == "3.3.0"} ? {
  and srctosrcvm.source_vocabulary_id    in ('SNOMED','ICD10CM')
 }
+
  and srctosrcvm.source_domain_id        = 'Condition'
 left join @cdm_schema.final_visit_ids fv
   on fv.encounter_id                    = c.encounter
