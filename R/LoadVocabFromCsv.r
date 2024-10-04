@@ -23,7 +23,7 @@ LoadVocabFromCsv <-
            cdmSchema,
            vocabFileLoc,
            bulkLoad = FALSE,
-           delimiter="\t")
+           delimiter = "\t")
   {
     csvList <- c(
       "concept.csv",
