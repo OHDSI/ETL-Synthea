@@ -4,30 +4,6 @@
     <loc>/404.html</loc>
   </url>
   <url>
-    <loc>/Condition_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>/Drug_exposure.html</loc>
-  </url>
-  <url>
-    <loc>/Measurement.html</loc>
-  </url>
-  <url>
-    <loc>/Observation.html</loc>
-  </url>
-  <url>
-    <loc>/Observation_period.html</loc>
-  </url>
-  <url>
-    <loc>/Person.html</loc>
-  </url>
-  <url>
-    <loc>/Procedure_occurrence.html</loc>
-  </url>
-  <url>
-    <loc>/Visit_occurrence.html</loc>
-  </url>
-  <url>
     <loc>/articles/care_site.html</loc>
   </url>
   <url>
@@ -82,7 +58,28 @@
     <loc>/authors.html</loc>
   </url>
   <url>
+    <loc>/condition_occurrence.html</loc>
+  </url>
+  <url>
+    <loc>/drug_exposure.html</loc>
+  </url>
+  <url>
     <loc>/index.html</loc>
+  </url>
+  <url>
+    <loc>/measurement.html</loc>
+  </url>
+  <url>
+    <loc>/observation.html</loc>
+  </url>
+  <url>
+    <loc>/observation_period.html</loc>
+  </url>
+  <url>
+    <loc>/person.html</loc>
+  </url>
+  <url>
+    <loc>/procedure_occurrence.html</loc>
   </url>
   <url>
     <loc>/readme.html</loc>
@@ -164,5 +161,8 @@
   </url>
   <url>
     <loc>/reference/restoreCDMTables.html</loc>
+  </url>
+  <url>
+    <loc>/visit_occurrence.html</loc>
   </url>
 </urlset>

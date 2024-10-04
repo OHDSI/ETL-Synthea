@@ -4,7 +4,13 @@
 \alias{LoadVocabFromCsv}
 \title{Load Vocabulary Tables From CSV Files.}
 \usage{
-LoadVocabFromCsv(connectionDetails, cdmSchema, vocabFileLoc, bulkLoad = FALSE)
+LoadVocabFromCsv(
+  connectionDetails,
+  cdmSchema,
+  vocabFileLoc,
+  bulkLoad = FALSE,
+  delimiter = "\\t"
+)
 }
 \arguments{
 \item{connectionDetails}{An R object of type\cr\code{connectionDetails} created using the
@@ -13,12 +19,14 @@ function \code{createConnectionDetails} in the
 
 \item{cdmSchema}{The name of the database schema that will contain the Vocabulary (and CDM)
 tables.  Requires read and write permissions to this database. On SQL
-Server, this should specifiy both the database and the schema,
+Server, this should specify both the database and the schema,
 so for example 'cdm_instance.dbo'.}
 
 \item{vocabFileLoc}{The location of the vocabulary csv files.}
 
 \item{bulkLoad}{Boolean flag indicating whether or not to use bulk loading (if possible).  Default is FALSE.}
+
+\item{delimiter}{Parameter to specify the delimiter of the csv file. By default the function expects the file to be tab delimited ("\\t") based on the export from Athena.}
 }
 \description{
 This function populates all Vocabulary tables with data in csv files.

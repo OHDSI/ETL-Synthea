@@ -1,7 +1,7 @@
 Package: ETLSyntheaBuilder
 Type: Package
 Title: A Builder for Converting the Synthea Data to the OMOP CDM
-Version: 2.0
+Version: 2.1
 mDate: 2021-12-04
 Author: Anthony Molinaro [aut, cre],
         Clair Blacketer [aut],
@@ -28,7 +28,7 @@ Remotes:
   OHDSI/CommonDataModel
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Suggests: 
     rmarkdown,
     knitr,
