@@ -59,7 +59,7 @@ select
   pr.date                                  measurement_time,
 }
 
-{@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0" } ? {
+{@synthea_version == "3.0.0" | @synthea_version == "3.1.0" | @synthea_version == "3.2.0"  | @synthea_version == "3.3.0"} ? {
   pr.start                                 measurement_date,
   pr.start                                 measurement_datetime,
   pr.start                                 measurement_time,
@@ -128,7 +128,7 @@ select
   o.code                                    measurement_source_value,
   coalesce(srctosrcvm.source_concept_id,0)  measurement_source_concept_id,
   o.units                                   unit_source_value,
-  o.value                                   value_source_value,
+  left(o.value,50)                           value_source_value,
   cast(null as int)                         unit_source_concept_id,
   cast(null as bigint)                      measurement_event_id,
   cast(null as int)                         meas_event_field_concept_id

@@ -9,10 +9,11 @@
 #'                                     \code{DatabaseConnector} package.
 #' @param cdmSchema  The name of the database schema that will contain the Vocabulary (and CDM)
 #'                                     tables.  Requires read and write permissions to this database. On SQL
-#'                                     Server, this should specifiy both the database and the schema,
+#'                                     Server, this should specify both the database and the schema,
 #'                                     so for example 'cdm_instance.dbo'.
 #' @param vocabFileLoc     The location of the vocabulary csv files.
 #' @param bulkLoad       Boolean flag indicating whether or not to use bulk loading (if possible).  Default is FALSE.
+#' @param delimiter       Parameter to specify the delimiter of the csv file. By default the function expects the file to be tab delimited ("\\t") based on the export from Athena.
 #'
 #'@export
 
@@ -21,7 +22,8 @@ LoadVocabFromCsv <-
   function(connectionDetails,
            cdmSchema,
            vocabFileLoc,
-           bulkLoad = FALSE)
+           bulkLoad = FALSE,
+           delimiter = "\t")
   {
     csvList <- c(
       "concept.csv",
@@ -50,7 +52,7 @@ LoadVocabFromCsv <-
           file = paste0(vocabFileLoc, "/", csv),
           stringsAsFactors = FALSE,
           header = TRUE,
-          sep = "\t",
+          sep = delimiter,
           na.strings = ""
         )
 

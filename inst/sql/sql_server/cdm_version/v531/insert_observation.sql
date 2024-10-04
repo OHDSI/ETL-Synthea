@@ -135,7 +135,7 @@ cast(null as varchar)                      value_as_string,
 pr.provider_id                             provider_id,
 fv.visit_occurrence_id_new                 visit_occurrence_id,
 fv.visit_occurrence_id_new + 1000000       visit_detail_id,
-o.code                                     observation_source_value,
+left(o.value,50)                            observation_source_value,
 srctosrcvm.source_concept_id               observation_source_concept_id,
 cast(null as varchar)                      unit_source_value,
 cast(null as varchar)                      qualifier_source_value
