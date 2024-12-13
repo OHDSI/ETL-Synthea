@@ -33,80 +33,87 @@ LoadSyntheaTables <-
            syntheaFileLoc,
            bulkLoad = FALSE)
   {
-    csvList <- list.files(syntheaFileLoc, pattern = "*.csv")
 
-    conn <- DatabaseConnector::connect(connectionDetails)
+    if (file.exists(syntheaFileLoc)) {
+      csvList <- list.files(syntheaFileLoc, pattern = "*.csv")
 
-    for (csv in csvList) {
-      syntheaTable <-
-        data.table::fread(
-          file = paste0(syntheaFileLoc, "/", csv),
-          stringsAsFactors = FALSE,
-          header = TRUE,
-          sep = ",",
-          na.strings = ""
-        )
+      conn <- DatabaseConnector::connect(connectionDetails)
 
-      writeLines(paste0("Loading: ", csv))
+      for (csv in csvList) {
+        syntheaTable <-
+          data.table::fread(
+            file = paste0(syntheaFileLoc, "/", csv),
+            stringsAsFactors = FALSE,
+            header = TRUE,
+            sep = ",",
+            na.strings = ""
+          )
 
-      # experiencing type conversion errors and need to explicitly case some columns
-      if ("START"       %in% colnames(syntheaTable)) {
-        syntheaTable$START <-
-          as.Date(syntheaTable$START, format = "%Y-%m-%d")
-      }
-      if ("STOP"        %in% colnames(syntheaTable)) {
-        syntheaTable$STOP         <-
-          as.Date(syntheaTable$STOP, format = "%Y-%m-%d")
-      }
-      if ("DATE"        %in% colnames(syntheaTable)) {
-        syntheaTable$DATE         <-
-          as.Date(syntheaTable$DATE, format = "%Y-%m-%d")
-      }
-      if ("START_DATE"        %in% colnames(syntheaTable)) {
-        syntheaTable$START_DATE         <-
-          as.Date(syntheaTable$START_DATE, format = "%Y-%m-%d")
-      }
-      if ("END_DATE"        %in% colnames(syntheaTable)) {
-        syntheaTable$END_DATE         <-
-          as.Date(syntheaTable$END_DATE, format = "%Y-%m-%d")
-      }
-      if ("BIRTHDATE"   %in% colnames(syntheaTable)) {
-        syntheaTable$BIRTHDATE    <-
-          as.Date(syntheaTable$BIRTHDATE, format = "%Y-%m-%d")
-      }
-      if ("DEATHDATE"   %in% colnames(syntheaTable)) {
-        syntheaTable$DEATHDATE    <-
-          as.Date(syntheaTable$DEATHDATE, format = "%Y-%m-%d")
-      }
-      if ("CODE"        %in% colnames(syntheaTable)) {
-        syntheaTable$CODE         <- as.character(syntheaTable$CODE)
-      }
-      if ("REASONCODE"  %in% colnames(syntheaTable)) {
-        syntheaTable$REASONCODE   <-
-          as.character(syntheaTable$REASONCODE)
-      }
-      if ("PHONE"       %in% colnames(syntheaTable)) {
-        syntheaTable$PHONE        <-
-          as.character(syntheaTable$PHONE)
-      }
-      if ("UTILIZATION" %in% colnames(syntheaTable)) {
-        syntheaTable$UTILIZATION  <-
-          as.numeric(syntheaTable$UTILIZATION)
+        writeLines(paste0("Loading: ", csv))
+
+        # experiencing type conversion errors and need to explicitly case some columns
+        if ("START"       %in% colnames(syntheaTable)) {
+          syntheaTable$START <-
+            as.Date(syntheaTable$START, format = "%Y-%m-%d")
+        }
+        if ("STOP"        %in% colnames(syntheaTable)) {
+          syntheaTable$STOP         <-
+            as.Date(syntheaTable$STOP, format = "%Y-%m-%d")
+        }
+        if ("DATE"        %in% colnames(syntheaTable)) {
+          syntheaTable$DATE         <-
+            as.Date(syntheaTable$DATE, format = "%Y-%m-%d")
+        }
+        if ("START_DATE"        %in% colnames(syntheaTable)) {
+          syntheaTable$START_DATE         <-
+            as.Date(syntheaTable$START_DATE, format = "%Y-%m-%d")
+        }
+        if ("END_DATE"        %in% colnames(syntheaTable)) {
+          syntheaTable$END_DATE         <-
+            as.Date(syntheaTable$END_DATE, format = "%Y-%m-%d")
+        }
+        if ("BIRTHDATE"   %in% colnames(syntheaTable)) {
+          syntheaTable$BIRTHDATE    <-
+            as.Date(syntheaTable$BIRTHDATE, format = "%Y-%m-%d")
+        }
+        if ("DEATHDATE"   %in% colnames(syntheaTable)) {
+          syntheaTable$DEATHDATE    <-
+            as.Date(syntheaTable$DEATHDATE, format = "%Y-%m-%d")
+        }
+        if ("CODE"        %in% colnames(syntheaTable)) {
+          syntheaTable$CODE         <- as.character(syntheaTable$CODE)
+        }
+        if ("REASONCODE"  %in% colnames(syntheaTable)) {
+          syntheaTable$REASONCODE   <-
+            as.character(syntheaTable$REASONCODE)
+        }
+        if ("PHONE"       %in% colnames(syntheaTable)) {
+          syntheaTable$PHONE        <-
+            as.character(syntheaTable$PHONE)
+        }
+        if ("UTILIZATION" %in% colnames(syntheaTable)) {
+          syntheaTable$UTILIZATION  <-
+            as.numeric(syntheaTable$UTILIZATION)
+        }
+
+        suppressWarnings({
+          DatabaseConnector::insertTable(
+            conn,
+            tableName = paste0(syntheaSchema, ".", strsplit(csv, "[.]")[[1]][1]),
+            data = as.data.frame(syntheaTable),
+            dropTableIfExists = FALSE,
+            createTable = FALSE,
+            bulkLoad = bulkLoad,
+            progressBar = TRUE
+          )
+        })
       }
 
-      suppressWarnings({
-        DatabaseConnector::insertTable(
-          conn,
-          tableName = paste0(syntheaSchema, ".", strsplit(csv, "[.]")[[1]][1]),
-          data = as.data.frame(syntheaTable),
-          dropTableIfExists = FALSE,
-          createTable = FALSE,
-          bulkLoad = bulkLoad,
-          progressBar = TRUE
-        )
-      })
+      on.exit(DatabaseConnector::disconnect(conn))
+    }else {
+      stop(
+        paste0("Synthea File Location specified is invalid: ", syntheaFileLoc, ". Please provide a valid fully qualified (absolute) path to the directory.")
+      )
     }
-
-    on.exit(DatabaseConnector::disconnect(conn))
 
   }
