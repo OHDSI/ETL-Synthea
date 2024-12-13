@@ -37,7 +37,7 @@ LoadVocabFromCsv <-
       "drug_strength.csv"
     )
 
-    if(file.exists(vocabFileLoc)){
+    if (file.exists(vocabFileLoc)) {
 
       fileList <- list.files(vocabFileLoc)
 
@@ -149,7 +149,7 @@ LoadVocabFromCsv <-
     }
     else {
       stop(
-        paste0("Vocabulary File Location specified is invalid: ",vocabFileLoc,". Please provide a valid fully qualified (absolute) path to the directory.")
+        paste0("Vocabulary File Location specified is invalid: ", vocabFileLoc, ". Please provide a valid fully qualified (absolute) path to the directory.")
       )
     }
   }

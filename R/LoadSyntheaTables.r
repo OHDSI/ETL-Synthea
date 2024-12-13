@@ -34,7 +34,7 @@ LoadSyntheaTables <-
            bulkLoad = FALSE)
   {
 
-    if(file.exists(syntheaFileLoc)){
+    if (file.exists(syntheaFileLoc)) {
       csvList <- list.files(syntheaFileLoc, pattern = "*.csv")
 
       conn <- DatabaseConnector::connect(connectionDetails)
@@ -112,7 +112,7 @@ LoadSyntheaTables <-
       on.exit(DatabaseConnector::disconnect(conn))
     }else {
       stop(
-        paste0("Synthea File Location specified is invalid: ",syntheaFileLoc,". Please provide a valid fully qualified (absolute) path to the directory.")
+        paste0("Synthea File Location specified is invalid: ", syntheaFileLoc, ". Please provide a valid fully qualified (absolute) path to the directory.")
       )
     }
 
