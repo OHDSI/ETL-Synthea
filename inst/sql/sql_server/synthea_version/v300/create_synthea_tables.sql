@@ -1,7 +1,7 @@
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.allergies (
-start        date,
+"start"        date,
 stop         date,
 patient      varchar(1000),
 encounter    varchar(1000),
@@ -21,7 +21,7 @@ severity2    varchar(255)
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.careplans (
 id            varchar(1000),
-start         date,
+"start"         date,
 stop          date,
 patient       varchar(1000),
 encounter     varchar(1000),
@@ -33,7 +33,7 @@ reasondescription   varchar(255)
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.conditions (
-start         date,
+"start"         date,
 stop          date,
 patient       varchar(1000),
 encounter     varchar(1000),
@@ -44,7 +44,7 @@ description   varchar(255)
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.encounters (
 id            		varchar(1000),
-start         		date,
+"start"         		date,
 stop							date,
 patient       		varchar(1000),
 organization   		varchar(1000),
@@ -89,7 +89,7 @@ procedure_code			varchar(255)
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.medications (
-start         date,
+"start"         date,
 stop          date,
 patient       varchar(1000),
 payer		varchar(1000),
@@ -163,7 +163,7 @@ healthcare_coverage	numeric
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.procedures (
-start         date,
+"start"         date,
 stop          date,
 patient       varchar(1000),
 encounter     varchar(1000),
@@ -192,7 +192,7 @@ utilization numeric
 
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.devices (
-start         date,
+"start"         date,
 stop          date,
 patient       varchar(1000),
 encounter     varchar(1000),
@@ -277,7 +277,7 @@ create table @synthea_schema.claims_transactions (
 create table @synthea_schema.payer_transitions (
  patient           varchar(1000),
   memberid         varchar(1000),
-  start_year       date,
+  "start"_year       date,
   end_year         date,
   payer            varchar(1000),
   secondary_payer  varchar(1000),
