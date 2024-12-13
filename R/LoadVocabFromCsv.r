@@ -37,111 +37,119 @@ LoadVocabFromCsv <-
       "drug_strength.csv"
     )
 
-    fileList <- list.files(vocabFileLoc)
+    if(file.exists(vocabFileLoc)){
 
-    fileList <- fileList[which(tolower(fileList) %in% csvList)]
+      fileList <- list.files(vocabFileLoc)
 
-    conn <- DatabaseConnector::connect(connectionDetails)
+      fileList <- fileList[which(tolower(fileList) %in% csvList)]
 
-    for (csv in fileList) {
-      writeLines(paste0("Working on file ", paste0(vocabFileLoc, "/", csv)))
+      conn <- DatabaseConnector::connect(connectionDetails)
 
-      writeLines(" - reading file ")
-      vocabTable <-
-        data.table::fread(
-          file = paste0(vocabFileLoc, "/", csv),
-          stringsAsFactors = FALSE,
-          header = TRUE,
-          sep = delimiter,
-          na.strings = ""
-        )
+      for (csv in fileList) {
+        writeLines(paste0("Working on file ", paste0(vocabFileLoc, "/", csv)))
 
-      if (tolower(csv) == "concept.csv" || tolower(csv) == "concept_relationship.csv" || tolower(csv) == "drug_strength.csv") {
-        writeLines(" - handling dates")
-        vocabTable$valid_start_date <-
-          as.Date(as.character(vocabTable$valid_start_date), "%Y%m%d")
-        vocabTable$valid_end_date   <-
-          as.Date(as.character(vocabTable$valid_end_date), "%Y%m%d")
-        vocabTable <- dplyr::tibble(vocabTable)
-      }
-
-      writeLines(" - type converting")
-      vocabTable <- readr::type_convert(df = vocabTable,
-                                        col_types = readr::cols(),
-                                        na = c("")) %>%
-        dplyr::tibble()
-
-      if (tolower(csv) == "drug_strength.csv") {
-        vocabTable <- vocabTable %>%
-          mutate_at(
-            vars(
-              "amount_value",
-              "amount_unit_concept_id",
-              "numerator_value",
-              "numerator_unit_concept_id",
-              "denominator_value",
-              "denominator_unit_concept_id",
-              "box_size"
-            ),
-            ~ replace(., is.na(.), 0)
+        writeLines(" - reading file ")
+        vocabTable <-
+          data.table::fread(
+            file = paste0(vocabFileLoc, "/", csv),
+            stringsAsFactors = FALSE,
+            header = TRUE,
+            sep = delimiter,
+            na.strings = ""
           )
-      }
 
-      chunkSize <- 1e7
-      numberOfRowsInVocabTable <- nrow(vocabTable)
-      numberOfChunks <-
-        ceiling(x = numberOfRowsInVocabTable / chunkSize)
-
-      writeLines(
-        paste0(
-          " - uploading ",
-          numberOfRowsInVocabTable,
-          " rows of data in ",
-          numberOfChunks,
-          " chunks."
-        )
-      )
-
-      sql <-
-        "DELETE FROM @table_name;"
-      DatabaseConnector::renderTranslateExecuteSql(
-        connection = conn,
-        sql = sql,
-        table_name = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1])
-      )
-
-      startRow <- 1
-      for (j in (1:numberOfChunks)) {
-        if (numberOfRowsInVocabTable >= startRow) {
-          maxRows <- min(numberOfRowsInVocabTable,
-                         startRow + chunkSize)
-          chunk <- vocabTable[startRow:maxRows, ]
-          writeLines(
-            paste0(
-              " - chunk uploading started on ",
-              Sys.time(),
-              " for rows ",
-              startRow,
-              " to ",
-              maxRows
-            )
-          )
-          suppressWarnings({
-            DatabaseConnector::insertTable(
-              connection = conn,
-              tableName = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1]),
-              data = chunk,
-              dropTableIfExists = FALSE,
-              createTable = FALSE,
-              bulkLoad = bulkLoad,
-              progressBar = TRUE
-            )
-          })
-          startRow <- maxRows + 1
+        if (tolower(csv) == "concept.csv" || tolower(csv) == "concept_relationship.csv" || tolower(csv) == "drug_strength.csv") {
+          writeLines(" - handling dates")
+          vocabTable$valid_start_date <-
+            as.Date(as.character(vocabTable$valid_start_date), "%Y%m%d")
+          vocabTable$valid_end_date   <-
+            as.Date(as.character(vocabTable$valid_end_date), "%Y%m%d")
+          vocabTable <- dplyr::tibble(vocabTable)
         }
-      }
-      writeLines(" - Success")
-    }
 
-    on.exit(DatabaseConnector::disconnect(conn))
+        writeLines(" - type converting")
+        vocabTable <- readr::type_convert(df = vocabTable,
+                                          col_types = readr::cols(),
+                                          na = c("")) %>%
+          dplyr::tibble()
+
+        if (tolower(csv) == "drug_strength.csv") {
+          vocabTable <- vocabTable %>%
+            mutate_at(
+              vars(
+                "amount_value",
+                "amount_unit_concept_id",
+                "numerator_value",
+                "numerator_unit_concept_id",
+                "denominator_value",
+                "denominator_unit_concept_id",
+                "box_size"
+              ),
+              ~ replace(., is.na(.), 0)
+            )
+        }
+
+        chunkSize <- 1e7
+        numberOfRowsInVocabTable <- nrow(vocabTable)
+        numberOfChunks <-
+          ceiling(x = numberOfRowsInVocabTable / chunkSize)
+
+        writeLines(
+          paste0(
+            " - uploading ",
+            numberOfRowsInVocabTable,
+            " rows of data in ",
+            numberOfChunks,
+            " chunks."
+          )
+        )
+
+        sql <-
+          "DELETE FROM @table_name;"
+        DatabaseConnector::renderTranslateExecuteSql(
+          connection = conn,
+          sql = sql,
+          table_name = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1])
+        )
+
+        startRow <- 1
+        for (j in (1:numberOfChunks)) {
+          if (numberOfRowsInVocabTable >= startRow) {
+            maxRows <- min(numberOfRowsInVocabTable,
+                           startRow + chunkSize)
+            chunk <- vocabTable[startRow:maxRows, ]
+            writeLines(
+              paste0(
+                " - chunk uploading started on ",
+                Sys.time(),
+                " for rows ",
+                startRow,
+                " to ",
+                maxRows
+              )
+            )
+            suppressWarnings({
+              DatabaseConnector::insertTable(
+                connection = conn,
+                tableName = paste0(cdmSchema, ".", strsplit(csv, "[.]")[[1]][1]),
+                data = chunk,
+                dropTableIfExists = FALSE,
+                createTable = FALSE,
+                bulkLoad = bulkLoad,
+                progressBar = TRUE
+              )
+            })
+            startRow <- maxRows + 1
+          }
+        }
+        writeLines(" - Success")
+      }
+
+      on.exit(DatabaseConnector::disconnect(conn))
+    }
+    else {
+      stop(
+        paste0("Vocabulary File Location specified is invalid: ",vocabFileLoc,". Please provide a valid fully qualified (absolute) path to the directory.")
+      )
+    }
   }
