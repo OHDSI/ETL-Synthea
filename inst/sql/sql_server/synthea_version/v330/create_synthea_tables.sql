@@ -283,7 +283,7 @@ create table @synthea_schema.claims_transactions (
 create table @synthea_schema.payer_transitions (
  patient           varchar(1000),
   memberid         varchar(1000),
-  "start"_date       date,
+  start_date       date,
   end_date         date,
   payer            varchar(1000),
   secondary_payer  varchar(1000),

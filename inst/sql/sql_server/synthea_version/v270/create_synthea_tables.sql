@@ -194,7 +194,7 @@ udi           varchar(255)
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.payer_transitions (
   patient          varchar(1000),
-  "start"_year       numeric,
+  start_year       numeric,
   end_year         numeric,
   payer            varchar(1000),
   ownership        varchar(1000)
