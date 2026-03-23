@@ -38,6 +38,7 @@ LoadSyntheaTables <-
       csvList <- list.files(syntheaFileLoc, pattern = "*.csv")
 
       conn <- DatabaseConnector::connect(connectionDetails)
+      dateColumns <- c("START", "STOP", "DATE", "START_DATE", "END_DATE", "BIRTHDATE", "DEATHDATE")
 
       for (csv in csvList) {
         syntheaTable <-
@@ -52,33 +53,11 @@ LoadSyntheaTables <-
         writeLines(paste0("Loading: ", csv))
 
         # experiencing type conversion errors and need to explicitly case some columns
-        if ("START"       %in% colnames(syntheaTable)) {
-          syntheaTable$START <-
-            as.Date(syntheaTable$START, format = "%Y-%m-%d")
-        }
-        if ("STOP"        %in% colnames(syntheaTable)) {
-          syntheaTable$STOP         <-
-            as.Date(syntheaTable$STOP, format = "%Y-%m-%d")
-        }
-        if ("DATE"        %in% colnames(syntheaTable)) {
-          syntheaTable$DATE         <-
-            as.Date(syntheaTable$DATE, format = "%Y-%m-%d")
-        }
-        if ("START_DATE"        %in% colnames(syntheaTable)) {
-          syntheaTable$START_DATE         <-
-            as.Date(syntheaTable$START_DATE, format = "%Y-%m-%d")
-        }
-        if ("END_DATE"        %in% colnames(syntheaTable)) {
-          syntheaTable$END_DATE         <-
-            as.Date(syntheaTable$END_DATE, format = "%Y-%m-%d")
-        }
-        if ("BIRTHDATE"   %in% colnames(syntheaTable)) {
-          syntheaTable$BIRTHDATE    <-
-            as.Date(syntheaTable$BIRTHDATE, format = "%Y-%m-%d")
-        }
-        if ("DEATHDATE"   %in% colnames(syntheaTable)) {
-          syntheaTable$DEATHDATE    <-
-            as.Date(syntheaTable$DEATHDATE, format = "%Y-%m-%d")
+        tableDateColumns <- intersect(dateColumns, colnames(syntheaTable))
+        for (dateColumn in tableDateColumns) {
+          syntheaTable[[dateColumn]] <- as.character(syntheaTable[[dateColumn]])
+          syntheaTable[[dateColumn]][nchar(syntheaTable[[dateColumn]]) == 0] <- NA_character_
+          syntheaTable[[dateColumn]] <- substr(syntheaTable[[dateColumn]], 1, 10)
         }
         if ("CODE"        %in% colnames(syntheaTable)) {
           syntheaTable$CODE         <- as.character(syntheaTable$CODE)
@@ -96,11 +75,17 @@ LoadSyntheaTables <-
             as.numeric(syntheaTable$UTILIZATION)
         }
 
+        insertData <- as.data.frame(syntheaTable, stringsAsFactors = FALSE)
+        insertDateColumns <- intersect(dateColumns, colnames(insertData))
+        for (dateColumn in insertDateColumns) {
+          insertData[[dateColumn]] <- as.Date(insertData[[dateColumn]], format = "%Y-%m-%d")
+        }
+
         suppressWarnings({
           DatabaseConnector::insertTable(
             conn,
             tableName = paste0(syntheaSchema, ".", strsplit(csv, "[.]")[[1]][1]),
-            data = as.data.frame(syntheaTable),
+            data = insertData,
             dropTableIfExists = FALSE,
             createTable = FALSE,
             bulkLoad = bulkLoad,
