@@ -32,7 +32,8 @@ ETLSyntheaBuilder::CreateSyntheaTables(connectionDetails,syntheaSchema, syntheaV
 # Populate synthea tables
 ETLSyntheaBuilder::LoadSyntheaTables(connectionDetails,syntheaSchema,syntheaFileLoc)
 # Populate vocabulary tables
-ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails,cdmDatabaseSchema,vocabFileLoc)
+## Note this step assumes you have built the CDM using the ETLSyntheaBuilder::CreateCDMTables command. If you have executed the DDL using the OHDSI/CommonDataModel package you will encounter constraint errors.
+ETLSyntheaBuilder::LoadVocabFromCsv(connectionDetails,cdmDatabaseSchema,vocabFileLoc,delimiter='\t')
 # Create intermediate vocabulary mapping and visit rollup tables
 ETLSyntheaBuilder::CreateMapAndRollupTables(connectionDetails, cdmDatabaseSchema,syntheaSchema,cdmVersion,syntheaVersion)
 ## Optional Step to create extra indices
