@@ -4,6 +4,7 @@ linters: linters_with_defaults(
     brace_linter = NULL,
     object_length_linter = NULL,
     line_length_linter = NULL,
-    cyclocomp_linter = NULL
+    cyclocomp_linter = NULL,
+    pipe_consistency_linter = NULL
   ) # see vignette("lintr")
 encoding: "UTF-8"
