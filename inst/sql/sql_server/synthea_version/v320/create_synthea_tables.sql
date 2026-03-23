@@ -291,8 +291,8 @@ create table @synthea_schema.payer_transitions (
 --HINT DISTRIBUTE_ON_RANDOM
 create table @synthea_schema.payers (
   id                       varchar(1000),
-  "name"                     varchar(1000),
-  ownership                varchar NULL,
+  "name"                   varchar(1000),
+  ownership                varchar(1000),
   address                  varchar(1000),
   city                     varchar(1000),
   state_headquartered      varchar(1000),
