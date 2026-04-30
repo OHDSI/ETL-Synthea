@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: omop_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: synthea_cdm
+      POSTGRES_USER: dataops_user
+      POSTGRES_PASSWORD: safe_password_123
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./scripts/setup_db.sql:/docker-entrypoint-initdb.d/setup_db.sql
+      - postgres_data:/var/lib/postgresql/data
+
+  etl-worker:
+    build:
+      context: .
+      dockerfile: docker/r-etl/Dockerfile
+    container_name: omop_etl_runner
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: synthea_cdm
+      DB_USER: dataops_user
+      DB_PW: safe_password_123
+    volumes:
+      - ./scripts:/scripts
+      - ./data/synthea:/data/synthea
+      - ./data/vocab:/data/vocab
+      - ./drivers:/drivers
+
+volumes:
+  postgres_data:
